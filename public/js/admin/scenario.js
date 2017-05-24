@@ -217,14 +217,14 @@ $(document).ready(function(){
 	$.datepicker.setDefaults($.datepicker.regional['ru']);
 	$('.needDatePicker').datepicker();
 
-	//Autoslug
+	/*//Autoslug
 	$(document).on('keyup', 'input[name=title], input[name=slug]', function(){
 		var str = str2url($(this).val());
 		$(document).find('input[name=slug]').val(str);
 	});
-	// /Autoslug
+	// /Autoslug*/
 
-	//Custom fields table
+	/*//Custom fields table
 	$(document).on('click','input[name=addRowToTable]', function(){
 		var colCount = $(this).closest('fieldset').find('.item-list').find('tr th').length;
 		var tag = '<tr>';
@@ -392,47 +392,47 @@ $(document).ready(function(){
 	});
 	// /Slider
 
-    //Custom fields custom slider
-    //add slide
-    $(document).on('click', 'input[name=customSliderAddSlide]', function(){
-        var clone = $(this).closest('fieldset').find('.custom-slider-content-wrap').find('.custom-slide-container:first').clone(false);
-        clone.find('.row-wrap').each(function(){
-            $(this).find('input:not([type=button])').val('');
-            $(this).find('input').prop('checked',false);
-            $(this).find('textarea').text('');
-            $(this).find('textarea').val('');
-            $(this).find('.upload-image-preview').empty();
-        });
-        $(this).closest('fieldset').find('.custom-slider-content-wrap').append(clone);
-        $(this).closest('fieldset').find('.custom-slider-content-wrap').find('.custom-slide-container').removeClass('active');
-        $(this).closest('fieldset').find('.custom-slider-content-wrap').find('.custom-slide-container:last').addClass('active');
-    });
+	//Custom fields custom slider
+	//add slide
+	$(document).on('click', 'input[name=customSliderAddSlide]', function(){
+		var clone = $(this).closest('fieldset').find('.custom-slider-content-wrap').find('.custom-slide-container:first').clone(false);
+		clone.find('.row-wrap').each(function(){
+			$(this).find('input:not([type=button])').val('');
+			$(this).find('input').prop('checked',false);
+			$(this).find('textarea').text('');
+			$(this).find('textarea').val('');
+			$(this).find('.upload-image-preview').empty();
+		});
+		$(this).closest('fieldset').find('.custom-slider-content-wrap').append(clone);
+		$(this).closest('fieldset').find('.custom-slider-content-wrap').find('.custom-slide-container').removeClass('active');
+		$(this).closest('fieldset').find('.custom-slider-content-wrap').find('.custom-slide-container:last').addClass('active');
+	});
 
-    //drop current slide
-    $(document).on('click', 'input[name=customSliderDropCurrentSlide]', function(){
-        if($(this).closest('fieldset').find('.custom-slider-content-wrap .custom-slide-container').length > 1){
-            $(this).closest('fieldset').find('.custom-slider-content-wrap').find('.active').remove();
-            $(this).closest('fieldset').find('.custom-slider-content-wrap .custom-slide-container').removeClass('active');
-            $(this).closest('fieldset').find('.custom-slider-content-wrap .custom-slide-container:first').addClass('active');
-        }else{
-            $(this).closest('fieldset').find('.custom-slider-content-wrap').find('.custom-slide-container').find('.row-wrap').each(function(){                $(this).find('input').val('');
-                $(this).find('textarea').text('');
-                $(this).find('textarea').val('');
-            });
-        }
-    });
+	//drop current slide
+	$(document).on('click', 'input[name=customSliderDropCurrentSlide]', function(){
+		if($(this).closest('fieldset').find('.custom-slider-content-wrap .custom-slide-container').length > 1){
+			$(this).closest('fieldset').find('.custom-slider-content-wrap').find('.active').remove();
+			$(this).closest('fieldset').find('.custom-slider-content-wrap .custom-slide-container').removeClass('active');
+			$(this).closest('fieldset').find('.custom-slider-content-wrap .custom-slide-container:first').addClass('active');
+		}else{
+			$(this).closest('fieldset').find('.custom-slider-content-wrap').find('.custom-slide-container').find('.row-wrap').each(function(){                $(this).find('input').val('');
+				$(this).find('textarea').text('');
+				$(this).find('textarea').val('');
+			});
+		}
+	});
 
-    //slider controls
-    $(document).on('click', '.slider-controls-bg', function(){
-        var sliderLength = $(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container').length -1;
-        var activeEl = $(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap').find('.active').index();
-        if($(this).hasClass('left')){
-            var showEl = (activeEl == 0)? sliderLength: activeEl -1;
-        }else{
-            var showEl = (activeEl == sliderLength)? 0: activeEl+1;
-        }
-        $(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container').removeClass('active');
-        $(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container:eq('+showEl+')').addClass('active');
-    });
-    // /Custom fields custom slider
+	//slider controls
+	$(document).on('click', '.slider-controls-bg', function(){
+		var sliderLength = $(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container').length -1;
+		var activeEl = $(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap').find('.active').index();
+		if($(this).hasClass('left')){
+			var showEl = (activeEl == 0)? sliderLength: activeEl -1;
+		}else{
+			var showEl = (activeEl == sliderLength)? 0: activeEl+1;
+		}
+		$(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container').removeClass('active');
+		$(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container:eq('+showEl+')').addClass('active');
+	});
+	// /Custom fields custom slider*/
 });
