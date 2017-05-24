@@ -81,37 +81,37 @@
 
 								<div class="forms-box">
 									<div class="forms-box-row">
-										<form action="ajax.php">
-											<input name="userName" type="text" class="element-input" disabled placeholder="Имя">
+										<form>
+											<input name="userName" type="text" class="element-input" disabled placeholder="Имя" @if(isset($data)) value="{{ $data['name'] }}" @endif>
 											<button class="change-button-form" type="button">сменить</button>
 										</form>
 
-										<form action="ajax.php">
-											<input name="userPhone" type="text" class="element-input" disabled placeholder="Телефон">
-											<button class="change-button-form" type="button">сменить</button>
-										</form>
-									</div>
-
-									<div class="forms-box-row">
-										<form action="ajax.php" class="fix-name-organisation">
-											<input name="userOrg" type="text" class="element-input" disabled placeholder="Название организации">
-											<button class="change-button-form" type="button">сменить</button>
-										</form>
-
-										<form action="ajax.php" class="fix-inn-organisation">
-											<input name="userOrgTID" type="text" class="element-input" disabled placeholder="ИНН организации">
+										<form>
+											<input name="userPhone" type="text" class="element-input" disabled placeholder="Телефон" @if(isset($data)) value="{{ $data['phone'] }}" @endif>
 											<button class="change-button-form" type="button">сменить</button>
 										</form>
 									</div>
 
 									<div class="forms-box-row">
-										<form action="ajax.php" class="fix-adres-delivery">
-											<input name="userAddr" type="text" class="element-input" disabled placeholder="Адрес доставки товара">
+										<form class="fix-name-organisation">
+											<input name="userOrg" type="text" class="element-input" disabled placeholder="Название организации" @if(isset($data)) value="{{ $data['org_caption'] }}" @endif>
 											<button class="change-button-form" type="button">сменить</button>
 										</form>
 
-										<form action="ajax.php" class="fix-adres-correspondence">
-											<input name="userCorresp" type="text" class="element-input" disabled placeholder="Адрес доставки корреспонденции">
+										<form class="fix-inn-organisation">
+											<input name="userOrgTID" type="text" class="element-input" disabled placeholder="ИНН организации" @if(isset($data)) value="{{ $data['org_tid'] }}" @endif>
+											<button class="change-button-form" type="button">сменить</button>
+										</form>
+									</div>
+
+									<div class="forms-box-row">
+										<form class="fix-adres-delivery">
+											<input name="userAddr" type="text" class="element-input" disabled placeholder="Адрес доставки товара" @if(isset($data)) value="{{ $data['address'] }}" @endif>
+											<button class="change-button-form" type="button">сменить</button>
+										</form>
+
+										<form class="fix-adres-correspondence">
+											<input name="userCorresp" type="text" class="element-input" disabled placeholder="Адрес доставки корреспонденции" @if(isset($data)) value="{{ $data['correspondence'] }}" @endif>
 											<button class="change-button-form" type="button">сменить</button>
 										</form>
 									</div>
@@ -194,41 +194,41 @@
 
 								<!--<div class="forms-box">
 									<div class="forms-box-row">
-										<form action="ajax.php" class="fix-name">
+										<form class="fix-name">
 											<input type="text" class="element-input" disabled placeholder="Имя">
 											<button class="change-button-form" type="button">сменить</button>
 										</form>
 
-										<form action="ajax.php" class="fix-tel">
+										<form class="fix-tel">
 											<input type="text" class="element-input" disabled value="Телефон">
 											<button class="change-button-form" type="button">сменить</button>
 										</form>
 
-										<form action="ajax.php" class="fix-mail">
+										<form class="fix-mail">
 											<input type="text" class="element-input" disabled value="Почта">
 											<button class="change-button-form" type="button">сменить</button>
 										</form>
 									</div>
 
 									<div class="forms-box-row">
-										<form action="ajax.php" class="fix-name-organisation">
+										<form class="fix-name-organisation">
 											<input type="text" class="element-input" disabled value="Название организации">
 											<button class="change-button-form" type="button">сменить</button>
 										</form>
 
-										<form action="ajax.php" class="fix-inn-organisation">
+										<form class="fix-inn-organisation">
 											<input type="text" class="element-input" disabled value="ИНН организации">
 											<button class="change-button-form" type="button">сменить</button>
 										</form>
 									</div>
 
 									<div class="forms-box-row">
-										<form action="ajax.php" class="fix-adres-delivery">
+										<form class="fix-adres-delivery">
 											<input type="text" class="element-input" disabled value="Адрес доставки товара">
 											<button class="change-button-form" type="button">сменить</button>
 										</form>
 
-										<form action="ajax.php" class="fix-adres-correspondence">
+										<form class="fix-adres-correspondence">
 											<input type="text" class="element-input" disabled value="Адрес доставки корреспонденции">
 											<button class="change-button-form" type="button">сменить</button>
 										</form>

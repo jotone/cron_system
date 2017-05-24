@@ -103,4 +103,5 @@
 			<input type="submit" class="submit" value="Отправить">
 		</form>
 	</div>
+	{{ csrf_field() }}
 </div>

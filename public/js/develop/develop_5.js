@@ -52,25 +52,29 @@ function initializeClock(id, endtime) {
 
 function changeFormInfo() {
 	$('.change-button-form').on('click', function (e) {
-		var thisFormAction = $(this).closest('form').attr('action');
-		var thisFormVal = $(this).closest('form').find('input').val();
-
 		$(this).toggleClass('click-it');
 
 		if($(this).hasClass('click-it')){
 			e.preventDefault();
-			// $(this).text('сохранить').attr('type', 'submit');
 			$(this).text('сохранить');
 			$(this).closest('form').find('input').removeAttr('disabled');
 		}else{
-			$.ajax({
-				url: thisFormAction,
-				data: thisFormVal,
-				method: 'POST'
-			});
-			// $(this).text('сменить').attr('type', 'button');
 			$(this).text('сменить');
 			$(this).closest('form').find('input').attr('disabled', '');
+			var value = $(this).closest('form').find('input').val().trim();
+			var name = $(this).closest('form').find('input').attr('name');
+			$.ajax({
+				url:	'/user_modify',
+				type:	'PATCH',
+				headers:{'X-CSRF-TOKEN': $('input[name=_token]').val()},
+				data:	{name:name, value:value},
+				success:function(data){
+					data = JSON.parse(data);
+					if( (data.message.length > 0) && (data.message == 'success') ){
+						//alert()
+					}
+				}
+			});
 		};
 	});
 };

@@ -38,9 +38,9 @@ Route::get('/user_panel', [
 	'as'=>'user-panel',
 	'uses'=>'Site\UserController@index'
 ]);
-    Route::get('/user_change_data', [
-
-    ]);
+	Route::patch('/user_modify', [
+		'uses'=>'Site\UserController@modifyUser'
+	]);
 
 //Authorisation
 Route::get('/admin/login'/*, [
@@ -61,5 +61,3 @@ Route::group(['middleware' => 'admin'], function() {
 		'uses'	=> 'Admin\PagesController@index'
 	]*/);
 });
-
-
