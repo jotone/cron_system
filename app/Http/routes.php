@@ -43,21 +43,21 @@ Route::get('/user_panel', [
 	]);
 
 //Authorisation
-Route::get('/admin/login'/*, [
+Route::get('/admin/login', [
 	'as'	=> 'admin-login',
-	'uses'	=> 'Admin\PagesController@loginPage'
-]*/);
-Route::post('/admin/login'/*, [
+	'uses'	=> 'Admin\AuthController@loginPage'
+]);
+Route::post('/admin/login', [
 	'as'	=> 'login-as-admin',
 	'uses'	=> 'Admin\AuthController@login'
-]*/);
+]);
 Route::get('/admin/logout', [
 	'uses'	=> 'Site\AuthController@logout'
 ]);
 
 Route::group(['middleware' => 'admin'], function() {
-	Route::get('/admin'/*, [
+	Route::get('/admin', [
 		'as'	=> 'admin-index',
-		'uses'	=> 'Admin\PagesController@index'
-	]*/);
+		'uses'	=> 'Admin\HomeController@index'
+	]);
 });
