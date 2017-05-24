@@ -29,12 +29,37 @@ Route::get('/registration', [
 		'as'=>'registration-confirm',
 		'uses'=>'Site\AuthController@registrationConfirmPage'
 	]);
-	Route::get('/registration_failed', function(){
-		return view('registration_failed');
-	});
 	Route::get('/password_reset',[
 		'as'=>'password-reset-page',
 		'uses'=>'Site\AuthController@passwordResetPage'
 	]);
+
+Route::get('/user_panel', [
+	'as'=>'user-panel',
+	'uses'=>'Site\UserController@index'
+]);
+    Route::get('/user_change_data', [
+
+    ]);
+
+//Authorisation
+Route::get('/admin/login'/*, [
+	'as'	=> 'admin-login',
+	'uses'	=> 'Admin\PagesController@loginPage'
+]*/);
+Route::post('/admin/login'/*, [
+	'as'	=> 'login-as-admin',
+	'uses'	=> 'Admin\AuthController@login'
+]*/);
+Route::get('/admin/logout', [
+	'uses'	=> 'Site\AuthController@logout'
+]);
+
+Route::group(['middleware' => 'admin'], function() {
+	Route::get('/admin'/*, [
+		'as'	=> 'admin-index',
+		'uses'	=> 'Admin\PagesController@index'
+	]*/);
+});
 
 

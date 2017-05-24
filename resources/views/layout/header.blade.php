@@ -17,7 +17,7 @@ $user = Auth::user();
 					<span><img src="{{ URL::asset('images/lock.png') }}" alt=""></span>Вход\Регистрация
 				</a>
 				@else
-				<a href="#" class="regist">Личный кабинет</a>
+				<a href="{{ route('user-panel') }}" class="regist">Личный кабинет</a>
 				<a href="{{ route('logout') }}" class="regist">Выйти</a>
 				@endif
 			</div>

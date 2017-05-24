@@ -20,6 +20,11 @@ class CreateUsersTable extends Migration
 			$table->text('img');
 			$table->text('addr');
 			$table->string('phone');
+			$table->string('org_caption');
+			$table->string('org_tid');
+			$table->text('address');
+			$table->text('correspondence');
+			$table->text('history');
 			$table->string('role',32);
 			$table->boolean('activated')->unsigned();
 			$table->text('activation_code');

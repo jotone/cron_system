@@ -280,10 +280,10 @@
 			</div>
 		</section>
 	</div>
-	<!-- /MAIN -->
-
-	<!-- FOOTER -->
-	@include('layout.footer')
-	<!-- /FOOTER -->
 </div>
+<!-- /MAIN -->
+
+<!-- FOOTER -->
+@include('layout.footer')
+<!-- /FOOTER -->
 @stop
