@@ -52,9 +52,15 @@ Route::post('/admin/login', [
 	'uses'	=> 'Admin\AuthController@login'
 ]);
 
-Route::group(['middleware' => 'admin'], function() {
+Route::group(['middleware' => 'admin'], function(){
+	//Админ Главная
 	Route::get('/admin', [
 		'as'	=> 'admin-index',
 		'uses'	=> 'Admin\HomeController@index'
+	]);
+	//Пользователи
+	Route::get('/admin/users',[
+		'as'=>'admin-users',
+		'uses'=>'Admin\UserController@index'
 	]);
 });

@@ -17,7 +17,7 @@
 </head>
 <body>
 <header class="col_1" data-token="{{ csrf_token() }}">
-	<nav class="top-menu"></nav>
+	<nav class="top-menu">{!! $menu !!}</nav>
 </header>
 @yield('content')
 <?php

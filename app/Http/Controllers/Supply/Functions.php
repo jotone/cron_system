@@ -15,18 +15,18 @@ class Functions extends BaseController{
 		return $time[1] + $time[0];
 	}
 
-    public static function checkAccessToPage($path){
-        $path = (substr($path, 0,1) != '/')? '/'.$path: $path;
-        $admin = Auth::user();
-        $admin_roles = UserRoles::select('pseudonim','access_pages')->where('pseudonim','=',$admin['role'])->first();
-        if($admin_roles->access_pages == 'allow_all'){
-            return true;
-        }
-        $allowed_pages = unserialize($admin_roles->access_pages);
+	public static function checkAccessToPage($path){
+		$path = (substr($path, 0,1) != '/')? '/'.$path: $path;
+		$admin = Auth::user();
+		$admin_roles = UserRoles::select('pseudonim','access_pages')->where('pseudonim','=',$admin['role'])->first();
+		if($admin_roles->access_pages == 'allow_all'){
+			return true;
+		}
+		$allowed_pages = unserialize($admin_roles->access_pages);
 
-        $current_page = AdminMenu::select('id','slug')->where('slug','=',$path)->first();
-        return (!in_array($current_page->id, $allowed_pages));
-    }
+		$current_page = AdminMenu::select('id','slug')->where('slug','=',$path)->first();
+		return (!in_array($current_page->id, $allowed_pages));
+	}
 
 	public static function strip_data($text){
 		$quotes = array("\x27", "\x22", "\x60", "\t", "\n", "\r", "*", "%", "<", ">", "?", "!" );
@@ -118,5 +118,37 @@ class Functions extends BaseController{
 			return false;
 		}
 		return true;
+	}
+
+	public static function buildMenuList($path, $refer_to = 0){
+		$path = (substr($path, 0,1) != '/')? '/'.$path: $path;
+
+		$menu = AdminMenu::select('id','title','slug','position','refer_to')
+			->where('refer_to','=',$refer_to)
+			->orderBy('position','asc')
+			->get();
+
+		$result= '';
+		if(isset($menu[0])){
+			$result .= '<ul>';
+			foreach($menu as $item){
+				$count = AdminMenu::select('refer_to')
+					->where('refer_to','=',$item->id)
+					->count();
+				$cross = ($count > 0)? 'has_child': '';
+
+				$item_slug = (0 != $item->module_id)? '/admin/'.$item->slug: $item->slug;
+
+				$active = ($path == $item_slug)? ' active': '';
+				$result.= '<li data-id="'.$item->id.'"><a href="'.$item_slug.'" class="'.$cross.$active.'">'.$item->title.'</a>';
+				if($count > 0){
+					$result.= self::buildMenuList($path, $item->id);
+				}
+				$result.= '</li>';
+			}
+			$result .= '</ul>';
+		}
+
+		return $result;
 	}
 }
