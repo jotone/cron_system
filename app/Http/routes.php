@@ -51,9 +51,6 @@ Route::post('/admin/login', [
 	'as'	=> 'login-as-admin',
 	'uses'	=> 'Admin\AuthController@login'
 ]);
-Route::get('/admin/logout', [
-	'uses'	=> 'Site\AuthController@logout'
-]);
 
 Route::group(['middleware' => 'admin'], function() {
 	Route::get('/admin', [
