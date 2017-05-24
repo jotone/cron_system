@@ -13,6 +13,13 @@
 	<link rel="stylesheet" href="{{ URL::asset('css/jquery-ui.structure.min.css') }}">
 	<link rel="stylesheet" href="{{ URL::asset('css/jquery-ui.theme.min.css') }}">
 	<script type="text/javascript" src="{{ URL::asset('js/admin/jquery.3.1.1.min.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/admin/ckeditor.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/admin/build-config.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/admin/config.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/admin/styles.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/admin/jquery-ui.min.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/admin/jquery.mask.min.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/admin/scenario.js') }}"></script>
 	@yield('scripts')
 </head>
 <body>

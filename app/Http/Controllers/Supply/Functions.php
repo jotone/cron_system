@@ -151,4 +151,30 @@ class Functions extends BaseController{
 
 		return $result;
 	}
+
+	public static function convertDate($date){
+		if(!empty($date)){
+			$year = substr($date,0,4);
+			$month = substr($date,5,2);
+			switch($month){
+				case '1': $month_name = 'Янв'; break;
+				case '2': $month_name = 'Фев'; break;
+				case '3': $month_name = 'Мар'; break;
+				case '4': $month_name = 'Апр'; break;
+				case '5': $month_name = 'Май'; break;
+				case '6': $month_name = 'Июн'; break;
+				case '7': $month_name = 'Июл'; break;
+				case '8': $month_name = 'Авг'; break;
+				case '9': $month_name = 'Сен'; break;
+				case '10':$month_name = 'Окт'; break;
+				case '11':$month_name = 'Ноя'; break;
+				case '12':$month_name = 'Дек'; break;
+			}
+			$day = substr($date,8,2);
+			$time = substr($date,11,5);
+			return $day.'/'.$month_name.'/'.$year.' '.$time;
+		}else{
+			return 'Не известно';
+		}
+	}
 }

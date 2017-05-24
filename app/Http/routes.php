@@ -63,4 +63,9 @@ Route::group(['middleware' => 'admin'], function(){
 		'as'=>'admin-users',
 		'uses'=>'Admin\UserController@index'
 	]);
+	//Роли пользователей
+    Route::get('/admin/users/roles',[
+        'as'=>'admin-users-roles',
+        'uses'=>'Admin\UserRolesController@index'
+    ]);
 });
