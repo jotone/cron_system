@@ -24,7 +24,7 @@ class RedirectAdmin
 			foreach($roles as $role){
 				$role_arr[] = $role->pseudonim;
 			}
-			if(!in_array($user['user_role'],$role_arr)){
+			if(!in_array($user['role'],$role_arr)){
 				return redirect(route('admin-login'));
 			}
 		}

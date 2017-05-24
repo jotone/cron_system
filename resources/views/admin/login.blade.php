@@ -17,7 +17,7 @@
 	<div class="login-container">
 		<form action="{{ route('login-as-admin') }}" method="POST" target="_self">
 			<input name="_token" type="hidden" value="{{ csrf_token() }}">
-			<div><input name="login" type="text" required="required" placeholder="Login&hellip;"></div>
+			<div><input name="email" type="email" required="required" placeholder="Login&hellip;"></div>
 			<div><input name="password" type="password" required="required" placeholder="Password&hellip;"></div>
 			<div><button name="submit" type="submit">Enter Admin</button></div>
 		</form>
