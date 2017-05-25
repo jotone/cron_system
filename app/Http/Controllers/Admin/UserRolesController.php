@@ -114,27 +114,28 @@ class UserRolesController extends BaseController{
 			$pages = AdminMenu::select('id','title')->orderBy('title','asc')->get();
 			$content = UserRoles::find($id);
 			return view('admin.add.user_roles',[
-				'start' => $start,
-				'menu' => $menu,
-				'page_title' => 'Добавление роли пользователя',
-				'pages' => $pages,
-				'content' => $content
+				'start'		=> $start,
+				'menu'		=> $menu,
+				'page_title'=> 'Редактирование роли пользователя',
+				'pages'		=> $pages,
+				'content'	=> $content
 			]);
 		}
 	}
 
 	public function addItem(Request $request){
 		$data = $request->all();
+		$slug = Functions::str2url(trim($data['pseudonim']));
 		if( (isset($data['id'])) && (!empty($data['id'])) ){
 			$result = UserRoles::find($data['id']);
 			$result->title		= trim($data['title']);
-			$result->pseudonim	= trim($data['pseudonim']);
+			$result->pseudonim	= $slug;
 			$result->access_pages = $data['pages'];
 			$result->save();
 		}else{
 			$result = UserRoles::create([
 				'title'		=> trim($data['title']),
-				'pseudonim'	=> trim($data['pseudonim']),
+				'pseudonim'	=> $slug,
 				'editable'	=> 1,
 				'access_pages' => $data['pages']
 			]);

@@ -21,7 +21,7 @@ class UserController extends BaseController{
 			$page_caption = AdminMenu::select('title', 'slug')->where('slug', 'LIKE', '%' . $request->path() . '%')->first();
 			$menu = Functions::buildMenuList($request->path());
 
-			$content = User::select('name','email','phone','role','activated','created_at','updated_at');
+			$content = User::select('id','name','email','phone','role','activated','created_at','updated_at');
 
 			$request_data = $request->all();
 			$active_direction = ['sort'=>'title', 'dir'=>'asc'];
@@ -52,12 +52,12 @@ class UserController extends BaseController{
 					$role = 'Пользователь';
 				}
 				$list[] = [
-					'id'	=> $item->id,
-					'email'	=> $item->email,
-					'name'	=> $item->name,
-					'phone'	=> $item->phone,
-					'role'	=> $role,
-					'activated' => ($item->activated == 1)? 'Активирован': 'Не активирован',
+					'id'		=> $item->id,
+					'email'		=> $item->email,
+					'name'		=> $item->name,
+					'phone'		=> $item->phone,
+					'role'		=> $role,
+					'activated'	=> ($item->activated == 1)? 'Активирован': 'Не активирован',
 					'created'	=> Functions::convertDate($item->created_at),
 					'updated'	=> Functions::convertDate($item->updated_at)
 				];
@@ -78,5 +78,28 @@ class UserController extends BaseController{
 				'pagination'=> $paginate_options,
 			]);
 		}
+	}
+
+	public function editPage($id, Request $request){
+		$allow_access = Functions::checkAccessToPage($request->path());
+		if($allow_access) {
+			$start = Functions::getMicrotime();
+			$menu = Functions::buildMenuList($request->path());
+
+			$roles = UserRoles::select('title','pseudonim')->orderBy('title','asc')->get();
+			$content = User::find($id);
+			return view('admin.add.users',[
+				'start'		=> $start,
+				'menu'		=> $menu,
+				'page_title'=> 'Редактирование пользователя',
+				'content'	=> $content,
+				'roles'		=> $roles
+			]);
+		}
+	}
+
+	public function editItem(Request $request){
+		$data = $request->all();
+		dd($data);
 	}
 }

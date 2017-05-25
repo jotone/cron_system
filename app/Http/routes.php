@@ -63,6 +63,13 @@ Route::group(['middleware' => 'admin'], function(){
 		'as'=>'admin-users',
 		'uses'=>'Admin\UserController@index'
 	]);
+		Route::get('/admin/users/edit/{id}',[
+			'as'=>'admin-users-edit-page',
+			'uses'=>'Admin\UserController@editPage'
+		]);
+		Route::post('/admin/users/edit',[
+			'uses'=>'Admin\UserController@editItem'
+		]);
 	//Роли пользователей
 	Route::get('/admin/users/roles',[
 		'as'=>'admin-users-roles',
@@ -77,7 +84,6 @@ Route::group(['middleware' => 'admin'], function(){
 			'uses'=>'Admin\UserRolesController@editPage'
 		]);
 		Route::post('/admin/users/roles/add',[
-			'as'=>'admin-users-roles-add',
 			'uses'=>'Admin\UserRolesController@addItem'
 		]);
 		Route::delete('/admin/users/roles/drop',[

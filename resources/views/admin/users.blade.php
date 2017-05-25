@@ -77,7 +77,7 @@
 			@foreach($content as $item)
 				<tr data-id="{{ $item['id'] }}">
 					<td>
-						<a class="block-button edit" href="{{ route('admin-users-roles-edit-page', $item['id']) }}" title="Редактировать">
+						<a class="block-button edit" href="{{ route('admin-users-edit-page', $item['id']) }}" title="Редактировать">
 							<img src="{{ URL::asset('images/edit.png') }}" alt="Редактировать">
 						</a>
 					</td>

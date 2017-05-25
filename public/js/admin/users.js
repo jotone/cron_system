@@ -11,4 +11,43 @@ $(document).ready(function(){
 	}
 
 	buildFixedNavMenu();
+
+	$('button[name=save]').click(function(){
+		formData.append('id', $('input[name=id]').val());
+		formData.append('email', $('input[name=email]').val());
+		formData.append('name', $('input[name=name]').val());
+		formData.append('phone', $('input[name=phone]').val());
+		formData.append('org_caption', $('input[name=org_caption]').val());
+		formData.append('org_tid', $('input[name=org_tid]').val());
+		formData.append('address', $('input[name=address]').val());
+		formData.append('correspondence', $('input[name=correspondence]').val());
+		if($('input[name=activated]').length > 0){
+			formData.append('correspondence', ($('input[name=activated]').prop('checked') == true)? 1: 0);
+		}
+		formData.append('role', $('select[name=role]').val());
+		formData.append('password', $('input[name=password]').val());
+		formData.append('confirm_password', $('input[name=confirm_password]').val());
+		$.ajax({
+			url:		'/admin/users/edit',
+			type:		'POST',
+			headers:	{'X-CSRF-TOKEN': $('header').attr('data-token')},
+			processData:false,
+			contentType:false,
+			data:		formData,
+			error:		function (jqXHR, textStatus, errorThrown) {
+				showErrors(jqXHR.responseText, '/admin/users/edit')
+			},
+			success:	function(data){
+				try{
+					data = JSON.parse(data);
+					if (data['message'] == 'success') {
+						location = '/admin/users';
+					}
+				}catch(e){
+					showErrors(e + data, '/admin/users/edit')
+				}
+			}
+		});
+	});
+
 });
