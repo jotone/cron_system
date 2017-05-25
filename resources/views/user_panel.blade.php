@@ -1,4 +1,5 @@
 @extends('layout.default')
+
 @section('content')
 <div class="global-wrapper">
 		<!-- HEADER -->
@@ -191,49 +192,6 @@
 								<div class="title-box">
 									<h3 style="font-size: 36px">Сменить почту</h3>
 								</div>
-
-								<!--<div class="forms-box">
-									<div class="forms-box-row">
-										<form class="fix-name">
-											<input type="text" class="element-input" disabled placeholder="Имя">
-											<button class="change-button-form" type="button">сменить</button>
-										</form>
-
-										<form class="fix-tel">
-											<input type="text" class="element-input" disabled value="Телефон">
-											<button class="change-button-form" type="button">сменить</button>
-										</form>
-
-										<form class="fix-mail">
-											<input type="text" class="element-input" disabled value="Почта">
-											<button class="change-button-form" type="button">сменить</button>
-										</form>
-									</div>
-
-									<div class="forms-box-row">
-										<form class="fix-name-organisation">
-											<input type="text" class="element-input" disabled value="Название организации">
-											<button class="change-button-form" type="button">сменить</button>
-										</form>
-
-										<form class="fix-inn-organisation">
-											<input type="text" class="element-input" disabled value="ИНН организации">
-											<button class="change-button-form" type="button">сменить</button>
-										</form>
-									</div>
-
-									<div class="forms-box-row">
-										<form class="fix-adres-delivery">
-											<input type="text" class="element-input" disabled value="Адрес доставки товара">
-											<button class="change-button-form" type="button">сменить</button>
-										</form>
-
-										<form class="fix-adres-correspondence">
-											<input type="text" class="element-input" disabled value="Адрес доставки корреспонденции">
-											<button class="change-button-form" type="button">сменить</button>
-										</form>
-									</div>
-								</div>-->
 							</div>
 						</div>
 
@@ -244,8 +202,9 @@
 		</section>
 	</div>
 </div>
-	<!-- /MAIN -->
+<!-- /MAIN -->
 
-    <!-- FOOTER -->
+<!-- FOOTER -->
 @include('layout.footer')
 <!-- /FOOTER -->
+@stop

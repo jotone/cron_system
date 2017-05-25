@@ -65,7 +65,7 @@ footer .error-log{
 	display: block;
 	cursor: pointer;
 	border-radius: 50%;
-	background: #dadadb url('/img/close.png') no-repeat center center/cover;
+	background: #dadadb url('/images/close.png') no-repeat center center/cover;
 }
 .popup-caption{text-align: center; font-size: 20px;}
 .overview-popup .popup-images{
@@ -242,7 +242,7 @@ footer .error-log{
 	height: 20px;
 	display: block;
 	border-radius: 50%;
-	background: url('/img/add-icon-white.png') no-repeat center center/cover;
+	background: url('/images/add-icon-white.png') no-repeat center center/cover;
 }
 
 .module-elements-wrap, .module-custom-elements-wrap, .dropable-field .module-custom-elements-wrap{

@@ -42,7 +42,7 @@ $user = Auth::user();
 						<a href="#" class="close"></a>
 					</div>
 					<div class="search">
-						<form action="\">
+						<form>
 							<input type="text" name="search" class="search-input" placeholder="Поиск...">
 							<button type="submit" class="submit">
 								<img src="{{ URL::asset('images/search.png') }}" alt="">

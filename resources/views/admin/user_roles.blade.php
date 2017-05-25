@@ -1,13 +1,13 @@
 @extends('admin.layout.default')
 @section('scripts')
-    <script type="text/javascript" src="{{ URL::asset('js/admin/user_roles.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/admin/user_roles.js') }}"></script>
 @stop
 @section('content')
 <div class="main-block">
 	<div class="center-wrap col_1">
 		<div class="page-caption row-wrap">{{ $page_title }}</div>
 		<div class="button-wrap">
-			<a class="control-button" href="#">Добавить</a>
+			<a class="control-button" href="{{ route('admin-users-roles-add-page') }}">Добавить</a>
 		</div>
 		@if(1 < $pagination['last_page'])
 			<div class="row-wrap">
@@ -44,6 +44,7 @@
 					</div>
 				</th>
 				<th>Доступные страницы</th>
+				<th>Пользователи</th>
 				<th>Создан
 					<div class="direction" id="created">
 						<a href="{{ URL::asset('/admin/users/roles/?page='.$pagination['current_page'].'&sort_by=created&dir=asc') }}" class="asc">&#9650;</a>
@@ -62,22 +63,19 @@
 			@foreach($content as $item)
 				<tr data-id="{{$item['id']}}">
 					<td>
-						@if($item['editable'] > 0)
-						<a class="block-button edit" href="#" title="Редактировать">
+						<a class="block-button edit" href="{{ route('admin-users-roles-edit-page', $item['id']) }}" title="Редактировать">
 							<img src="{{ URL::asset('images/edit.png') }}" alt="Редактировать">
 						</a>
-						@endif
 					</td>
 					<td>
-						@if($item['editable'] > 0)
-						<a class="block-button drop" data-id="#" href="#" data-title="{{ $item['title'] }}" title="Удалить">
+						<a class="block-button drop" href="#" data-title="{{ $item['title'] }}" title="Удалить">
 							<img src="{{ URL::asset('images/drop.png') }}" alt="Удалить">
 						</a>
-						@endif
 					</td>
 					<td>{{ $item['title'] }}</td>
 					<td>{{ $item['pseudonim'] }}</td>
 					<td>{!! $item['pages'] !!}</td>
+					<td data-name="users">{!! $item['users'] !!}</td>
 					<td>{!! $item['created'] !!}</td>
 					<td>{!! $item['updated'] !!}</td>
 				</tr>

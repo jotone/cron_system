@@ -19,7 +19,7 @@ class RedirectAdmin
 			return redirect(route('admin-login'));
 		}else{
 			$user = Auth::user();
-			$roles = UserRoles::select('pseudonim','access_pages')->where('access_pages','!=','')->get();
+			$roles = UserRoles::select('pseudonim')->where('access_pages','!=','')->get();
 			$role_arr = [];
 			foreach($roles as $role){
 				$role_arr[] = $role->pseudonim;

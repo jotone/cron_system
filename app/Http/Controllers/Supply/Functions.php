@@ -17,12 +17,22 @@ class Functions extends BaseController{
 
 	public static function checkAccessToPage($path){
 		$path = (substr($path, 0,1) != '/')? '/'.$path: $path;
+		$path = explode('/',$path);
+		if($path[count($path)-1] == 'add'){
+			unset($path[count($path)-1]);
+		}
+		if($path[count($path)-2] == 'edit'){
+			unset($path[count($path)-1]);
+			unset($path[count($path)-1]);
+		}
+		$path = implode('/',$path);
+
 		$admin = Auth::user();
 		$admin_roles = UserRoles::select('pseudonim','access_pages')->where('pseudonim','=',$admin['role'])->first();
 		if($admin_roles->access_pages == 'allow_all'){
 			return true;
 		}
-		$allowed_pages = unserialize($admin_roles->access_pages);
+		$allowed_pages = json_decode($admin_roles->access_pages);
 
 		$current_page = AdminMenu::select('id','slug')->where('slug','=',$path)->first();
 		return (!in_array($current_page->id, $allowed_pages));

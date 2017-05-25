@@ -72,12 +72,15 @@ Route::group(['middleware' => 'admin'], function(){
 			'as'=>'admin-users-roles-add-page',
 			'uses'=>'Admin\UserRolesController@addPage'
 		]);
-		Route::get('/admin/users/roles/edit',[
+		Route::get('/admin/users/roles/edit/{id}',[
 			'as'=>'admin-users-roles-edit-page',
 			'uses'=>'Admin\UserRolesController@editPage'
 		]);
 		Route::post('/admin/users/roles/add',[
 			'as'=>'admin-users-roles-add',
 			'uses'=>'Admin\UserRolesController@addItem'
+		]);
+		Route::delete('/admin/users/roles/drop',[
+			'uses'=>'Admin\UserRolesController@dropItem'
 		]);
 });
