@@ -39,21 +39,41 @@
 
 					<ul>
 						<li>
-							<a href="tel:+74957450480">+7 (495)745-04-80</a>
+							<div class="contact-icon">
+								<img src="../images/icon-tel-map.png" alt="images">
+							</div>
+							<div class="contact-text">
+								<a href="tel:+74957450480">+7 (495)745-04-80</a>
+							</div>
 						</li>
 						<li>
-							<a href="mailto:hello@gmail.com">hello@gmail.com</a>
+							<div class="contact-icon">
+								<img src="../images/icon-mail-map.png" alt="images">
+							</div>
+							<div class="contact-text">
+								<a href="mailto:hello@gmail.com">hello@gmail.com</a>
+							</div>							
 						</li>
 						<li>
-							<h5>Время работы:</h5>
-							<p>Понедельник-четверг:  с 09:30 до 19:00</p>
-							<p>Пятница: с 9:30 до 18:00</p>
-							<p>Суббота, воскресенье - выходные дни</p>
+							<div class="contact-icon">
+								<img src="../images/icon-time-map.png" alt="images">
+							</div>
+							<div class="contact-text">
+								<h5>Время работы:</h5>
+								<p>Понедельник-четверг:  с 09:30 до 19:00</p>
+								<p>Пятница: с 9:30 до 18:00</p>
+								<p>Суббота, воскресенье - выходные дни</p>
+							</div>							
 						</li>
 						<li>
-							<h5>Адрес: </h5>
-							<p>Санкт-Петербург, </p>
-							<p>Набережная канала Грибоедова, дом 17</p>
+							<div class="contact-icon">
+								<img src="../images/icon-adres-map.png" alt="images">
+							</div>
+							<div class="contact-text">
+								<h5>Адрес: </h5>
+								<p>Санкт-Петербург, </p>
+								<p>Набережная канала Грибоедова, дом 17</p>
+							</div>							
 						</li>
 					</ul>
 

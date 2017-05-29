@@ -138,8 +138,20 @@
 }
 
 @media screen and (max-width: 767px){
-	.about-us .map-box, .contacts .map-box{background: url("/images/bg.jpg");}
-	.about-us .map-box .contact-box, .contacts .map-box .contact-box{position: relative; margin: 0 auto;}
+	.about-us .map-box, .contacts .map-box{background: url("/images/bg.jpg"); flex-direction: column;}
+	.about-us .map-box .contact-box, .contacts .map-box .contact-box{
+		position: relative; 
+		margin: 0;
+		max-width: 100%;
+		padding: 35px 35px;
+		min-height: auto;
+		background-size: cover;
+		background: url("/images/bg-white.jpg");
+	}
+	.about-us .map-box .contact-box ul, .contacts .map-box .contact-box ul{
+		max-width: 350px;
+    	margin: auto;
+	}
 }
 
 @media screen and (max-width: 666px){

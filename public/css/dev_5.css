@@ -322,13 +322,17 @@
 	padding: 0 15px 65px;
 }
 
-.about-us .map-box, .contacts .map-box{width: 100%; position: relative;}
+.about-us .map-box, .contacts .map-box{
+	width: 100%; 
+	position: relative;
+	display: flex;
+}
 
 .about-us .map-box .contact-box, .contacts .map-box .contact-box{
 	width: 100%;
 	max-width: 430px;
 	min-height: 625px;
-	position: absolute;
+	/*position: absolute;*/
 	top: 0;
 	right: 20%;
 	background: url("/images/contact-map-bg.jpg") right;
@@ -342,16 +346,23 @@
 	position: relative;
 	color: dimgrey;
 	font-weight: 400;
+	display: flex;
+}
+.about-us .map-box li .contact-icon, .contacts .map-box li.contact-icon{
+	margin-right: 10px;
+}
+.about-us .map-box li .contact-text, .contacts .map-box li.contact-text{
+	padding-top: 7px;
 }
 
-.about-us .map-box li::before, .contacts .map-box li::before{
+/*.about-us .map-box li::before, .contacts .map-box li::before{
 	content: '';
 	position: absolute;
 	width: 60px;
 	height: 31px;
 	left: -65px;
 	top: -8px;
-}
+}*/
 
 .about-us .map-box li a, .contacts .map-box li a{
 	font-size: 16px;
@@ -366,10 +377,10 @@
 .about-us .map-box li h5, .contacts .map-box li h5{font-size: 18px;}
 
 .about-us .map-box li:nth-child(1) p, .about-us .map-box li:nth-child(2) p, .contacts .map-box li:nth-child(1) p, .contacts .map-box li:nth-child(2) p{padding: 0;}
-.about-us .map-box li:nth-child(1):before, .contacts .map-box li:nth-child(1):before{background: url("/images/icon-tel-map.png") no-repeat;}
+/*.about-us .map-box li:nth-child(1):before, .contacts .map-box li:nth-child(1):before{background: url("/images/icon-tel-map.png") no-repeat;}
 .about-us .map-box li:nth-child(2):before, .contacts .map-box li:nth-child(2):before{background: url("/images/icon-mail-map.png") no-repeat;}
 .about-us .map-box li:nth-child(3):before, .contacts .map-box li:nth-child(3):before{background: url("/images/icon-time-map.png") no-repeat;}
-.about-us .map-box li:nth-child(4):before, .contacts .map-box li:nth-child(4):before{background: url("/images/icon-adres-map.png") no-repeat;}
+.about-us .map-box li:nth-child(4):before, .contacts .map-box li:nth-child(4):before{background: url("/images/icon-adres-map.png") no-repeat;}*/
 
 .about-us #myMap, .contacts #myMap{height: 625px; width: 100%;}
 
