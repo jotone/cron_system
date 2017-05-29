@@ -32,7 +32,7 @@
 <script type="text/javascript" src="{{ URL::asset('js/develop/develop_7.js') }}"></script>
 <!-- add you develop js here -->
 
-<!--<script>
+<script>
 	var removing_from_busket = "ajax.php";
 	var show_more = "ajax.php";
 	var mapMarker = "../images/marker-map.png";
@@ -204,7 +204,7 @@
 			}
 		}
 	}
-</script>-->
+</script>
 
 <!-- endbuild -->
 
