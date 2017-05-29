@@ -23,9 +23,9 @@ class AuthController extends BaseController{
 	public function emailChange(Request $request){
 		$data = $request->all();
 		$data['email'] = trim($data['email']);
-		$data['pass'] = trim($data['pass']);
+		$data['password'] = trim($data['password']);
 		$user_data = Auth::user();
-		$password = md5($user_data['email'].$data['pass']);
+		$password = md5($user_data['email'].$data['password']);
 		$user = User::select('id','activated')->where('email','=',$user_data['email'])->where('password','=',$password)->first();
 
 		//If user is not isset
@@ -41,7 +41,7 @@ class AuthController extends BaseController{
 		$email_reset = EmailResets::create([
 			'old_email' => $user_data['email'],
 			'new_email' => $data['email'],
-			'password'  => $data['pass'],
+			'password'  => $data['password'],
 			'user_id'   => $user['id']
 		]);
 		$activation_code = Crypt::encrypt(json_encode($email_reset->id));
@@ -99,6 +99,11 @@ class AuthController extends BaseController{
 				return redirect(route('user-panel'));
 			}
 		}
+	}
+
+	public function passwordChange(Request $request){
+		$data = $request->all();
+		dd($data);
 	}
 
 	public function passwordResetPage(Request $request){

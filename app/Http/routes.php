@@ -30,7 +30,7 @@ Route::get('/registration', [
 		'uses'=>'Site\AuthController@registrationConfirmPage'
 	]);
 	//Смена почты
-	Route::post('/email_change',[
+	Route::patch('/email_change',[
 		'as'=>'email-change',
 		'uses'=>'Site\AuthController@emailChange'
 	]);
@@ -38,6 +38,11 @@ Route::get('/registration', [
 			'as'=>'email-change-request',
 			'uses'=>'Site\AuthController@emailChangeRequest'
 		]);
+	//Смена пароля
+	Route::patch('/password_change',[
+		'as'=>'password-change',
+		'uses'=>'Site\AuthController@passwordChange'
+	]);
 
 	Route::post('/password_reset',[
 		'as'=>'password-reset',
