@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\FooterMenu;
 use App\TopMenu;
 use App\User;
 
@@ -17,6 +18,7 @@ class SimilarQueriesController extends BaseController{
 		$data = $request->all();
 		switch($data['type']){
 			case 'top_menu': $result = TopMenu::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
+			case 'footer_menu': $result = FooterMenu::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
 		}
 		if($result != false){
 			return json_encode(['message'=>'success']);
@@ -30,6 +32,11 @@ class SimilarQueriesController extends BaseController{
 			case 'top_menu':
 				foreach($data['positions'] as $position){
 					$result = TopMenu::where('id','=',$position['id'])->update(['position'=>$position['pos']]);
+				}
+			break;
+			case 'footer_menu':
+				foreach($data['positions'] as $position){
+					$result = FooterMenu::where('id','=',$position['id'])->update(['position'=>$position['pos']]);
 				}
 			break;
 		}

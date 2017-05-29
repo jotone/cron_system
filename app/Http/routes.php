@@ -119,6 +119,25 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/top_menu/drop',[
 			'uses'=>'Admin\TopMenuController@dropItem'
 		]);
+	//Меню в подвале
+	Route::get('/admin/footer_menu',[
+		'as'=>'admin-footer-menu',
+		'uses'=>'Admin\FooterMenuController@index'
+	]);
+		Route::get('/admin/footer_menu/add',[
+			'as'=>'admin-footer-menu-add',
+			'uses'=>'Admin\FooterMenuController@addPage'
+		]);
+		Route::get('/admin/footer_menu/edit/{id}',[
+			'as'=>'admin-footer-menu-edit',
+			'uses'=>'Admin\FooterMenuController@editPage'
+		]);
+		Route::post('/admin/footer_menu/add',[
+			'uses'=>'Admin\FooterMenuController@addItem'
+		]);
+		Route::delete('/admin/footer_menu/drop',[
+			'uses'=>'Admin\FooterMenuController@dropItem'
+		]);
 
 
 	//Similar queries

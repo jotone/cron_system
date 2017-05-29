@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\AdminMenu;
-use App\TopMenu;
+use App\FooterMenu;
 
 use App\Http\Controllers\Supply\Functions;
 use Illuminate\Http\Request;
@@ -11,22 +11,23 @@ use Auth;
 use Crypt;
 use Validator;
 
-class TopMenuController extends BaseController{
+class FooterMenuController extends BaseController{
 
-	public function index(Request $request){
+	public function index(Request $request)
+	{
 		$allow_access = Functions::checkAccessToPage($request->path());
-		if($allow_access){
+		if ($allow_access) {
 			$start = Functions::getMicrotime();
-			$page_caption = AdminMenu::select('title','slug')->where('slug','LIKE','%'.$request->path().'%')->first();
+			$page_caption = AdminMenu::select('title', 'slug')->where('slug', 'LIKE', '%' . $request->path() . '%')->first();
 
 			$menu = Functions::buildMenuList($request->path());
 
-			$top_menu = TopMenu::orderBy('position','asc')->get();
-			return view('admin.top_menu', [
-				'start'		=> $start,
-				'menu'		=> $menu,
-				'page_title'=> $page_caption->title,
-				'top_menu'	=> $top_menu
+			$top_menu = FooterMenu::orderBy('position', 'asc')->get();
+			return view('admin.footer_menu', [
+				'start' => $start,
+				'menu' => $menu,
+				'page_title' => $page_caption->title,
+				'top_menu' => $top_menu
 			]);
 		}
 	}
@@ -37,10 +38,10 @@ class TopMenuController extends BaseController{
 			$start = Functions::getMicrotime();
 			$menu = Functions::buildMenuList($request->path());
 
-			return view('admin.add.top_menu', [
+			return view('admin.add.footer_menu', [
 				'start'		=> $start,
 				'menu'		=> $menu,
-				'page_title'=> 'Добавление меню в Шапку'
+				'page_title'=> 'Добавление меню в подвал'
 			]);
 		}
 	}
@@ -51,11 +52,11 @@ class TopMenuController extends BaseController{
 			$start = Functions::getMicrotime();
 			$menu = Functions::buildMenuList($request->path());
 
-			$content = TopMenu::find($id);
-			return view('admin.add.top_menu', [
+			$content = FooterMenu::find($id);
+			return view('admin.add.footer_menu', [
 				'start'		=> $start,
 				'menu'		=> $menu,
-				'page_title'=> 'Добавление меню в Шапку',
+				'page_title'=> 'Добавление меню в подвал',
 				'content'	=> $content
 			]);
 		}
@@ -65,19 +66,21 @@ class TopMenuController extends BaseController{
 		$slug = Functions::str2url(trim($data['slug']));
 
 		if( (isset($data['id'])) && (!empty($data['id'])) ){
-			$result = TopMenu::find($data['id']);
-			$result->title	= trim($data['title']);
-			$result->slug	= $slug;
-			$result->enabled= $data['enabled'];
+			$result = FooterMenu::find($data['id']);
+			$result->title		= trim($data['title']);
+			$result->slug		= $slug;
+			$result->enabled	= $data['enabled'];
+			$result->is_outer	= $data['is_outer'];
 			$result->save();
 		}else{
-			$last_obj = TopMenu::select('position')->orderBy('position','desc')->first();
+			$last_obj = FooterMenu::select('position')->orderBy('position','desc')->first();
 			$position = (!empty($last_obj))? $last_obj->position +1: 0;
 
-			$result = TopMenu::create([
+			$result = FooterMenu::create([
 				'title'		=> trim($data['title']),
 				'slug'		=> $slug,
 				'enabled'	=> $data['enabled'],
+				'is_outer'	=> $data['is_outer'],
 				'position'	=> $position
 			]);
 		}
@@ -87,7 +90,7 @@ class TopMenuController extends BaseController{
 	}
 	public function dropItem(Request $request){
 		$data = $request->all();
-		$result = TopMenu::where('id','=',$data['id'])->delete();
+		$result = FooterMenu::where('id','=',$data['id'])->delete();
 		if($result != false){
 			return json_encode(['message'=>'success']);
 		}
