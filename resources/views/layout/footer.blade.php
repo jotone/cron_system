@@ -12,11 +12,9 @@
 		<div class="footer-row">
 			<div class="footer-menu">
 				<ul>
-					<li><a href="#" class="catalogue">Каталог ПО</a></li>
-					<li><a href="about_us.html">О компании</a></li>
-					<li><a href="services.html">Услуги</a></li>
-					<li><a href="services.html">Специальные прелложения</a></li>
-					<li><a href="equipment.html">Оборудование</a></li>
+				@foreach($footer_menu as $item)
+					<li><a href="@if($item->is_outer == 0){{ URL::asset($item->slug) }}@else{{$item->slug}}@endif">{{ $item->title }}</a></li>
+				@endforeach
 				</ul>
 			</div>
 			<div class="footer-col">

@@ -1,7 +1,7 @@
 <?php
 $user = Auth::user();
 ?>
-<header class="header">
+<header class="header" id="header">
 	<div class="top-header">
 		<div class="mbox2">
 			<div class="wrapper">

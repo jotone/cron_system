@@ -125,8 +125,9 @@ $(document).ready(function () {
 		}
 	});
 
-	$('.header a[href="#catalog"]').click(function (e) {
+	$('.header a[href="#catalog"], .footer-menu a[href="#catalog"]').click(function (e) {
 		e.preventDefault();
+		$('body,html').animate({ scrollTop: 0}, 500);
 		$('.header-huge-menu').addClass('active');
 	});
 
