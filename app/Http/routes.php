@@ -100,4 +100,32 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/users/roles/drop',[
 			'uses'=>'Admin\UserRolesController@dropItem'
 		]);
+	//Меню в Шапке
+	Route::get('/admin/top_menu',[
+		'as'=>'admin-top-menu',
+		'uses'=>'Admin\TopMenuController@index'
+	]);
+		Route::get('/admin/top_menu/add',[
+			'as'=>'admin-top-menu-add',
+			'uses'=>'Admin\TopMenuController@addPage'
+		]);
+		Route::get('/admin/top_menu/edit/{id}',[
+			'as'=>'admin-top-menu-edit',
+			'uses'=>'Admin\TopMenuController@editPage'
+		]);
+		Route::post('/admin/top_menu/add',[
+			'uses'=>'Admin\TopMenuController@addItem'
+		]);
+		Route::delete('/admin/top_menu/drop',[
+			'uses'=>'Admin\TopMenuController@dropItem'
+		]);
+
+
+	//Similar queries
+	Route::patch('/admin/change_enabled',[
+		'uses'=>'Admin\SimilarQueriesController@changeEnabled'
+	]);
+	Route::patch('/admin/change_postions',[
+		'uses'=>'Admin\SimilarQueriesController@changePositions'
+	]);
 });

@@ -59,9 +59,9 @@ $(document).ready(function(){
 				type:	'DELETE',
 				headers:{'X-CSRF-TOKEN': $('header').attr('data-token')},
 				data:	{id:id},
-                error:		function (jqXHR, textStatus, errorThrown) {
-                    showErrors(jqXHR.responseText, '/admin/users/roles/drop')
-                },
+				error:		function (jqXHR, textStatus, errorThrown) {
+					showErrors(jqXHR.responseText, '/admin/users/roles/drop')
+				},
 				success:function(data){
 					try{
 						data = JSON.parse(data);
