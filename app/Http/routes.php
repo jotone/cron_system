@@ -42,6 +42,14 @@ Route::get('/user_panel', [
 		'uses'=>'Site\UserController@modifyUser'
 	]);
 
+Route::get('/about_us', function(){
+	return view('about_us');
+});
+
+Route::get('/contacts', function(){
+	return view('contacts');
+});
+
 //Authorisation
 Route::get('/admin/login', [
 	'as'	=> 'admin-login',
