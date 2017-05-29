@@ -43,11 +43,11 @@ Route::get('/user_panel', [
 	]);
 
 Route::get('/about_us', function(){
-	return view('about_us');
+	return view('about_us', ['allow_map'=>true]);
 });
 
 Route::get('/contacts', function(){
-	return view('contacts');
+	return view('contacts', ['allow_map'=>true]);
 });
 
 //Authorisation

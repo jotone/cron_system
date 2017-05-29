@@ -31,7 +31,7 @@
 <script type="text/javascript" src="{{ URL::asset('js/develop/develop_6.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/develop/develop_7.js') }}"></script>
 <!-- add you develop js here -->
-
+@if( (isset($allow_map)) && ($allow_map) )
 <script>
 	var removing_from_busket = "ajax.php";
 	var show_more = "ajax.php";
@@ -205,6 +205,7 @@
 		}
 	}
 </script>
+@endif
 
 <!-- endbuild -->
 
