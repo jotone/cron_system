@@ -128,6 +128,20 @@ function validationCall(form) {
 	});
 }
 
+function validationCallPatchMethod(form){
+	var thisForm = $(form);
+	var formSur = thisForm.serialize();
+	$.ajax({
+		url:	thisForm.attr('action'),
+		data:	formSur,
+        headers:{'X-CSRF-TOKEN':$(form).find('input[name=_token]').val()},
+		type:	'PATCH',
+		success:function(data){
+			console.log(data);
+		}
+	});
+}
+
 /**
 * Sending form with a call popup
 * @param {popupId} string - Id form, that we show
@@ -245,6 +259,7 @@ $(document).ready(function () {
 	validate('.login-form', { submitFunction: validationCall });
 	validate('.recovery-form', { submitFunction: validationCall });
 	validate('.request-form', { submitFunction: validationCall });
+	validate('.change-pass-form', { submitFunction: validationCallPatchMethod });
 	Maskedinput();
 	fancyboxForm();
 });

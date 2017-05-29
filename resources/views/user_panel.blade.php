@@ -219,20 +219,20 @@ $user = Auth::user();
 									<h3 style="font-size: 36px">Сменить пароль</h3>
 								</div>
 								<div class="user-panel-form">
-									<form action="{{ route('password-change') }}" class="action-form" method="POST" target="_self">
+									<form action="{{ route('password-change') }}" class="action-form change-pass-form" method="POST" target="_self">
 										<input name="_method" type="hidden" value="PATCH">
 										{{ csrf_field() }}
 										<div class="form-field">
 											<label for="loginEmail">Старый пароль</label>
-											<input type="password" name="old_password">
+											<input type="password" name="old_password" required="required">
 										</div>
 										<div class="form-field">
 											<label for="loginPass">Новый пароль</label>
-											<input type="password" name="new_password">
+											<input type="password" name="new_password" required="required">
 										</div>
 										<div class="form-field">
 											<label for="loginPass">Подтвердите новый пароль</label>
-											<input type="password" name="conf_new_password">
+											<input type="password" name="conf_new_password" required="required">
 										</div>
 										<input type="submit" class="button-round" value="Войти">
 									</form>

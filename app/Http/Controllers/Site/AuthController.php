@@ -39,10 +39,10 @@ class AuthController extends BaseController{
 		}
 
 		$email_reset = EmailResets::create([
-			'old_email' => $user_data['email'],
-			'new_email' => $data['email'],
-			'password'  => $data['password'],
-			'user_id'   => $user['id']
+			'old_email'	=> $user_data['email'],
+			'new_email'	=> $data['email'],
+			'password'	=> $data['password'],
+			'user_id'	=> $user['id']
 		]);
 		$activation_code = Crypt::encrypt(json_encode($email_reset->id));
 		User::where('id','=',$user_data['id'])->update(['activation_code'=>$activation_code]);
@@ -95,6 +95,8 @@ class AuthController extends BaseController{
 
 			$password = md5($email_reset->new_email.$email_reset->password);
 			$result = User::where('id','=',$user->id)->update(['email'=>$email_reset->new_email, 'password'=>$password]);
+			EmailResets::where('id','=',$email_reset->id)->delete();
+			EmailResets::where('user_id','=',$email_reset->user_id)->delete();
 			if($result != false){
 				return redirect(route('user-panel'));
 			}
@@ -103,7 +105,28 @@ class AuthController extends BaseController{
 
 	public function passwordChange(Request $request){
 		$data = $request->all();
-		dd($data);
+		$data['old_password'] = trim($data['old_password']);
+		$data['new_password'] = trim($data['new_password']);
+		$data['conf_new_password'] = trim($data['conf_new_password']);
+		$user = Auth::user();
+		$password = md5($user['email'].$data['old_password']);
+		$user = User::select('id','activated')->where('email','=',$user['email'])->where('password','=',$password)->first();
+		//If user is not isset
+		if(empty($user)){
+			return json_encode(['error'=>'Пароль не верен.','type'=>'old_password']);
+		}
+
+		//If registration is not activated
+		if($user->activated == 0){
+			return json_encode(['error'=>'Пользователь не активирован.','type'=>'not_activated']);
+		}
+
+		if(strlen($data['new_password']) < 6){
+			return json_encode(['error'=>'Пароль должен быть не короче 6-ти символов.','type'=>'new_password']);
+		}
+		if($data['new_password'] != $data['conf_new_password']){
+			return json_encode(['error'=>'Пароль подтвержден не верно.']);
+		}
 	}
 
 	public function passwordResetPage(Request $request){
