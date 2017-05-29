@@ -33,11 +33,9 @@ $user = Auth::user();
 					<a href="#" class="header-burger"><span></span></a>
 					<div class="header-menu">
 						<ul>
-							<li><a href="#" class="catalogue">Каталог ПО</a></li>
-							<li><a href="about_us.html">О компании</a></li>
-							<li><a href="services.html">Услуги</a></li>
-							<li><a href="services.html">Специальные прелложения</a></li>
-							<li><a href="equipment.html">Оборудование</a></li>
+						@foreach($top_menu as $item)
+							<li><a href="{{ URL::asset($item->slug) }}">{{ $item->title }}</a></li>
+						@endforeach
 						</ul>
 						<a href="#" class="close"></a>
 					</div>
