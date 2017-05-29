@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Site;
 
+use App\EmailResets;
 use App\User;
 
 use Illuminate\Http\Request;
@@ -23,7 +24,6 @@ class AuthController extends BaseController{
 		$data = $request->all();
 		$data['email'] = trim($data['email']);
 		$data['pass'] = trim($data['pass']);
-
 		$user_data = Auth::user();
 		$password = md5($user_data['email'].$data['pass']);
 		$user = User::select('id','activated')->where('email','=',$user_data['email'])->where('password','=',$password)->first();
@@ -37,9 +37,14 @@ class AuthController extends BaseController{
 		if($user->activated == 0){
 			return redirect(route('user-panel'))->withErrors(json_encode(['message'=>'Пользователь не активирован.']));
 		}
-		var_dump($user['activation_code']);
-		$activation_code = Crypt::encrypt(json_encode([strtotime(date('Y-m-d')),$data['email'],$user_data['email']]));
-		var_dump($activation_code);
+
+		$email_reset = EmailResets::create([
+			'old_email' => $user_data['email'],
+			'new_email' => $data['email'],
+			'password'  => $data['pass'],
+			'user_id'   => $user['id']
+		]);
+		$activation_code = Crypt::encrypt(json_encode($email_reset->id));
 		User::where('id','=',$user_data['id'])->update(['activation_code'=>$activation_code]);
 
 		$headers  = "Content-type: text/html; charset=utf-8 \r\n";
@@ -68,18 +73,28 @@ class AuthController extends BaseController{
 
 	public function emailChangeRequest($code){
 		$code = json_decode(Crypt::decrypt($code));
-		$date = $code[0] + 864000;
+		$email_reset = EmailResets::find($code);
+		if(!$email_reset){
+			return redirect(route('user-panel'))->withErrors(json_encode(['message'=>'Срок действия ссылки истек']));
+		}
 
+		$date = strtotime($email_reset->created_at) + 864000;
 		if($date <= time()){
-			//drop this user
 			return redirect(route('user-panel'))->withErrors(json_encode(['message'=>'Срок действия ссылки истек']));
 		}else{
-			$user = User::select('id')->where('email','=',$code[2])->first();
-			$result = User::where('email','=',$code[1])->count();
+			$password = md5($email_reset->old_email.$email_reset->password);
+			$user = User::select('id')->where('email','=',$email_reset->old_email)->where('password','=',$password)->first();
+			if(empty($user)){
+				return redirect(route('user-panel'))->withErrors(json_encode(['message'=>'Такого пользователя не существует.']));
+			}
+
+			$result = User::where('email','=',$email_reset->new_email)->count();
 			if($result > 0){
 				return redirect(route('user-panel'))->withErrors(json_encode(['message'=>'Такой пользователь уже существует.']));
 			}
-			$result = User::where('id','=',$user->id)->update(['email'=>$code[1]]);
+
+			$password = md5($email_reset->new_email.$email_reset->password);
+			$result = User::where('id','=',$user->id)->update(['email'=>$email_reset->new_email, 'password'=>$password]);
 			if($result != false){
 				return redirect(route('user-panel'));
 			}

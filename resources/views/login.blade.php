@@ -34,7 +34,7 @@ if(!empty($errors->all())){
 					</form>
 					<div class="enter-links">
 						<p>Нету аккаунта? <a href="{{ route('registration-page') }}">Регистрация</a></p>
-						<p>Забыли пароль? <a href="{{ route('password-reset-page') }}">Востановить</a></p>
+						<p>Забыли пароль? <a href="#">Востановить</a></p>
 					</div>
 				</div>
 			</div>
