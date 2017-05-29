@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers\Site;
 
+use App\FooterMenu;
+use App\TopMenu;
 use App\User;
 
 use Illuminate\Http\Request;
@@ -13,6 +15,9 @@ class UserController extends BaseController{
 
 	public function index(){
 		$user = Auth::user();
+		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+
 		return view('user_panel', [
 			'data' => [
 				'name'			=> $user['name'],
@@ -20,8 +25,10 @@ class UserController extends BaseController{
 				'org_caption'	=> $user['org_caption'],
 				'org_tid'		=> $user['org_tid'],
 				'address'		=> $user['address'],
-				'correspondence'=> $user['correspondence'],
-			]
+				'correspondence'=> $user['correspondence']
+			],
+			'top_menu'		=> $top_menu,
+			'footer_menu'	=> $footer_menu
 		]);
 	}
 

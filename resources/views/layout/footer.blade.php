@@ -19,7 +19,7 @@
 			</div>
 			<div class="footer-col">
 				<h6>Адрес:</h6>
-				<p>Санкт-Петербург,     Набережная канала Грибоедова, дом 17</p>
+				<p>Санкт-Петербург, Набережная канала Грибоедова, дом 17</p>
 			</div>
 			<div class="footer-col">
 				<h6>Время работы:</h6>
@@ -27,7 +27,7 @@
 			</div>
 			<div class="footer-sheep-fish">
 				<a href="http://sheep.fish/">
-					<img src="images/sheep_fish.png" alt="">
+					<img src="{{ URL::asset('images/sheep_fish.png') }}" alt="">
 					<p>Разработка и поддержка сайта</p>
 				</a>
 			</div>

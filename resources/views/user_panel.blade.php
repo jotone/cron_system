@@ -1,12 +1,15 @@
 @extends('layout.default')
-
 @section('content')
+<?php
+$user = Auth::user();
+?>
 <div class="global-wrapper">
-		<!-- HEADER -->
+	<!-- HEADER -->
 	@include('layout.header')
 	<!-- /HEADER -->
 
 	<!-- MAIN -->
+	@if($user)
 	<div class="main">
 		<!-- add partials here -->
 		<section class="private-office">
@@ -49,27 +52,27 @@
 					<div class="office-content-box">
 						<div class="office-tab">
 							<a href="#" class="office-link">
-								<span class="pic"><img src="images/privat-info.png" alt=""></span>
+								<span class="pic"><img src="{{ URL::asset('images/privat-info.png') }}" alt=""></span>
 								<p>Личная информация</p>
 							</a>
 							<a href="#" class="office-link">
-								<span class="pic"><img src="images/history-buy.png" alt=""></span>
+								<span class="pic"><img src="{{ URL::asset('images/history-buy.png') }}" alt=""></span>
 								<p>История покупок</p>
 							</a>
 							<a href="#" class="office-link">
-								<span class="pic"><img src="images/status-buy.png" alt=""></span>
+								<span class="pic"><img src="{{ URL::asset('images/status-buy.png') }}" alt=""></span>
 								<p>Статус заказов</p>
 							</a>
 							<a href="#" class="office-link">
-								<span class="pic"><img src="images/change-mail.png" alt=""></span>
+								<span class="pic"><img src="{{ URL::asset('images/change-mail.png') }}" alt=""></span>
 								<p>Сменить почту</p>
 							</a>
 							<a href="#" class="office-link">
-								<span class="pic"><img src="images/change-password.png" alt=""></span>
+								<span class="pic"><img src="{{ URL::asset('images/change-password.png') }}" alt=""></span>
 								<p>Сменить пароль</p>
 							</a>
 							<a href="#" class="office-link escape">
-								<span class="pic"><img src="images/office-exit.png" alt=""></span>
+								<span class="pic"><img src="{{ URL::asset('images/office-exit.png') }}" alt=""></span>
 								<p>Выход</p>
 							</a>
 						</div>
@@ -192,6 +195,20 @@
 								<div class="title-box">
 									<h3 style="font-size: 36px">Сменить почту</h3>
 								</div>
+								<div class="user-panel-form">
+									<form action="#" class="action-form" method="POST" target="_self">
+										{{ csrf_field() }}
+										<div class="form-field">
+											<label for="loginEmail">Ваша почта</label>
+											<input type="text" id="loginEmail" name="email" value="{{ $user['email'] }}">
+										</div>
+										<div class="form-field">
+											<label for="loginPass">Чтобы сменить почту, введите ваш пароль</label>
+											<input type="password" id="loginPass" name="pass">
+										</div>
+										<input type="submit" class="button-round" value="Войти">
+									</form>
+								</div>
 							</div>
 						</div>
 
@@ -201,6 +218,7 @@
 			</div>
 		</section>
 	</div>
+	@endif
 </div>
 <!-- /MAIN -->
 

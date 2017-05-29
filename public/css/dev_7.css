@@ -478,6 +478,15 @@ ul{margin: 0; padding: 0; list-style: none;}
 	margin: 0 auto;
 	background: url("/images/lock-big.png") no-repeat center;
 }
+.user-panel-form{
+	padding: 43px 15px 25px 15px;
+	height: 615px;
+	max-width: 480px;
+	margin: 0 auto;
+}
+.user-panel-form .action-form{
+	display: block !important;
+}
 
 .enter .enter-content .enter-center h1, .enter .enter-content .enter-center h2, .enter .enter-content .enter-center h3{
 	margin-bottom: 38px;
@@ -488,10 +497,10 @@ ul{margin: 0; padding: 0; list-style: none;}
 	line-height: 37px;
 }
 
-.enter .enter-content .enter-center form{margin-bottom: 13px;}
-.enter .enter-content .enter-center form .form-field{margin-bottom: 15px;}
-.enter .enter-content .enter-center form .form-field:last-of-type{margin-bottom: 32px;}
-.enter .enter-content .enter-center form .form-field label{
+.enter .enter-content .enter-center form, .user-panel-form form{margin-bottom: 13px;}
+.enter .enter-content .enter-center form .form-field, .user-panel-form .form-field{margin-bottom: 15px;}
+.enter .enter-content .enter-center form .form-field:last-of-type, .user-panel-form .form-field:last-of-type{margin-bottom: 32px;}
+.enter .enter-content .enter-center form .form-field label, .user-panel-form .form-field label{
 	margin-bottom: 7px;
 	display: block;
 	color: dimgrey;
@@ -500,7 +509,7 @@ ul{margin: 0; padding: 0; list-style: none;}
 	line-height: 37px;
 }
 
-.enter .enter-content .enter-center form .form-field input{
+.enter .enter-content .enter-center form .form-field input, .user-panel-form .form-field input{
 	padding-left: 21px;
 	max-width: 450px;
 	width: 100%;
@@ -513,8 +522,8 @@ ul{margin: 0; padding: 0; list-style: none;}
 	line-height: 53px;
 }
 
-.enter .enter-content .enter-center form .form-field input.error{border-color: red;}
-.enter .enter-content .enter-center form .button-round{margin: 0 auto; width: 312px;}
+.enter .enter-content .enter-center form .form-field input.error, .user-panel-form .form-field input.error{border-color: red;}
+.enter .enter-content .enter-center form .button-round, .user-panel-form .button-round{margin: 0 auto; width: 312px;}
 
 .enter .enter-content .enter-center .enter-links{
 	text-align: center;
