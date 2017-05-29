@@ -196,7 +196,7 @@ $user = Auth::user();
 									<h3 style="font-size: 36px">Сменить почту</h3>
 								</div>
 								<div class="user-panel-form">
-									<form action="#" class="action-form" method="POST" target="_self">
+									<form action="{{ route('email-change') }}" class="action-form" method="POST" target="_self">
 										{{ csrf_field() }}
 										<div class="form-field">
 											<label for="loginEmail">Ваша почта</label>

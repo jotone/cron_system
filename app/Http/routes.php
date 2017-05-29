@@ -29,8 +29,18 @@ Route::get('/registration', [
 		'as'=>'registration-confirm',
 		'uses'=>'Site\AuthController@registrationConfirmPage'
 	]);
-	Route::get('/password_reset',[
-		'as'=>'password-reset-page',
+	//Смена почты
+	Route::post('/email_change',[
+		'as'=>'email-change',
+		'uses'=>'Site\AuthController@emailChange'
+	]);
+		Route::get('/email_change/{code}',[
+			'as'=>'email-change-request',
+			'uses'=>'Site\AuthController@emailChangeRequest'
+		]);
+
+	Route::post('/password_reset',[
+		'as'=>'password-reset',
 		'uses'=>'Site\AuthController@passwordResetPage'
 	]);
 

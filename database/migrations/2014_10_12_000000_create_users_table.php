@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
 			$table->string('role',32);
 			$table->boolean('activated')->unsigned();
 			$table->text('activation_code');
+			$table->text('recovery_token');
 			$table->rememberToken();
 			$table->timestamps();
 		});

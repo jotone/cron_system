@@ -19,8 +19,76 @@ class AuthController extends BaseController{
 		return view('registration');
 	}
 
-	public function passwordResetPage(){
-		return 'RESET';
+	public function emailChange(Request $request){
+		$data = $request->all();
+		$data['email'] = trim($data['email']);
+		$data['pass'] = trim($data['pass']);
+
+		$user_data = Auth::user();
+		$password = md5($user_data['email'].$data['pass']);
+		$user = User::select('id','activated')->where('email','=',$user_data['email'])->where('password','=',$password)->first();
+
+		//If user is not isset
+		if(empty($user)){
+			return redirect(route('user-panel'))->withErrors(json_encode(['message'=>'Такой пользователь не существует.']));
+		}
+
+		//If registration is not activated
+		if($user->activated == 0){
+			return redirect(route('user-panel'))->withErrors(json_encode(['message'=>'Пользователь не активирован.']));
+		}
+		var_dump($user['activation_code']);
+		$activation_code = Crypt::encrypt(json_encode([strtotime(date('Y-m-d')),$data['email'],$user_data['email']]));
+		var_dump($activation_code);
+		User::where('id','=',$user_data['id'])->update(['activation_code'=>$activation_code]);
+
+		$headers  = "Content-type: text/html; charset=utf-8 \r\n";
+		$headers .= 'From: <hello@gmail.com>'."\r\n";
+		$message = '<html>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<head><title>Смена почты на Cron System</title></head>
+			<body>
+				<p>Внимание! Не периходите по ссылке ниже, если вы не производили никаких действий по смене почты.</p>
+				<br/>
+				<p>Для подтверждения смены почты, пройдите по данной ссылке&nbsp;
+					<a href="'.base_path().'/'.route('email-change-request',$activation_code).'">'.base_path().'/'.route('email-change-request',$activation_code).'</a>
+				</p>
+				<br/>
+				<br/>
+				<p>Ссылка действительна на протяжении 10 дней.</p>
+			</body>
+		</html>';
+
+		mail($user_data['email'], 'Смена почты на Cron System', $message, $headers);
+
+		return redirect(route('user-panel'))->withErrors(json_encode([
+			'message'=>'На Ваш электронный адрес отправлен код подтверждения смены почты. Перейдите по указанной в письме ссылке.'
+		]));
+	}
+
+	public function emailChangeRequest($code){
+		$code = json_decode(Crypt::decrypt($code));
+		$date = $code[0] + 864000;
+
+		if($date <= time()){
+			//drop this user
+			return redirect(route('user-panel'))->withErrors(json_encode(['message'=>'Срок действия ссылки истек']));
+		}else{
+			$user = User::select('id')->where('email','=',$code[2])->first();
+			$result = User::where('email','=',$code[1])->count();
+			if($result > 0){
+				return redirect(route('user-panel'))->withErrors(json_encode(['message'=>'Такой пользователь уже существует.']));
+			}
+			$result = User::where('id','=',$user->id)->update(['email'=>$code[1]]);
+			if($result != false){
+				return redirect(route('user-panel'));
+			}
+		}
+	}
+
+	public function passwordResetPage(Request $request){
+		$data = $request->all();
+		dd($data);
 	}
 
 	public function addUser(Request $request){
@@ -69,7 +137,7 @@ class AuthController extends BaseController{
 			<body>
 				<p>Вы зарегистрированы!</p>
 				<br/>
-				<p>Для подтверждения регистрации пройдите по данной ссылке&nbsp;
+				<p>Осталось только подтвердить регистрацию и пререйти по ссылке&nbsp;
 					<a href="'.base_path().'/'.route('registration-confirm',$activation_code).'">'.base_path().'/'.route('registration-confirm',$activation_code).'</a>
 				</p>
 				<br/>
@@ -78,7 +146,7 @@ class AuthController extends BaseController{
 			</body>
 		</html>';
 
-		mail($data['email'], 'Registration activation code', $message, $headers);
+		mail($data['email'], 'Регистрация на Cron System', $message, $headers);
 
 		//if user created redirect home
 		return redirect(route('home'))->withErrors(json_encode([
