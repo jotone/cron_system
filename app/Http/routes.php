@@ -70,6 +70,9 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::post('/admin/users/edit',[
 			'uses'=>'Admin\UserController@editItem'
 		]);
+		Route::delete('/admin/users/drop',[
+			'uses'=>'Admin\UserController@dropItem'
+		]);
 	//Роли пользователей
 	Route::get('/admin/users/roles',[
 		'as'=>'admin-users-roles',

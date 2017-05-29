@@ -22,7 +22,7 @@ $(document).ready(function(){
 		formData.append('address', $('input[name=address]').val());
 		formData.append('correspondence', $('input[name=correspondence]').val());
 		if($('input[name=activated]').length > 0){
-			formData.append('correspondence', ($('input[name=activated]').prop('checked') == true)? 1: 0);
+			formData.append('activated', ($('input[name=activated]').prop('checked') == true)? 1: 0);
 		}
 		formData.append('role', $('select[name=role]').val());
 		formData.append('password', $('input[name=password]').val());
@@ -42,6 +42,8 @@ $(document).ready(function(){
 					data = JSON.parse(data);
 					if (data['message'] == 'success') {
 						location = '/admin/users';
+					}else if(data['message'] == 'error'){
+						alert(data['text']);
 					}
 				}catch(e){
 					showErrors(e + data, '/admin/users/edit')
@@ -50,4 +52,31 @@ $(document).ready(function(){
 		});
 	});
 
+	$('.item-list a.drop').click(function(e){
+		e.preventDefault();
+		var result = confirm('Вы действительно хотите удалить пользователя '+$(this).attr('data-title')+'?');
+		if(result){
+			var id = $(this).closest('tr').attr('data-id');
+			var _this = $(this);
+			$.ajax({
+				url:	'/admin/users/drop',
+				type:	'DELETE',
+				headers:{'X-CSRF-TOKEN': $('header').attr('data-token')},
+				data:	{id:id},
+				error:		function (jqXHR, textStatus, errorThrown) {
+					showErrors(jqXHR.responseText, '/admin/users/drop')
+				},
+				success:function(data){
+					try{
+						data = JSON.parse(data);
+						if (data['message'] == 'success') {
+							_this.closest('tr').remove();
+						}
+					}catch(e){
+						showErrors(e + data, '/admin/users/drop')
+					}
+				}
+			});
+		}
+	});
 });

@@ -100,6 +100,65 @@ class UserController extends BaseController{
 
 	public function editItem(Request $request){
 		$data = $request->all();
-		dd($data);
+		$user = Auth::user();
+		//dd($data);
+		$user_changes_password = false;
+
+		if( (isset($data['id'])) && (!empty($data['id'])) ){
+			if( ($user['role'] != 'ADM_ROLE') && ($data['role'] == 'ADM_ROLE') ){
+				return json_encode(['message'=>'error', 'text'=>'Недостаточно прав для назначения данной роли пользователя.']);
+			}
+			if(!empty(trim($data['password']))){
+				$fail = Validator::make($data, [
+					'password'			=> 'required|min:6',
+					'confirm_password'	=> 'required|same:password'
+				]);
+				if($fail->fails()){
+					return json_encode(['message'=>'error', 'text'=>'Пароль не подтвержден.']);
+				}
+				$user_changes_password = true;
+			}
+			$user_isset = User::select('id')->where('email','=',trim($data['email']))->first();
+			if($user_isset->id != $data['id']){
+				return json_encode(['message'=>'error', 'text'=>'Такой пользователь уже существует.']);
+			}
+
+			$result = User::find($data['id']);
+			$result->email			= trim($data['email']);
+			$result->name			= trim($data['name']);
+			$result->phone			= trim($data['phone']);
+			$result->org_caption	= trim($data['org_caption']);
+			$result->org_tid		= trim($data['org_tid']);
+			$result->address		= trim($data['address']);
+			$result->correspondence	= trim($data['correspondence']);
+
+			if($data['role'] != '0'){
+				$result->role		= $data['role'];
+			}
+			if(isset($data['activated'])){
+				$result->activated	= $data['activated'];
+			}
+			if($user_changes_password){
+				$password = md5(trim($data['email']).trim($data['password']));
+				$result->password	= $password;
+			}
+			$result->save();
+			if($result != false){
+				return json_encode(['message'=>'success']);
+			}
+		}
+	}
+
+	public function dropItem(Request $request){
+		$data = $request->all();
+		$user = Auth::user();
+		$user_data = User::find($data['id']);
+		if( ($user['role'] != 'ADM_ROLE') && ($user_data->role == 'ADM_ROLE') ){
+			return json_encode(['message'=>'error', 'text'=>'Недостаточно прав для удаления данного пользователя.']);
+		}
+		$result = User::where('id','=',$data['id'])->delete();
+		if($result != false){
+			return json_encode(['message'=>'success']);
+		}
 	}
 }

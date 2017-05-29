@@ -74,7 +74,7 @@
 						<select name="role" class="select-input">
 							<option value="0">Не назначена</option>
 							@foreach($roles as $role)
-								<option value="{{ $role->pseudonim }}">{{ $role->title }}</option>
+								<option value="{{ $role->pseudonim }}" @if((isset($content['role'])) && ($content['role'] == $role->pseudonim)) selected="selected" @endif>{{ $role->title }}</option>
 							@endforeach
 						</select>
 					</div>
