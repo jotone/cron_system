@@ -41,4 +41,22 @@ class HomeController extends BaseController{
 			'allow_map'		=>true
 		]);
 	}
+
+	public function brand(){
+		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		return view('brand', [
+			'top_menu'		=> $top_menu,
+			'footer_menu'	=> $footer_menu
+		]);
+	}
+
+	public function catalog(){
+		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		return view('catalog', [
+			'top_menu'		=> $top_menu,
+			'footer_menu'	=> $footer_menu
+		]);
+	}
 }

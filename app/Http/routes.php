@@ -70,13 +70,18 @@ Route::get('/about_us',[
 	'uses'=>'Site\HomeController@aboutUs'
 ]);
 
-Route::get('/contacts', [
+Route::get('/contacts',[
 	'as'=>'contacts',
 	'uses'=>'Site\HomeController@contacts'
 ]);
-Route::get('/brand', function(){
-	return view('brand');
-});
+Route::get('/brand',[
+	'as'=>'contacts',
+	'uses'=>'Site\HomeController@brand'
+]);
+Route::get('/catalog',[
+	'as'=>'contacts',
+	'uses'=>'Site\HomeController@catalog'
+]);
 
 //Authorisation
 Route::get('/admin/login', [
