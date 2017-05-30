@@ -1510,11 +1510,8 @@
 }
 .first-busket .busket-content .busket-table .table-row .product:hover .prod-name{color: #00b3ad; transition: .3s;}
 
-.second-busket{background: #dff8ff url("/images/bg-light.jpg"); padding: 39px 0 94px;}
-.second-busket.third-busket{padding: 112px 0 102px;}
-.second-busket.third-busket .buttons{padding: 26px 0;}
-.second-busket.third-busket .el-input{text-align: center;}
-.second-busket .form-table{
+.second-busket, .third-busket{background: #dff8ff url("/images/bg-light.jpg"); padding: 39px 0 94px;}
+.second-busket .form-table, .third-busket .form-table{
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -1524,34 +1521,55 @@
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 }
-.second-busket .form-table .form-col{width: 50%;}
-.second-busket .form-table .form-col:first-child .form-header{padding: 27px 96px 24px;}
-.second-busket .form-table .form-col:first-child .form-content{border-right: 1px solid #a2e1f3; padding: 38px 99px 0 96px;}
-.second-busket .form-table .form-col:last-child{width: 100%;}
-.second-busket .form-table .form-col.delivery{text-align: center;}
-.second-busket .form-table .form-col.delivery .el-radio{margin-right: 3px;}
-.second-busket .form-table .form-col.delivery .form-field{display: inline-block; padding: 0 14px 0 55px;}
-.second-busket .form-table .form-col.delivery .form-field label{
+.second-busket .form-table .form-col, .third-busket .form-table .form-col{width: 50%;}
+
+.second-busket .form-table .form-col:first-child .form-header,
+.third-busket .form-table .form-col:first-child .form-header{padding: 27px 96px 24px;}
+
+.second-busket .form-table .form-col:first-child .form-content,
+.third-busket .form-table .form-col:first-child .form-content{border-right: 1px solid #a2e1f3; padding: 38px 99px 0 96px;}
+
+.second-busket .form-table .form-col:last-child, .third-busket .form-table .form-col:last-child{width: 100%;}
+
+.second-busket .form-table .form-col.delivery, .third-busket .form-table .form-col.delivery{text-align: center;}
+
+.second-busket .form-table .form-col.delivery .el-radio,
+.third-busket .form-table .form-col.delivery .el-radio{margin-right: 3px;}
+
+.second-busket .form-table .form-col.delivery .form-field,
+.third-busket .form-table .form-col.delivery .form-field{display: inline-block; padding: 0 14px 0 55px;}
+
+.second-busket .form-table .form-col.delivery .form-field label,
+.third-busket .form-table .form-col.delivery .form-field label{
 	font-weight: 600;
 	font-size: 18px;
 	color: #696969;
 }
-.second-busket .form-table .form-col.delivery .form-field label span{
+.second-busket .form-table .form-col.delivery .form-field label span,
+.third-busket .form-table .form-col.delivery .form-field label span{
 	font-weight: 300;
 	color: #00b3ad;
 	display: inline-block;
 	margin-left: 16px;
 	letter-spacing: -.6px;
 }
-.second-busket .form-table .form-col .form-header{background: #a2e1f3; padding: 27px 78px 24px;}
-.second-busket .form-table .form-col .form-header h4, .second-busket .form-table .form-col .form-header h5, .second-busket .form-table .form-col .form-header h6{
+.second-busket .form-table .form-col .form-header,
+.third-busket .form-table .form-col .form-header{background: #a2e1f3; padding: 27px 78px 24px;}
+
+.second-busket .form-table .form-col .form-header h4,
+.second-busket .form-table .form-col .form-header h5,
+.second-busket .form-table .form-col .form-header h6,
+.third-busket .form-table .form-col .form-header h4,
+.third-busket .form-table .form-col .form-header h5,
+.third-busket .form-table .form-col .form-header h6{
 	font-weight: 600;
 	font-size: 24px;
 	color: #696969;
 	text-transform: uppercase;
 	display: inline-block;
 }
-.second-busket .form-table .form-col .form-content{
+.second-busket .form-table .form-col .form-content,
+.third-busket .form-table .form-col .form-content{
 	padding: 38px 118px 0 78px;
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -1562,16 +1580,23 @@
 	-ms-flex-pack: justify;
 	justify-content: space-between;
 }
-.second-busket .form-table .form-col .form-content .form-field{
+.second-busket .form-table .form-col .form-content .form-field,
+.third-busket .form-table .form-col .form-content .form-field{
 	width: 43%;
 	padding-bottom: 41px;
 	font-weight: 400;
 	font-size: 18px;
 	color: #696969;
 }
-.second-busket .form-table .form-col .form-content .form-field .el-input{width: 100%;}
-.second-busket .form-table .form-col .form-content .form-field p{padding-left: 23px; padding-bottom: 7px;}
-.second-busket .card-busket{
+
+.second-busket .form-table .form-col .form-content .form-field .el-input,
+.third-busket .form-table .form-col .form-content .form-field .el-input{width: 100%;}
+
+.second-busket .form-table .form-col .form-content .form-field p,
+.third-busket .form-table .form-col .form-content .form-field p{padding-left: 23px; padding-bottom: 7px;}
+
+.second-busket .card-busket,
+.third-busket .card-busket{
 	width: 761px;
 	margin: 0 auto;
 	position: relative;
@@ -1580,7 +1605,8 @@
 	display: flex;
 	padding-top: 62px;
 }
-.second-busket .card-busket:before{
+.second-busket .card-busket:before,
+.third-busket .card-busket:before{
 	content: '';
 	position: absolute;
 	top: -57px;
@@ -1589,7 +1615,8 @@
 	width: 291px;
 	height: 269px;
 }
-.second-busket .card-busket .back{
+.second-busket .card-busket .back,
+.third-busket .card-busket .back{
 	border: 3px solid #00b3ad;
 	border-radius: 11px;
 	position: absolute;
@@ -1601,7 +1628,8 @@
 	text-align: right;
 	padding-top: 120px;
 }
-.second-busket .card-busket .front{
+.second-busket .card-busket .front,
+.third-busket .card-busket .front{
 	border: 3px solid #00b3ad;
 	border-radius: 11px;
 	z-index: 2;
@@ -1625,7 +1653,8 @@
 	align-content: flex-end;
 	padding-bottom: 37px;
 }
-.second-busket .card-busket .front:after{
+.second-busket .card-busket .front:after,
+.third-busket .card-busket .front:after{
 	content: '';
 	position: absolute;
 	top: 0;
@@ -1635,7 +1664,8 @@
 	height: 211px;
 	z-index: -1;
 }
-.second-busket .card-busket .front .card-type{
+.second-busket .card-busket .front .card-type,
+.third-busket .card-busket .front .card-type{
 	font-weight: 700;
 	font-size: 24px;
 	color: #696969;
@@ -1644,13 +1674,17 @@
 	right: 36px;
 	letter-spacing: .7px;
 }
-.second-busket .card-busket .front .card-type .el-input{
+.second-busket .card-busket .front .card-type .el-input,
+.third-busket .card-busket .front .card-type .el-input{
 	width: 255px;
 	padding: 13px 5px;
 	margin-left: 5px;
 }
-.second-busket .card-busket .front .card-type p{display: inline-block;}
-.second-busket .card-busket .front .cvv-field{
+.second-busket .card-busket .front .card-type p,
+.third-busket .card-busket .front .card-type p{display: inline-block;}
+
+.second-busket .card-busket .front .cvv-field,
+.third-busket .card-busket .front .cvv-field{
 	text-align: center;
 	width: 138px;
 	font-weight: 700;
@@ -1660,8 +1694,11 @@
 	top: 66px;
 	right: -149px;
 }
-.second-busket .card-busket .front .cvv-field .el-input{width: 100%; margin-top: 10px;}
-.second-busket .card-busket .front .card-number{
+.second-busket .card-busket .front .cvv-field .el-input,
+.third-busket .card-busket .front .cvv-field .el-input{width: 100%; margin-top: 10px;}
+
+.second-busket .card-busket .front .card-number,
+.third-busket .card-busket .front .card-number{
 	width: 100%;
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -1675,8 +1712,11 @@
 	justify-content: space-between;
 	padding: 0 30px 10px;
 }
-.second-busket .card-busket .front .card-number .el-input{width: 23%;}
-.second-busket .card-busket .front .price{
+.second-busket .card-busket .front .card-number .el-input,
+.third-busket .card-busket .front .card-number .el-input{width: 23%;}
+
+.second-busket .card-busket .front .price,
+.third-busket .card-busket .front .price{
 	width: 100%;
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -1697,16 +1737,30 @@
 	align-items: baseline;
 	letter-spacing: .6px;
 }
-.second-busket .card-busket .front .price .card-time{font-weight: 700; font-size: 56px; color: #fff;}
-.second-busket .card-busket .front .price .card-time p{display: inline-block; vertical-align: bottom;}
-.second-busket .card-busket .front .price .card-time .el-input.time1{width: 45px; display: inline-block;}
-.second-busket .card-busket .front .price .card-time .el-input.time2{width: 76px; display: inline-block;}
-.second-busket .buttons{
+.second-busket .card-busket .front .price .card-time,
+.third-busket .card-busket .front .price .card-time{font-weight: 700; font-size: 56px; color: #fff;}
+
+.second-busket .card-busket .front .price .card-time p,
+.third-busket .card-busket .front .price .card-time p{display: inline-block; vertical-align: bottom;}
+
+.second-busket .card-busket .front .price .card-time .el-input.time1,
+.third-busket .card-busket .front .price .card-time .el-input.time1{width: 45px; display: inline-block;}
+
+.second-busket .card-busket .front .price .card-time .el-input.time2,
+.third-busket .card-busket .front .price .card-time .el-input.time2{width: 76px; display: inline-block;}
+
+.second-busket .buttons,
+.third-busket .buttons{
 	width: 100%;
 	max-width: 1324px;
 	margin: 0 auto;
 }
-.second-busket .buttons .continue{margin-left: 50px;}
+.second-busket .buttons .continue,
+.third-busket .buttons .continue{margin-left: 50px;}
+
+.third-busket{padding: 112px 0 102px;}
+.third-busket .buttons{padding: 26px 0;}
+.third-busket .el-input{text-align: center;}
 
 .wrap-thanks{
 	background: #dff8ff url("/images/bg-light.jpg");

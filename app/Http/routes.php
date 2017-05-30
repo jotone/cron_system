@@ -114,6 +114,10 @@ Route::get('/vacancies',[
 		'as'=>'vacancies-inner',
 		'uses'=>'Site\HomeController@vacanciesInner'
 	]);
+Route::get('/shopping_cart',[
+	'as'=>'shopping_cart',
+	'uses'=>'Site\ShoppingCartController@index'
+]);
 
 //Authorisation
 Route::get('/admin/login', [
