@@ -13,8 +13,7 @@ use Validator;
 
 class FooterMenuController extends BaseController{
 
-	public function index(Request $request)
-	{
+	public function index(Request $request){
 		$allow_access = Functions::checkAccessToPage($request->path());
 		if ($allow_access) {
 			$start = Functions::getMicrotime();

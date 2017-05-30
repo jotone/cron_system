@@ -3,7 +3,7 @@ Route::get('/', [
 	'as'=>'home',
 	'uses'=>'Site\HomeController@index'
 ]);
-
+//Логинизация
 Route::get('/login', [
 	'as'=>'login-page',
 	'uses'=>'Site\AuthController@loginPage'
@@ -16,7 +16,7 @@ Route::get('/login', [
 		'as'=>'logout',
 		'uses'=>'Site\AuthController@logout'
 	]);
-
+//Регистрация
 Route::get('/registration', [
 	'as'=>'registration-page',
 	'uses'=>'Site\AuthController@registrationPage'
@@ -47,7 +47,7 @@ Route::get('/registration', [
 			'as'=>'password-change-request',
 			'uses'=>'Site\AuthController@passwordChangeRequest'
 		]);
-
+	//Забыли пароль
 	Route::get('/password_reset',[
 		'as'=>'password-reset',
 		'uses'=>'Site\AuthController@passwordResetPage'
@@ -56,7 +56,7 @@ Route::get('/registration', [
 			'as'=>'password-reset-request',
 			'uses'=>'Site\AuthController@passwordResetRequest'
 		]);
-
+//Личный кабинет
 Route::get('/user_panel',[
 	'as'=>'user-panel',
 	'uses'=>'Site\UserController@index'
@@ -64,28 +64,32 @@ Route::get('/user_panel',[
 	Route::patch('/user_modify', [
 		'uses'=>'Site\UserController@modifyUser'
 	]);
-
+//О нас
 Route::get('/about_us',[
 	'as'=>'about-us',
 	'uses'=>'Site\HomeController@aboutUs'
 ]);
-
+//Контакная информация
 Route::get('/contacts',[
 	'as'=>'contacts',
 	'uses'=>'Site\HomeController@contacts'
 ]);
+//Бренды
 Route::get('/brand',[
 	'as'=>'brand',
 	'uses'=>'Site\HomeController@brand'
 ]);
+//Каталог
 Route::get('/catalog',[
 	'as'=>'catalog',
 	'uses'=>'Site\HomeController@catalog'
 ]);
+//Оборудование
 Route::get('/equipment',[
 	'as'=>'equipment',
 	'uses'=>'Site\HomeController@equipment'
 ]);
+//Новости
 Route::get('/news',[
 	'as'=>'news',
 	'uses'=>'Site\HomeController@news'
@@ -94,18 +98,17 @@ Route::get('/news',[
 		'as'=>'news-inner',
 		'uses'=>'Site\HomeController@newsInner'
 	]);
+//Уточнить цену
 Route::get('/request',[
 	'as'=>'request',
 	'uses'=>'Site\HomeController@request'
 ]);
+//Услуги
 Route::get('/services',[
 	'as'=>'services',
 	'uses'=>'Site\HomeController@services'
 ]);
-Route::get('/thanks',[
-	'as'=>'thanks',
-	'uses'=>'Site\HomeController@thanks'
-]);
+//Вакансии
 Route::get('/vacancies',[
 	'as'=>'vacancies',
 	'uses'=>'Site\HomeController@vacancies'
@@ -114,10 +117,15 @@ Route::get('/vacancies',[
 		'as'=>'vacancies-inner',
 		'uses'=>'Site\HomeController@vacanciesInner'
 	]);
+//Корзина
 Route::get('/shopping_cart',[
 	'as'=>'shopping_cart',
 	'uses'=>'Site\ShoppingCartController@index'
 ]);
+	Route::get('/thanks',[
+		'as'=>'thanks',
+		'uses'=>'Site\HomeController@thanks'
+	]);
 
 //Authorisation
 Route::get('/admin/login', [
@@ -207,7 +215,25 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/footer_menu/drop',[
 			'uses'=>'Admin\FooterMenuController@dropItem'
 		]);
-
+	//Новости
+	Route::get('/admin/news',[
+		'as'=>'admin-news',
+		'uses'=>'Admin\NewsController@index'
+	]);
+		Route::get('/admin/news/add',[
+			'as'=>'admin-news-add',
+			'uses'=>'Admin\NewsController@addPage'
+		]);
+		Route::get('/admin/news/edit/{id}',[
+			'as'=>'admin-news-edit',
+			'uses'=>'Admin\NewsController@editPage'
+		]);
+		Route::post('/admin/news/add',[
+			'uses'=>'Admin\NewsController@addItem'
+		]);
+		Route::delete('/admin/news/drop',[
+			'uses'=>'Admin\NewsController@dropItem'
+		]);
 
 	//Similar queries
 	Route::patch('/admin/change_enabled',[
