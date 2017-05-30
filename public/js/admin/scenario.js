@@ -199,6 +199,7 @@ $(document).ready(function(){
 
 	//Call Gallery
 	$(document).on('click','input[name=viewGallery]',function(){
+		var _this = $(this);
 		$.ajax({
 			url:	'/admin/get_all_images',
 			type:	'GET',
@@ -209,7 +210,43 @@ $(document).ready(function(){
 				try{
 					data = JSON.parse(data);
 					if(data.message == 'success'){
+						$('.overview-popup .popup-images').off('click','.image-container');
+						$('.overview-popup .popup-images').empty();
+						for(var i in data.images){
+							if(data.images[i]['used_in'].length > 0){
+								var descript = '';
+							}else{
+								var descript = '<p>Нигде не используется</p>';
+							}
 
+							$('.overview-popup .popup-images').append('<div class="image-container">' +
+								'<img src='+data.images[i]['img']+' alt="">'+descript+
+							'</div>');
+						}
+						$('.overview-popup').show();
+
+						$('.overview-popup .popup-images').on('click','.image-container', function(){
+							if(_this.closest('fieldset').find('input[name=fakeLoad]').length > 0){
+								$('.overview-popup .popup-images .image-container').removeClass('active');
+								$(this).addClass('active');
+							}else{
+								$('.overview-popup .popup-images').on('click','.image-container', function(){
+									$('.overview-popup .popup-images .image-container').toggleClass('active');
+								});
+							}
+						});
+
+						$('.overview-popup').on('click','button[name=addImageFromSaved]',function(){
+							if(_this.closest('fieldset').find('input[name=fakeLoad]').length > 0){
+                                var image = $('.overview-popup .popup-images .active img').attr('src');
+								_this.closest('fieldset').find('.upload-image-preview').empty().append('' +
+									'<img src="'+image+'" alt="" data-type="file">' +
+									'<input name="imageAlt" type="text" class="text-input col_1" placeholder="alt&hellip;">');
+							}else{
+
+							}
+                            $('.overview-popup').hide();
+						});
 					}else{
 						showErrors(data.message, '/admin/get_all_images')
 					}
@@ -219,6 +256,5 @@ $(document).ready(function(){
 			}
 		});
 	});
-
 	// /Call Gallery
 });

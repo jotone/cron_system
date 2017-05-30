@@ -18,6 +18,9 @@ class CreateNews extends Migration
 			$table->string('slug');
 			$table->text('text');
 			$table->text('img_url'); //preview
+			$table->string('meta_title');
+			$table->string('meta_description');
+			$table->string('meta_keywords');
 			$table->boolean('also_reads')->unsigned();
 			$table->integer('views')->unsigned();
 			$table->boolean('enabled')->unsigned();

@@ -1,9 +1,14 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\Brand;
 use App\FooterMenu;
+use App\News;
+use App\Products;
+use App\SocialMenu;
 use App\TopMenu;
 use App\User;
+use App\Vacancies;
 
 use App\Http\Controllers\Supply\Functions;
 use Illuminate\Http\Request;
@@ -58,15 +63,42 @@ class SimilarQueriesController extends BaseController{
 		return $all_files;
 	}
 
-	public function getAllImages(){
+	public function getAllImages($http = false){
 		$folders = [];
 		$folders = self::getFolders('img', $folders);
 
-		
+		$list = [];
+		foreach($folders as $image){
+			$used_in = [];
 
-		return json_encode([
-			'message' => 'success',
-			'folders' => $folders
-		]);
+			$images = Brand::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			foreach($images as $item) $used_in['brand'][] = $item->title;
+
+			$images = News::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			foreach($images as $item) $used_in['news'][] = $item->title;
+
+			$images = Products::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			foreach($images as $item) $used_in['products'][] = $item->title;
+
+			$images = SocialMenu::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			foreach($images as $item) $used_in['social'][] = $item->title;
+
+			$images = Vacancies::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			foreach($images as $item) $used_in['vacancies'][] = $item->title;
+
+			$list[] = [
+				'img'=> \URL::asset($image),
+				'used_in'=>$used_in
+			];
+		}
+
+		if($http){
+			return $list;
+		}else{
+			return json_encode([
+				'message'	=> 'success',
+				'images'	=> $list
+			]);
+		}
 	}
 }

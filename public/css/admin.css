@@ -77,11 +77,13 @@ footer .error-log{
 	justify-content: flex-start;
 }
 .overview-popup .image-container{
+	text-align: center;
 	position: relative;
 	padding: 3px;
 	max-height: 180px;
 	margin: 5px 0;
 	justify-content: center;
+	flex-wrap: wrap;
 	display: flex;
 	border: 2px solid transparent;
 	align-items: center;
@@ -99,7 +101,8 @@ footer .error-log{
 	content: '';
 	background-color: #449d44;
 }
-.overview-popup .image-container img{max-width: 200px; max-height: 200px; cursor: pointer;}
+.overview-popup .image-container img{max-width: 250px; max-height: 200px; cursor: pointer;}
+.overview-popup .image-container p{font-size: 12px; line-height: 26px; width: 100%;}
 
 .login-wrap{
 	width: 100%;
@@ -369,8 +372,8 @@ a.control-button img, a.button img{max-height: 20px !important;}
 .row-wrap{position: relative; margin: 10px 0;}
 .row-wrap p{line-height: 20px;}
 .page-caption{text-align: center; font-size: 24px; font-weight: bold;}
-.upload-image-preview{width: 50%;}
-.upload-image-preview img{max-height: 150px;}
+.upload-image-preview{padding: 10px;}
+.upload-image-preview img{max-height: 450px; padding: 10px;}
 
 .work-place-wrap{
 	width: 100%;
