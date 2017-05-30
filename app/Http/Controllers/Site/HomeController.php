@@ -17,8 +17,28 @@ class HomeController extends BaseController{
 		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
 		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
 		return view('home', [
-			'top_menu' => $top_menu,
-			'footer_menu' => $footer_menu
+			'top_menu'		=> $top_menu,
+			'footer_menu'	=> $footer_menu
+		]);
+	}
+
+	public function aboutUs(){
+		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		return view('about_us', [
+			'top_menu'		=> $top_menu,
+			'footer_menu'	=> $footer_menu,
+			'allow_map'		=>true
+		]);
+	}
+
+	public function contacts(){
+		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		return view('contacts', [
+			'top_menu'		=> $top_menu,
+			'footer_menu'	=> $footer_menu,
+			'allow_map'		=>true
 		]);
 	}
 }

@@ -1,17 +1,14 @@
 @extends('layout.default')
 @section('content')
-	<div class="global-wrapper">
+<div class="global-wrapper">
 		<!-- HEADER -->
 	@include('layout.header')
 	<!-- /HEADER -->
 	<!-- MAIN -->
 	<div class="main">
 		<!-- add partials here -->
-
 		<section class="contacts">
-
 			<div class="text-box">
-
 				<div class="breadcrumbs-box">
 					<div class="mbox2">
 						<ul>
@@ -24,15 +21,11 @@
 				<div class="title-box">
 					<h2>Контакты</h2>
 				</div>
-
 			</div>
 
 			<div class="map-box">
-
 				<div id='myMap'></div>
-
 				<div class="contact-box">
-
 					<ul>
 						<li>
 							<a href="tel:+74957450480">+7 (495)745-04-80</a>
@@ -52,16 +45,15 @@
 							<p>Набережная канала Грибоедова, дом 17</p>
 						</li>
 					</ul>
-
 				</div>
-
 			</div>
-
 		</section>
 
 	</div>
 	<!-- /MAIN -->
+
 	<!-- FOOTER -->
 	@include('layout.footer')
 	<!-- /FOOTER -->
+</div>
 @stop

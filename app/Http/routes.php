@@ -57,7 +57,7 @@ Route::get('/registration', [
 			'uses'=>'Site\AuthController@passwordResetRequest'
 		]);
 
-Route::get('/user_panel', [
+Route::get('/user_panel',[
 	'as'=>'user-panel',
 	'uses'=>'Site\UserController@index'
 ]);
@@ -65,12 +65,17 @@ Route::get('/user_panel', [
 		'uses'=>'Site\UserController@modifyUser'
 	]);
 
-Route::get('/about_us', function(){
-	return view('about_us', ['allow_map'=>true]);
-});
+Route::get('/about_us',[
+	'as'=>'about-us',
+	'uses'=>'Site\HomeController@aboutUs'
+]);
 
-Route::get('/contacts', function(){
-	return view('contacts', ['allow_map'=>true]);
+Route::get('/contacts', [
+	'as'=>'contacts',
+	'uses'=>'Site\HomeController@contacts'
+]);
+Route::get('/brand', function(){
+	return view('brand');
 });
 
 //Authorisation
