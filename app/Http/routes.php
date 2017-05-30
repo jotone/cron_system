@@ -98,6 +98,10 @@ Route::get('/request',[
 	'as'=>'request',
 	'uses'=>'Site\HomeController@request'
 ]);
+Route::get('/services',[
+	'as'=>'services',
+	'uses'=>'Site\HomeController@services'
+]);
 
 //Authorisation
 Route::get('/admin/login', [
