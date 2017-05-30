@@ -319,4 +319,41 @@ class AuthController extends BaseController{
 	public function passwordResetPage(){
 		return view('reset_password');
 	}
+
+	public function passwordResetRequest(Request $request){
+		$data = $request->all();
+
+		$user = User::select('id','email')->where('email','=',$data['email'])->first();
+		if(empty($user)){
+			return redirect(route('password-reset'))->withErrors(json_encode(['email'=>'Такой почты не существует.']));
+		}
+
+		$chars='1234567890abcdefghijklmnopqrstuvwxyz';
+		$max=12;
+		$size=strlen($chars)-1;
+		$password='';
+
+		while($max--) $password.=$chars[rand(0,$size)];
+
+		$pass_mail = $password;
+
+		$password = md5($user['email'].$password);
+		User::where('id','=',$user->id)->update(['password'=>$password]);
+
+		$headers  = "Content-type: text/html; charset=utf-8 \r\n";
+		$headers .= 'From: <hello@gmail.com>'."\r\n";
+		$message = '<html>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<head><title>Смена пароля на Cron System</title></head>
+			<body>
+				<p>Ваш пароль изменен</p>
+				<br/>
+				<p>Для входа используйте пароль: '.$pass_mail.'</p>
+			</body>
+		</html>';
+
+		mail($user['email'], 'Смена пароля на Cron System', $message, $headers);
+
+		return redirect(route('home'))->withErrors(json_encode(['message'=>'На Ваш электронный адрес отправлен новый пароль.']);
+	}
 }

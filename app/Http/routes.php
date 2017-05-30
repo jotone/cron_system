@@ -52,6 +52,10 @@ Route::get('/registration', [
 		'as'=>'password-reset',
 		'uses'=>'Site\AuthController@passwordResetPage'
 	]);
+		Route::post('/password_reset',[
+			'as'=>'password-reset-request',
+			'uses'=>'Site\AuthController@passwordResetRequest'
+		]);
 
 Route::get('/user_panel', [
 	'as'=>'user-panel',

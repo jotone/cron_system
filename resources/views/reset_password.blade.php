@@ -20,10 +20,11 @@ if(!empty($errors->all())){
 			<div class="enter-content">
 				<div class="enter-center">
 					<h1>Востановить пароль</h1>
-					<form action="ajax.php" name="reg-form" class="reg-form">
+					<form action="{{ route('password-reset-request') }}" name="reg-form" class="reg-form" method="POST">
+						{{ csrf_field() }}
 						<div class="form-field">
 							<label for="RecEmail">Ваша почта</label>
-							<input id="RecEmail" type="text" name="email" required />
+							<input id="RecEmail" type="text" name="email" required="required" @if(isset($err->email)) class="error" @endif>
 						</div>
 						<button type="submit" class="button-round">Отправить</button>
 					</form>
