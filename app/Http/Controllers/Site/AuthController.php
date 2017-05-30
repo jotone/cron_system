@@ -354,6 +354,6 @@ class AuthController extends BaseController{
 
 		mail($user['email'], 'Смена пароля на Cron System', $message, $headers);
 
-		return redirect(route('home'))->withErrors(json_encode(['message'=>'На Ваш электронный адрес отправлен новый пароль.']);
+		return redirect(route('home'))->withErrors(json_encode(['message'=>'На Ваш электронный адрес отправлен новый пароль.']));
 	}
 }
