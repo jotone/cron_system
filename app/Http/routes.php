@@ -86,6 +86,10 @@ Route::get('/equipment',[
 	'as'=>'equipment',
 	'uses'=>'Site\HomeController@equipment'
 ]);
+Route::get('/news',[
+	'as'=>'news',
+	'uses'=>'Site\HomeController@news'
+]);
 
 //Authorisation
 Route::get('/admin/login', [
