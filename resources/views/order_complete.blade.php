@@ -11,7 +11,7 @@
 		<div class="breadcrumbs">
 			<div class="mbox2">
 				<ul class="breadcrumbs-list">
-					<li><a href="index.html">Главная</a></li>
+					<li><a href="{{ route('home') }}">Главная</a></li>
 					<li><a href="#">This Page</a></li>
 				</ul>
 			</div>
@@ -21,7 +21,7 @@
 				<div class="thanks">
 					<h2>Спасибо!</h2>
 					<p>Ваш заказ оформлен.</p>
-					<a href="index.html" class="to-main">На главную<span></span></a>
+					<a href="{{ route('home') }}" class="to-main">На главную<span></span></a>
 				</div>
 			</div>
 		</section>

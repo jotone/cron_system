@@ -27,7 +27,7 @@ $user = Auth::user();
 		<div class="mbox2">
 			<div class="wrapper">
 				<div class="logo">
-					<a href="index.html"><img src="{{ URL::asset('images/logo-wh.png') }}" alt=""></a>
+					<a href="{{ route('home') }}"><img src="{{ URL::asset('images/logo-wh.png') }}" alt=""></a>
 				</div>
 				<div class="right-header">
 					<a href="#" class="header-burger"><span></span></a>

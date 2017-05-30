@@ -35,7 +35,7 @@
 <script>
 	var removing_from_busket = "ajax.php";
 	var show_more = "ajax.php";
-	var mapMarker = "../images/marker-map.png";
+	var mapMarker = "/images/marker-map.png";
 	var coordinateMarkerY = 59.9364148;
 	var coordinateMarkerX = 30.32613850000007;
 	var mapCenterY = 59.936994264526696;

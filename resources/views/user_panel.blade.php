@@ -16,8 +16,8 @@ $user = Auth::user();
 			<div class="mbox2">
 				<div class="breadcrumbs-box">
 					<ul>
-						<li><a href="index.html">Главная</a></li>
-						<li><a href="private_office.html">Личный кабинет</a></li>
+						<li><a href="{{ route('home) }}">Главная</a></li>
+						<li><a href="{{ route('user-panel') }}">Личный кабинет</a></li>
 					</ul>
 				</div>
 

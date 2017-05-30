@@ -13,7 +13,7 @@
 				<div class="mbox2">
 					<div class="breadcrumbs-inner">
 						<ul class="breadcrumbs-list">
-							<li><a href="index.html">Главная</a></li>
+							<li><a href="{{ route('home') }}">Главная</a></li>
 							<li><a href="#">This Page</a></li>
 						</ul>
 						<form action="ajax.php" name="brandFilters" class="brand-filters">
@@ -41,7 +41,7 @@
 				<div class="brand-items">
 					<div class="product-item">
 						<div class="pic">
-							<img src="images/Office365.jpg" alt="">
+							<img src="{{ URL::asset('images/Office365.jpg') }}" alt="">
 						</div>
 						<div class="name">
 							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
@@ -55,7 +55,7 @@
 					</div>
 					<div class="product-item">
 						<div class="pic">
-							<img src="images/OfficePro2013.jpg" alt="">
+							<img src="{{ URL::asset('images/OfficePro2013.jpg') }}" alt="">
 						</div>
 						<div class="name">
 							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
@@ -64,12 +64,12 @@
 								montes, nascetur ridiculus mus.</p>
 						</div>
 						<div class="price">
-							<a href="catalog.html" class="button-invers">КАТАЛОГ</a>
+							<a href="#" class="button-invers">КАТАЛОГ</a>
 						</div>
 					</div>
 					<div class="product-item">
 						<div class="pic">
-							<img src="images/OfficeHome2016.jpg" alt="">
+							<img src="{{ URL::asset('images/OfficeHome2016.jpg') }}" alt="">
 						</div>
 						<div class="name">
 							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
@@ -78,12 +78,12 @@
 								montes, nascetur ridiculus mus.</p>
 						</div>
 						<div class="price">
-							<a href="catalog.html" class="button-invers">КАТАЛОГ</a>
+							<a href="#" class="button-invers">КАТАЛОГ</a>
 						</div>
 					</div>
 					<div class="product-item">
 						<div class="pic">
-							<img src="images/OfficeBussines2016.jpg" alt="">
+							<img src="{{ URL::asset('images/OfficeBussines2016.jpg') }}" alt="">
 						</div>
 						<div class="name">
 							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
@@ -92,12 +92,12 @@
 								montes, nascetur ridiculus mus.</p>
 						</div>
 						<div class="price">
-							<a href="catalog.html" class="button-invers">КАТАЛОГ</a>
+							<a href="#" class="button-invers">КАТАЛОГ</a>
 						</div>
 					</div>
 					<div class="product-item">
 						<div class="pic">
-							<img src="images/Office2016.jpg" alt="">
+							<img src="{{ URL::asset('images/Office2016.jpg') }}" alt="">
 						</div>
 						<div class="name">
 							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
@@ -106,12 +106,12 @@
 								montes, nascetur ridiculus mus.</p>
 						</div>
 						<div class="price">
-							<a href="catalog.html" class="button-invers">КАТАЛОГ</a>
+							<a href="#" class="button-invers">КАТАЛОГ</a>
 						</div>
 					</div>
 					<div class="product-item">
 						<div class="pic">
-							<img src="images/WinServer2012.jpg" alt="">
+							<img src="{{ URL::asset('images/WinServer2012.jpg') }}" alt="">
 						</div>
 						<div class="name">
 							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
@@ -120,12 +120,12 @@
 								montes, nascetur ridiculus mus.</p>
 						</div>
 						<div class="price">
-							<a href="catalog.html" class="button-invers">КАТАЛОГ</a>
+							<a href="#" class="button-invers">КАТАЛОГ</a>
 						</div>
 					</div>
 					<div class="product-item">
 						<div class="pic">
-							<img src="images/Office2007.jpg" alt="">
+							<img src="{{ URL::asset('images/Office2007.jpg') }}" alt="">
 						</div>
 						<div class="name">
 							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
@@ -134,12 +134,12 @@
 								montes, nascetur ridiculus mus.</p>
 						</div>
 						<div class="price">
-							<a href="catalog.html" class="button-invers">КАТАЛОГ</a>
+							<a href="#" class="button-invers">КАТАЛОГ</a>
 						</div>
 					</div>
 					<div class="product-item">
 						<div class="pic">
-							<img src="images/WinXP.jpg" alt="">
+							<img src="{{ URL::asset('images/WinXP.jpg') }}" alt="">
 						</div>
 						<div class="name">
 							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
@@ -148,7 +148,7 @@
 								montes, nascetur ridiculus mus.</p>
 						</div>
 						<div class="price">
-							<a href="catalog.html" class="button-invers">КАТАЛОГ</a>
+							<a href="#" class="button-invers">КАТАЛОГ</a>
 						</div>
 					</div>
 				</div>

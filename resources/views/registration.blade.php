@@ -13,8 +13,8 @@ if(!empty($errors->all())){
 		<!-- add partials here -->
 		<section class="enter">
 			<div class="enter-top">
-				<a href="index.html" class="enter-logo">
-					<img src="images/logo-big.png" alt="">
+				<a href="{{ route('home') }}" class="enter-logo">
+					<img src="{{ URL::asset('images/logo-big.png') }}" alt="">
 				</a>
 			</div>
 			<div class="enter-content">

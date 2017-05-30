@@ -12,7 +12,7 @@
 				<div class="breadcrumbs-box">
 					<div class="mbox2">
 						<ul>
-							<li><a href="index.html">Главная</a></li>
+							<li><a href="{{ route('home') }}">Главная</a></li>
 							<li>О Компании</li>
 						</ul>
 					</div>

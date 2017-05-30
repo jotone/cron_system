@@ -1,6 +1,6 @@
 @extends('layout.default')
 @section('content')
-	<div class="global-wrapper">
+<div class="global-wrapper">
 		<!-- HEADER -->
 	@include('layout.header')
 	<!-- /HEADER -->
@@ -13,7 +13,7 @@
 				<div class="mbox2">
 					<div class="breadcrumbs-inner">
 						<ul class="breadcrumbs-list">
-							<li><a href="index.html">Главная</a></li>
+							<li><a href="{{ route('home') }}">Главная</a></li>
 							<li><a href="#">This Page</a></li>
 						</ul>
 						<form action="ajax.php" name="brandFilters" class="brand-filters">
@@ -70,7 +70,7 @@
 								<div class="filter-checkbox-inner">
 									<div class="filter-search">
 										<input type="text" class="search-input" placeholder="Поиск...">
-										<button type="submit"><img src="images/search.png" alt=""></button>
+										<button type="submit"><img src="{{ URL::asset('images/search.png') }}" alt=""></button>
 									</div>
 									<div class="checkbox-list-wrap">
 										<ul class="checkbox-list js-scrollpane">
@@ -171,7 +171,7 @@
 						<div class="products">
 							<div class="product-item hot-item">
 								<div class="pic">
-									<img src="images/windows.png" alt="">
+									<img src="{{ URL::asset('images/windows.png') }}" alt="">
 									<div class="hot">hot</div>
 								</div>
 								<div class="name">
@@ -188,7 +188,7 @@
 							</div>
 							<div class="product-item hot-item">
 								<div class="pic">
-									<img src="images/photoshop.png" alt="">
+									<img src="{{ URL::asset('images/photoshop.png') }}" alt="">
 									<div class="hot">hot</div>
 								</div>
 								<div class="name">
@@ -205,7 +205,7 @@
 							</div>
 							<div class="product-item hot-item">
 								<div class="pic">
-									<img src="images/drweb.png" alt="">
+									<img src="{{ URL::asset('images/drweb.png') }}" alt="">
 									<div class="hot">hot</div>
 								</div>
 								<div class="name">
@@ -222,7 +222,7 @@
 							</div>
 							<div class="product-item hot-item">
 								<div class="pic">
-									<img src="images/adobe.png" alt="">
+									<img src="{{ URL::asset('images/adobe.png') }}" alt="">
 									<div class="hot">hot</div>
 								</div>
 								<div class="name">
@@ -239,7 +239,7 @@
 							</div>
 							<div class="product-item hot-item">
 								<div class="pic">
-									<img src="images/illustrator.png" alt="">
+									<img src="{{ URL::asset('images/illustrator.png') }}" alt="">
 									<div class="hot">hot</div>
 								</div>
 								<div class="name">
@@ -256,7 +256,7 @@
 							</div>
 							<div class="product-item hot-item">
 								<div class="pic">
-									<img src="images/indesign.png" alt="">
+									<img src="{{ URL::asset('images/indesign.png') }}" alt="">
 									<div class="hot">hot</div>
 								</div>
 								<div class="name">
@@ -273,7 +273,7 @@
 							</div>
 							<div class="product-item hot-item">
 								<div class="pic">
-									<img src="images/microsoft.png" alt="">
+									<img src="{{ URL::asset('images/microsoft.png') }}" alt="">
 									<div class="hot">hot</div>
 								</div>
 								<div class="name">
@@ -290,7 +290,7 @@
 							</div>
 							<div class="product-item hot-item">
 								<div class="pic">
-									<img src="images/kaspersky.png" alt="">
+									<img src="{{ URL::asset('images/kaspersky.png') }}" alt="">
 									<div class="hot">hot</div>
 								</div>
 								<div class="name">

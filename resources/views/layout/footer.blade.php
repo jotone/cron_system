@@ -2,11 +2,11 @@
 <footer class="footer">
 	<div class="mbox3">
 		<div class="footer-row">
-			<div class="logo"><a href="index.html"><img src="images/logo-bk.png" alt=""></a></div>
+			<div class="logo"><a href="{{ route('home') }}"><img src="{{ URL::asset('images/logo-bk.png') }}" alt=""></a></div>
 			<div class="socials">
-				<a href="#"><img src="images/vk.png" alt=""></a>
-				<a href="#"><img src="images/fb.png" alt=""></a>
-				<a href="#"><img src="images/gg.png" alt=""></a>
+				<a href="#"><img src="{{ URL::asset('images/vk.png') }}" alt=""></a>
+				<a href="#"><img src="{{ URL::asset('images/fb.png') }}" alt=""></a>
+				<a href="#"><img src="{{ URL::asset('images/gg.png') }}" alt=""></a>
 			</div>
 		</div>
 		<div class="footer-row">

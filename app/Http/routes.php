@@ -75,12 +75,16 @@ Route::get('/contacts',[
 	'uses'=>'Site\HomeController@contacts'
 ]);
 Route::get('/brand',[
-	'as'=>'contacts',
+	'as'=>'brand',
 	'uses'=>'Site\HomeController@brand'
 ]);
 Route::get('/catalog',[
-	'as'=>'contacts',
+	'as'=>'catalog',
 	'uses'=>'Site\HomeController@catalog'
+]);
+Route::get('/equipment',[
+	'as'=>'equipment',
+	'uses'=>'Site\HomeController@equipment'
 ]);
 
 //Authorisation
