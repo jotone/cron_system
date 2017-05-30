@@ -43,8 +43,12 @@ Route::get('/registration', [
 		'as'=>'password-change',
 		'uses'=>'Site\AuthController@passwordChange'
 	]);
+		Route::get('/password_change/{code}',[
+			'as'=>'password-change-request',
+			'uses'=>'Site\AuthController@passwordChangeRequest'
+		]);
 
-	Route::post('/password_reset',[
+	Route::get('/password_reset',[
 		'as'=>'password-reset',
 		'uses'=>'Site\AuthController@passwordResetPage'
 	]);

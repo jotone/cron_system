@@ -137,7 +137,19 @@ function validationCallPatchMethod(form){
         headers:{'X-CSRF-TOKEN':$(form).find('input[name=_token]').val()},
 		type:	'PATCH',
 		success:function(data){
-			console.log(data);
+			data = JSON.parse(data);
+			if(data.message.length > 0){
+				if(data.message == 'success'){
+					alert(data.text);
+				}
+			}else if(data.error.length > 0){
+				switch(data.type){
+					case 'old_password': $('.change-pass-form input[name=old_password]').addClass('error'); alert(data.error); break;
+					case 'not_activated': alert(data.error); break;
+					case 'new_password': $('.change-pass-form input[name=new_password]').addClass('error'); alert(data.error); break;
+					case 'conf_password': $('.change-pass-form input[name=conf_new_password]').addClass('error'); alert(data.error); break;
+				}
+			}
 		}
 	});
 }

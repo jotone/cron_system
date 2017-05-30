@@ -207,7 +207,7 @@ $user = Auth::user();
 											<label for="loginPass">Чтобы сменить почту, введите ваш пароль</label>
 											<input type="password" id="loginPass" name="password">
 										</div>
-										<input type="submit" class="button-round" value="Войти">
+										<input type="submit" class="button-round" value="Сменить">
 									</form>
 								</div>
 							</div>
@@ -234,7 +234,7 @@ $user = Auth::user();
 											<label for="loginPass">Подтвердите новый пароль</label>
 											<input type="password" name="conf_new_password" required="required">
 										</div>
-										<input type="submit" class="button-round" value="Войти">
+										<input type="submit" class="button-round" value="Сменить">
 									</form>
 								</div>
 							</div>

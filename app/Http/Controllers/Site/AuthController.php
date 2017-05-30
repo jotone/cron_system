@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\EmailResets;
+use App\PasswordResets;
 use App\User;
 
 use Illuminate\Http\Request;
@@ -18,6 +19,134 @@ class AuthController extends BaseController{
 
 	public function registrationPage(){
 		return view('registration');
+	}
+
+	public function registrationConfirmPage($code){
+		$code = unserialize(Crypt::decrypt($code));
+		$date = $code[0] + 864000;
+		$email = base64_decode($code[1]);
+		//if expire date is failed
+		if($date <= time()){
+			//drop this user
+			User::where('email','=',$email)->delete();
+			return view('registration_failed');
+		}else{
+			$user = User::select('id')->where('email','=',$email)->first();
+			$auth = Auth::loginUsingId($user->id);
+			if(!$auth){
+				User::where('email','=',$email)->delete();
+				return view('registration_failed');
+			}else{
+				User::where('id','=',$user->id)->update(['activated'=>1]);
+				return redirect(route('home'));
+			}
+		}
+	}
+
+	public function login(Request $request){
+		$data = $request->all();
+
+		$data['email'] = trim($data['email']);
+		$data['pass'] = trim($data['pass']);
+
+		//Validate login data
+		$fail = Validator::make($data, [
+			'email'		=> 'required|min:5|max:255|email',
+			'pass'		=> 'required|min:6',
+		]);
+
+		//If validation failed redirect with errors
+		if($fail->fails()){
+			return redirect(route('login-page'))->withErrors(json_encode($fail->errors()));
+		}
+
+		$password = md5($data['email'].$data['pass']);
+		$user = User::select('id','activated')->where('email','=',$data['email'])->where('password','=',$password)->first();
+
+		//If user is not isset
+		if(empty($user)){
+			return redirect(route('login-page'))->withErrors(json_encode(['message'=>'Такой пользователь не существует.']));
+		}
+
+		//If registration is not activated
+		if($user->activated == 0){
+			return redirect(route('login-page'))->withErrors(json_encode(['message'=>'Пользователь не активирован.']));
+		}
+
+		$auth = Auth::loginUsingId($user->id);
+		//If authentication is failed
+		if(!$auth){
+			return redirect(route('login-page'))->withErrors(json_encode(['message'=>'Сбой аутентификации. Обратитесь к администратору сайта.']));
+		}
+		return redirect(route('home'));
+	}
+
+	public function logout(){
+		Auth::logout();
+		return redirect(route('home'));
+	}
+
+	public function addUser(Request $request){
+		$data = $request->all();
+
+		$data['email'] = trim($data['email']);
+		$data['pass'] = trim($data['pass']);
+		$data['confimPass'] = trim($data['confimPass']);
+
+		//User already isset
+		$user_isset = User::select('email')->where('email','=',$data['email'])->count();
+		//Send error
+		if($user_isset > 0){
+			return redirect(route('registration-page'))->withErrors(json_encode(['user_isset'=>'']));
+		}
+
+		//Validate registration data
+		$fail = Validator::make($data, [
+			'email'		=> 'required|min:5|max:255|email',
+			'pass'		=> 'required|min:6',
+			'confimPass'=> 'required|same:pass'
+		]);
+		//Send Validation errors
+		if($fail->fails()){
+			return redirect(route('registration-page'))->withErrors(json_encode($fail->errors()));
+		}
+
+		//If allright
+		$password = md5($data['email'].$data['pass']);
+		$activation_code = Crypt::encrypt(serialize([strtotime(date('Y-m-d')),base64_encode($data['email'])]));
+		//Create user
+		User::create([
+			'email' => $data['email'],
+			'password' => $password,
+			'role' => '',
+			'activated' => 0,
+			'activation_code' => $activation_code
+		]);
+
+		//Send Letter to user with registration activation code
+		$headers  = "Content-type: text/html; charset=utf-8 \r\n";
+		$headers .= 'From: <hello@gmail.com>'."\r\n";
+		$message = '<html>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<head><title>Регистрация на Cron System</title></head>
+			<body>
+				<p>Вы зарегистрированы!</p>
+				<br/>
+				<p>Осталось только подтвердить регистрацию и пререйти по ссылке&nbsp;
+					<a href="'.base_path().'/'.route('registration-confirm',$activation_code).'">'.base_path().'/'.route('registration-confirm',$activation_code).'</a>
+				</p>
+				<br/>
+				<br/>
+				<p>Ссылка действительна на протяжении 10 дней.</p>
+			</body>
+		</html>';
+
+		mail($data['email'], 'Регистрация на Cron System', $message, $headers);
+
+		//if user created redirect home
+		return redirect(route('home'))->withErrors(json_encode([
+			'message'=>'Теперь Вы зарегистрированы. На Ваш электронный адрес отправлен код подтверждения регистрации. Перейдите по указанной в письме ссылке.'
+		]));
 	}
 
 	public function emailChange(Request $request){
@@ -125,63 +254,26 @@ class AuthController extends BaseController{
 			return json_encode(['error'=>'Пароль должен быть не короче 6-ти символов.','type'=>'new_password']);
 		}
 		if($data['new_password'] != $data['conf_new_password']){
-			return json_encode(['error'=>'Пароль подтвержден не верно.']);
-		}
-	}
-
-	public function passwordResetPage(Request $request){
-		$data = $request->all();
-		dd($data);
-	}
-
-	public function addUser(Request $request){
-		$data = $request->all();
-
-		$data['email'] = trim($data['email']);
-		$data['pass'] = trim($data['pass']);
-		$data['confimPass'] = trim($data['confimPass']);
-
-		//User already isset
-		$user_isset = User::select('email')->where('email','=',$data['email'])->count();
-		//Send error
-		if($user_isset > 0){
-			return redirect(route('registration-page'))->withErrors(json_encode(['user_isset'=>'']));
+			return json_encode(['error'=>'Пароль подтвержден не верно.','type'=>'conf_password']);
 		}
 
-		//Validate registration data
-		$fail = Validator::make($data, [
-			'email'		=> 'required|min:5|max:255|email',
-			'pass'		=> 'required|min:6',
-			'confimPass'=> 'required|same:pass'
+		$password_reset = PasswordResets::create([
+			'user_id'	=> $user['id'],
+			'token'		=> $data['new_password'],
 		]);
-		//Send Validation errors
-		if($fail->fails()){
-			return redirect(route('registration-page'))->withErrors(json_encode($fail->errors()));
-		}
+		$activation_code = Crypt::encrypt(json_encode($password_reset->id));
+		User::where('id','=',$user['id'])->update(['recovery_token'=>$activation_code]);
 
-		//If allright
-		$password = md5($data['email'].$data['pass']);
-		$activation_code = Crypt::encrypt(serialize([strtotime(date('Y-m-d')),base64_encode($data['email'])]));
-		//Create user
-		User::create([
-			'email' => $data['email'],
-			'password' => $password,
-			'role' => '',
-			'activated' => 0,
-			'activation_code' => $activation_code
-		]);
-
-		//Send Letter to user with registration activation code
 		$headers  = "Content-type: text/html; charset=utf-8 \r\n";
 		$headers .= 'From: <hello@gmail.com>'."\r\n";
 		$message = '<html>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-			<head><title>Регистрация на Cron System</title></head>
+			<head><title>Смена пароля на Cron System</title></head>
 			<body>
-				<p>Вы зарегистрированы!</p>
+				<p>Внимание! Не периходите по ссылке ниже, если вы не производили никаких действий по смене пароля.</p>
 				<br/>
-				<p>Осталось только подтвердить регистрацию и пререйти по ссылке&nbsp;
-					<a href="'.base_path().'/'.route('registration-confirm',$activation_code).'">'.base_path().'/'.route('registration-confirm',$activation_code).'</a>
+				<p>Для подтверждения смены пароля, пройдите по данной ссылке&nbsp;
+					<a href="'.base_path().'/'.route('email-change-request',$activation_code).'">'.base_path().'/'.route('email-change-request',$activation_code).'</a>
 				</p>
 				<br/>
 				<br/>
@@ -189,76 +281,42 @@ class AuthController extends BaseController{
 			</body>
 		</html>';
 
-		mail($data['email'], 'Регистрация на Cron System', $message, $headers);
+		mail($user['email'], 'Смена пароля на Cron System', $message, $headers);
 
-		//if user created redirect home
-		return redirect(route('home'))->withErrors(json_encode([
-			'message'=>'Теперь Вы зарегистрированы. На Ваш электронный адрес отправлен код подтверждения регистрации. Перейдите по указанной в письме ссылке.'
-		]));
+		return json_encode([
+			'message'=>'success',
+			'text'=>'На Ваш электронный адрес отправлен код подтверждения смены пароля. Перейдите по указанной в письме ссылке.'
+		]);
 	}
 
-	public function registrationConfirmPage($code){
-		$code = unserialize(Crypt::decrypt($code));
-		$date = $code[0] + 864000;
-		$email = base64_decode($code[1]);
-		//if expire date is failed
+	public function passwordChangeRequest($code){
+		$code = json_decode(Crypt::decrypt($code));
+		$pass_reset = PasswordResets::find($code);
+		if(!$pass_reset){
+			return redirect(route('user-panel'))->withErrors(json_encode(['message'=>'Срок действия ссылки истек']));
+		}
+
+		$date = strtotime($pass_reset->created_at) + 864000;
 		if($date <= time()){
-			//drop this user
-			User::where('email','=',$email)->delete();
-			return view('registration_failed');
+			return redirect(route('user-panel'))->withErrors(json_encode(['message'=>'Срок действия ссылки истек']));
 		}else{
-			$user = User::select('id')->where('email','=',$email)->first();
-			$auth = Auth::loginUsingId($user->id);
-			if(!$auth){
-				User::where('email','=',$email)->delete();
-				return view('registration_failed');
-			}else{
-				User::where('id','=',$user->id)->update(['activated'=>1]);
-				return redirect(route('home'));
+			$user = User::find($pass_reset->user_id);
+
+			if(empty($user)){
+				return redirect(route('user-panel'))->withErrors(json_encode(['message'=>'Такого пользователя не существует.']));
+			}
+			$password = md5($user->email.$pass_reset->token);
+
+			$result = User::where('id','=',$user->id)->update(['password'=>$password]);
+			PasswordResets::where('id','=',$pass_reset->id)->delete();
+			PasswordResets::where('user_id','=',$pass_reset->user_id)->delete();
+			if($result != false){
+				return redirect(route('user-panel'));
 			}
 		}
 	}
 
-	public function login(Request $request){
-		$data = $request->all();
-
-		$data['email'] = trim($data['email']);
-		$data['pass'] = trim($data['pass']);
-
-		//Validate login data
-		$fail = Validator::make($data, [
-			'email'		=> 'required|min:5|max:255|email',
-			'pass'		=> 'required|min:6',
-		]);
-
-		//If validation failed redirect with errors
-		if($fail->fails()){
-			return redirect(route('login-page'))->withErrors(json_encode($fail->errors()));
-		}
-
-		$password = md5($data['email'].$data['pass']);
-		$user = User::select('id','activated')->where('email','=',$data['email'])->where('password','=',$password)->first();
-
-		//If user is not isset
-		if(empty($user)){
-			return redirect(route('login-page'))->withErrors(json_encode(['message'=>'Такой пользователь не существует.']));
-		}
-
-		//If registration is not activated
-		if($user->activated == 0){
-			return redirect(route('login-page'))->withErrors(json_encode(['message'=>'Пользователь не активирован.']));
-		}
-
-		$auth = Auth::loginUsingId($user->id);
-		//If authentication is failed
-		if(!$auth){
-			return redirect(route('login-page'))->withErrors(json_encode(['message'=>'Сбой аутентификации. Обратитесь к администратору сайта.']));
-		}
-		return redirect(route('home'));
-	}
-
-	public function logout(){
-		Auth::logout();
-		return redirect(route('home'));
+	public function passwordResetPage(){
+		return view('reset_password');
 	}
 }
