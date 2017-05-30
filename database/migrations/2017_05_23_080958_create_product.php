@@ -21,7 +21,6 @@ class CreateProduct extends Migration
 			$table->float('price');
 			$table->integer('refer_to_category')->unsigned();
 			$table->integer('refer_to_brand')->unsigned();
-			$table->integer('refer_to_promo')->unsigned();
 			$table->tinyInteger('rating')->unsigned();
 			$table->boolean('is_hot')->unsigned();
 			$table->integer('views')->unsigned();

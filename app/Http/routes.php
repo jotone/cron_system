@@ -236,6 +236,9 @@ Route::group(['middleware' => 'admin'], function(){
 		]);
 
 	//Similar queries
+	Route::get('/admin/get_all_images',[
+		'uses'=>'Admin\SimilarQueriesController@getAllImages'
+	]);
 	Route::patch('/admin/change_enabled',[
 		'uses'=>'Admin\SimilarQueriesController@changeEnabled'
 	]);

@@ -48,13 +48,6 @@ function str2url(str){
 	return str;
 }
 
-function str2urlUpperCase(str){
-	str = rus2translit(str);
-	str = str.toUpperCase();
-	str = str.replace(/[^-A-Z0-9_\.\#]/g, '_');
-	return str;
-}
-
 function showErrors(data, url){
 	$('.error-popup .popup-caption span').html('&quot;'+url+'&quot;');
 	$('.error-popup .error-wrap').html(data);
@@ -73,6 +66,7 @@ function buildFixedNavMenu(){
 		goTo('fieldset[data-link='+link+']');
 	});
 }
+
 function addTelMask(){
 	$(document).find('.needPhoneMask').mask('0 (000) 000-00-00', {
 		placeholder: '_ (___) __-__-__',
@@ -86,51 +80,6 @@ function resortSliderWrap(_this){
 	});
 	_this.closest('.slider-wrap').find('.slider-images-wrap').find('.image-wrap').each(function(){
 		$(this).attr('data-position', $(this).index());
-	});
-}
-
-function caseImageInOverviewPopup(_this){
-	$('.overview-popup .image-container').click(function(){
-		$(this).toggleClass('active');
-	});
-	$('.overview-popup').off('click','button[name=addImageFromSaved]');
-	$('.overview-popup').on('click','button[name=addImageFromSaved]', function(){
-		var point = 0;
-		$('.overview-popup .popup-images .active').each(function(){
-			var imageSrc	= $(this).find('img').attr('alt');
-			var imageCaption= imageSrc.split('/');
-
-			imageCaption = imageCaption[imageCaption.length -1];
-			imageSrc = (imageSrc.substr(0,1) != '/')? '/'+imageSrc: imageSrc;
-
-			_this.closest('.slider-wrap').find('.slider-images-wrap').append('' +
-				'<div class="image-wrap" data-position="'+point+'">' +
-				'<img src="'+imageSrc+'" alt="">' +
-				'<div class="attributes-wrap">' +
-				'<input name="altText" type="text" class="text-input" placeholder="Альтернативный текст&hellip;" style="width: 90%;">' +
-				'<a href="#" class="drop-image button" title="Удалить">' +
-				'<img src="/img/drop.png" alt="">' +
-				'</a>' +
-				'</div>' +
-				'</div>');
-			_this.closest('.slider-wrap').find('.slider-list-wrap').append('' +
-				'<div class="slider-content-element" data-position="'+point+'">' +
-				'<div class="element-title">'+imageCaption+'</div>' +
-				'<div class="element-size"></div>' +
-				'<div class="element-image">' +
-				'<img src="'+imageSrc+'" alt="">' +
-				'</div>' +
-				'<div class="element-alt"></div>' +
-				'<div class="element-drop">' +
-				'<img src="/img/drop.png" alt="Удалить" title="Удалить">' +
-				'	</div>' +
-				'</div>');
-			point++
-		});
-		_this.closest('.slider-wrap').find('.slider-images-wrap .image-wrap').removeClass('active');
-		_this.closest('.slider-wrap').find('.slider-images-wrap .image-wrap:first').addClass('active');
-		resortSliderWrap(_this);
-		$('.overview-popup').hide();
 	});
 }
 
@@ -184,6 +133,13 @@ function getRequest(){
 	return params;
 }
 
+function autoSlug(){
+	$(document).on('keyup', 'input[name=title], input[name=slug]', function(){
+		var str = str2url($(this).val());
+		$(document).find('input[name=slug]').val(str);
+	});
+}
+
 $(document).ready(function(){
 	$('footer .error-log').click(function(){
 		$('.error-popup').show();
@@ -217,222 +173,52 @@ $(document).ready(function(){
 	$.datepicker.setDefaults($.datepicker.regional['ru']);
 	$('.needDatePicker').datepicker();
 
-	/*//Autoslug
-	$(document).on('keyup', 'input[name=title], input[name=slug]', function(){
-		var str = str2url($(this).val());
-		$(document).find('input[name=slug]').val(str);
-	});
-	// /Autoslug*/
-
-	/*//Custom fields table
-	$(document).on('click','input[name=addRowToTable]', function(){
-		var colCount = $(this).closest('fieldset').find('.item-list').find('tr th').length;
-		var tag = '<tr>';
-		for(var i=0; i<colCount; i++){
-			if(i==0){
-				tag += '<td><a href="#" class="drop-row block-button" title="Удалить"><img src="/img/drop.png" alt=""></a></td>';
-			}else{
-				tag += '<td><input name="tableBody" type="text" class="text-input" placeholder="Содержимое ячейки&hellip;"></td>';
-			}
-		}
-		tag += '</tr>';
-		$(this).closest('fieldset').find('.item-list').find('tbody').append(tag);
-	});
-
-	$(document).on('click', 'a.drop-row', function(e){
-		e.preventDefault();
-		$(this).closest('tr').remove();
-	});
-	// /Custom fields table
-
+	//Single Image Loader
 	$(document).on('click','input[name=fakeLoad]',function(){
 		$(this).closest('fieldset').find('input[name=imageLoader]').trigger('click');
 	});
+
 	$(document).on('change','input[name=imageLoader]',function(){
 		var addName = (typeof $(this).closest('fieldset').attr('data-name') != 'undefined')? '_'+$(this).closest('fieldset').attr('data-name'): '';
-
 		var reader = new FileReader();
 		var _this = $(this);
 		reader.onload = function(e){
-			_this.closest('fieldset').find('.upload-image-preview').empty().append('<img src="'+e.target.result+'" alt="">').attr('data-cleared','0');
+			_this.closest('fieldset').find('.upload-image-preview').empty().append('' +
+				'<img src="'+e.target.result+'" alt="" data-type="upload">' +
+				'<input name="imageAlt" type="text" class="text-input col_1" placeholder="alt&hellip;">');
 			formData.append('image'+addName, _this.prop('files')[0]);
-		}
+		};
 		reader.readAsDataURL(_this.prop('files')[0]);
 	});
 	$(document).on('click','input[name=clear]',function(){
 		var addName = (typeof $(this).closest('fieldset').attr('data-name') != 'undefined')? '_'+$(this).closest('fieldset').attr('data-name'): '';
-		$(this).closest('fieldset').find('.upload-image-preview').empty().attr('data-cleared','1');
+		$(this).closest('fieldset').find('.upload-image-preview').empty();
 		formData.delete('image'+addName);
 	});
+	// /Single Image Loader
 
-	// Slider
-	$(document).on('click','input[name=loadFileToSlider]', function(){
-		$(this).closest('.slider-manage-buttons').find('input[name=imageFileToUpload]').trigger('click');
-	});
-
-	var point = 0;
-	$(document).on('change', 'input[name=imageFileToUpload]', function(){
-		point = 0;
-		var formdata_iter = point;
-		var sliderName = $(this).closest('fieldset').attr('data-name');
-		var _this = $(this);
-		var count = $(this).prop('files').length;
-		for(var i=0; i<count; i++){
-			var reader = new FileReader();
-			reader.onload = function(e){
-				_this.closest('.slider-wrap').find('.slider-images-wrap').append('' +
-					'<div class="image-wrap" data-position="'+point+'">' +
-					'<img src="'+e.target.result+'" alt="">' +
-					'<div class="attributes-wrap">' +
-					'<input name="altText" type="text" class="text-input" placeholder="Альтернативный текст&hellip;" style="width: 90%;">' +
-					'<a href="#" class="drop-image button" title="Удалить">' +
-					'<img src="/img/drop.png" alt="">' +
-					'</a>' +
-					'</div>' +
-					'</div>');
-
-				_this.closest('.slider-wrap').find('.slider-list-wrap').append('' +
-					'<div class="slider-content-element" data-position="'+point+'">' +
-					'<div class="element-title">'+(_this.prop('files')[point]['name'])+'</div>' +
-					'<div class="element-size">'+(_this.prop('files')[point]['size'] /1024).toFixed(2)+' Kb</div>' +
-					'<div class="element-image">' +
-					'<img src="'+e.target.result+'" alt="">' +
-					'</div>' +
-					'<div class="element-alt"></div>' +
-					'<div class="element-drop">' +
-					'<img src="/img/drop.png" alt="Удалить" title="Удалить">' +
-					'</div>' +
-					'</div>');
-				for(var key of formData.keys()){
-					if(key == sliderName+'_file_'+formdata_iter){
-						formdata_iter++;
-					}
-				}
-				formData.append(sliderName+'_file_'+formdata_iter , _this.prop('files')[point]);
-				if(point == count-1){
-					_this.closest('.slider-wrap').find('.slider-images-wrap .image-wrap').removeClass('active');
-					_this.closest('.slider-wrap').find('.slider-images-wrap .image-wrap:first').addClass('active');
-					resortSliderWrap(_this);
-				}
-				point++;
-				formdata_iter++;
-			};
-			reader.readAsDataURL($(this).prop('files')[i]);
-		}
-	});
-	// slider controls
-	$(document).on('click', '.slider-controls', function(){
-		var sliderLength = $(this).closest('.slider-preview').find('.slider-images-wrap .image-wrap').length -1;
-		var activeEl = $(this).closest('.slider-preview').find('.slider-images-wrap').find('.active').index();
-		if($(this).hasClass('left')){
-			var showEl = (activeEl == 0)? sliderLength: activeEl -1;
-		}else{
-			var showEl = (activeEl == sliderLength)? 0: activeEl+1;
-		}
-		$(this).closest('.slider-preview').find('.slider-images-wrap .image-wrap').removeClass('active');
-		$(this).closest('.slider-preview').find('.slider-images-wrap .image-wrap:eq('+showEl+')').addClass('active');
-	});
-
-	// slider sortable
-	sliderSortable();
-
-	$(document).on('keyup','input[name=altText]', function(){
-		var position = $(this).closest('.image-wrap').index();
-		$(this).closest('.slider-wrap').find('.slider-list-wrap').find('.slider-content-element[data-position='+position+']').find('.element-alt').text($(this).val());
-	});
-	//drop image
-	$(document).on('click', '.drop-image', function(e){
-		e.preventDefault();
-		var sliderName = $(this).closest('fieldset').attr('data-name');
-		var position = $(this).closest('.image-wrap').index();
-		var _that = $(this).closest('.slider-images-wrap');
-		$(this).closest('.slider-wrap').find('.slider-list-wrap').find('.slider-content-element[data-position='+position+']').remove();
-		$(this).closest('.image-wrap').remove();
-		resortSliderWrap(_that);
-		formData.delete(sliderName+'_file_'+position);
-	});
-	$(document).on('click', '.element-drop', function(){
-		var sliderName = $(this).closest('fieldset').attr('data-name');
-		var position = $(this).closest('.slider-content-element').index();
-		var _that = $(this).closest('.slider-list-wrap');
-		$(this).closest('.slider-wrap').find('.slider-images-wrap').find('.image-wrap[data-position='+position+']').remove();
-		$(this).closest('.slider-content-element').remove();
-		resortSliderWrap(_that);
-		formData.delete(sliderName+'_file_'+position);
-	});
-	//add images from uploaded
-	$(document).on('click','input[name=getImgToSlider]', function(){
-		var _this = $(this);
-		var token = $('.central-block').attr('data-token');
+	//Call Gallery
+	$(document).on('click','input[name=viewGallery]',function(){
 		$.ajax({
-			url:	'/admin/get_server_images',
+			url:	'/admin/get_all_images',
 			type:	'GET',
-			headers:{'X-CSRF-TOKEN': token},
-			error:	function(xhr){
-				showErrors(xhr.responseText, '/admin/get_server_images');
+			error:	function(jqXHR, textStatus, errorThrown){
+				showErrors(jqXHR.responseText, '/admin/get_all_images')
 			},
 			success:function(data){
 				try{
 					data = JSON.parse(data);
-					if(data['message'] == 'success') {
-						$('.overview-popup .popup-images').empty();
-						for(var img in data['folders']){
-							$('.overview-popup .popup-images').append('<div class="image-container"><img src="/'+data['folders'][img]+'" alt="'+data['folders'][img]+'"></div>');
-						}
-						$('.overview-popup').show();
-						caseImageInOverviewPopup(_this);
+					if(data.message == 'success'){
+
 					}else{
-						showErrors(data, '/admin/get_server_images');
+						showErrors(data.message, '/admin/get_all_images')
 					}
 				}catch(e){
-					showErrors(e+data, '/admin/get_server_images');
+					showErrors(e + data, '/admin/get_all_images')
 				}
 			}
 		});
 	});
-	// /Slider
 
-	//Custom fields custom slider
-	//add slide
-	$(document).on('click', 'input[name=customSliderAddSlide]', function(){
-		var clone = $(this).closest('fieldset').find('.custom-slider-content-wrap').find('.custom-slide-container:first').clone(false);
-		clone.find('.row-wrap').each(function(){
-			$(this).find('input:not([type=button])').val('');
-			$(this).find('input').prop('checked',false);
-			$(this).find('textarea').text('');
-			$(this).find('textarea').val('');
-			$(this).find('.upload-image-preview').empty();
-		});
-		$(this).closest('fieldset').find('.custom-slider-content-wrap').append(clone);
-		$(this).closest('fieldset').find('.custom-slider-content-wrap').find('.custom-slide-container').removeClass('active');
-		$(this).closest('fieldset').find('.custom-slider-content-wrap').find('.custom-slide-container:last').addClass('active');
-	});
-
-	//drop current slide
-	$(document).on('click', 'input[name=customSliderDropCurrentSlide]', function(){
-		if($(this).closest('fieldset').find('.custom-slider-content-wrap .custom-slide-container').length > 1){
-			$(this).closest('fieldset').find('.custom-slider-content-wrap').find('.active').remove();
-			$(this).closest('fieldset').find('.custom-slider-content-wrap .custom-slide-container').removeClass('active');
-			$(this).closest('fieldset').find('.custom-slider-content-wrap .custom-slide-container:first').addClass('active');
-		}else{
-			$(this).closest('fieldset').find('.custom-slider-content-wrap').find('.custom-slide-container').find('.row-wrap').each(function(){                $(this).find('input').val('');
-				$(this).find('textarea').text('');
-				$(this).find('textarea').val('');
-			});
-		}
-	});
-
-	//slider controls
-	$(document).on('click', '.slider-controls-bg', function(){
-		var sliderLength = $(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container').length -1;
-		var activeEl = $(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap').find('.active').index();
-		if($(this).hasClass('left')){
-			var showEl = (activeEl == 0)? sliderLength: activeEl -1;
-		}else{
-			var showEl = (activeEl == sliderLength)? 0: activeEl+1;
-		}
-		$(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container').removeClass('active');
-		$(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container:eq('+showEl+')').addClass('active');
-	});
-	// /Custom fields custom slider*/
+	// /Call Gallery
 });
