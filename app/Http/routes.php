@@ -102,6 +102,18 @@ Route::get('/services',[
 	'as'=>'services',
 	'uses'=>'Site\HomeController@services'
 ]);
+Route::get('/thanks',[
+	'as'=>'thanks',
+	'uses'=>'Site\HomeController@thanks'
+]);
+Route::get('/vacancies',[
+	'as'=>'vacancies',
+	'uses'=>'Site\HomeController@vacancies'
+]);
+	Route::get('/vacancies/{slug}',[
+		'as'=>'vacancies-inner',
+		'uses'=>'Site\HomeController@vacanciesInner'
+	]);
 
 //Authorisation
 Route::get('/admin/login', [
