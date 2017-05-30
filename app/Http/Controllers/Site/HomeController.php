@@ -86,4 +86,13 @@ class HomeController extends BaseController{
 			'footer_menu'	=> $footer_menu
 		]);
 	}
+
+	public function request(){
+		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		return view('request', [
+			'top_menu'		=> $top_menu,
+			'footer_menu'	=> $footer_menu
+		]);
+	}
 }

@@ -94,6 +94,10 @@ Route::get('/news',[
 		'as'=>'news-inner',
 		'uses'=>'Site\HomeController@newsInner'
 	]);
+Route::get('/request',[
+	'as'=>'request',
+	'uses'=>'Site\HomeController@request'
+]);
 
 //Authorisation
 Route::get('/admin/login', [
