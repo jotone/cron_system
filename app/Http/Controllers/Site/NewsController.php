@@ -19,19 +19,25 @@ class NewsController extends BaseController{
 
 		$limit = 4;
 		$start = ($page-1) * $limit;
-
 		$news_count = News::where('enabled','=',1)->count();
 
 		$news = News::where('enabled','=',1)->orderBy('published_at','desc')->skip($start)->take($limit)->get();
 
 		$list = [];
 		foreach($news as $new){
+			$text_arr = explode(' ', strip_tags($new->text));
+			$n = count($text_arr);
+			if($n >= 32) $n = 32;
+			$text = '';
+			for($i = 0; $i<$n; $i++){
+				$text .= $text_arr[$i].' ';
+			}
 			$list[] = [
 				'id'=>$new->id,
 				'title' => $new->title,
 				'slug' => $new->slug,
 				'img_url' => json_decode($new->img_url),
-				'text' => strip_tags($new->text)
+				'text' => $text.'&hellip;'
 			];
 		}
 		$paginate_options = [

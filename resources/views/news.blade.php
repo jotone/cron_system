@@ -35,7 +35,7 @@
 							</div>
 							<h6>{{ $new['title'] }}</h6>
 							<div class="news-info">
-								{!! $new['text'] !!}
+								<p>{!! $new['text'] !!}</p>
 							</div>
 							<a href="{{ route('news-inner',$new['slug']) }}" class="button-round">Подробнее</a>
 						</div>
@@ -43,7 +43,7 @@
 				@endforeach
 				</ul>
 			</div>
-			@if($paginate_options['total'] < 2)
+			@if($paginate_options['total'] > 1)
 			<div class="pagination">
 				@if($paginate_options['prev'] > 0)
 					<a href="{{ route('news') }}/page/{{ $paginate_options['prev'] }}" class="prev">&lt;</a>
