@@ -30,51 +30,31 @@
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
 				</div>
 			</div>
+			@if(count($also_reading) > 0)
 			<div class="news-popular">
 				<div class="mbox">
 					<div class="title-line line-white">
 						<h2>Так же читают</h2>
 					</div>
 					<ul class="news-popular-list">
+						@foreach($also_reading as $item)
 						<li>
 							<div class="popular-pic">
-								<img src="{{ URL::asset('images/popular1.jpg') }}" alt="">
+								<img src="{{ URL::asset($item['img_url']->img) }}" alt="{{ $item['img_url']->alt }}">
 							</div>
 							<div class="popular-content">
-								<a href="#" class="button-invers">Подробнее</a>
-								<h6>Новость 1</h6>
+								<a href="{{ route('news-inner', $item['slug']) }}" class="button-invers">Подробнее</a>
+								<h6>{{ $item['title'] }}</h6>
 								<div class="popular-info">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut aliquam leo. Quisque ac justo ut eros aliquet vulputate.</p>
+									<p>{{ $item['text'] }}</p>
 								</div>
 							</div>
 						</li>
-						<li>
-							<div class="popular-pic">
-								<img src="{{ URL::asset('images/popular2.jpg') }}" alt="">
-							</div>
-							<div class="popular-content">
-								<a href="#" class="button-invers">Подробнее</a>
-								<h6>Новость 2</h6>
-								<div class="popular-info">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut aliquam leo. Quisque ac justo ut eros aliquet vulputate.</p>
-								</div>
-							</div>
-						</li>
-						<li>
-							<div class="popular-pic">
-								<img src="{{ URL::asset('images/popular3.jpg') }}" alt="">
-							</div>
-							<div class="popular-content">
-								<a href="#" class="button-invers">Подробнее</a>
-								<h6>Новость 3</h6>
-								<div class="popular-info">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut aliquam leo. Quisque ac justo ut eros aliquet vulputate.</p>
-								</div>
-							</div>
-						</li>
+						@endforeach
 					</ul>
 				</div>
 			</div>
+			@endif
 		</section>
 	</div>
 	<!-- /MAIN -->
