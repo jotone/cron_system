@@ -22,79 +22,50 @@
 					<h1>Новости</h1>
 				</div>
 				<ul>
+				@foreach($news as $new)
 					<li>
 						<div class="news-pic">
-							<img src="{{ URL::asset('images/news1.jpg') }}" alt="">
+						@if(!empty($new['img_url']->img))
+							<img src="{{ URL::asset($new['img_url']->img) }}" alt="{{ $new['img_url']->alt }}">
+						@endif
 						</div>
 						<div class="item-content">
 							<div class="news-icon">
 								<img src="{{ URL::asset('images/news-icon.png') }}" alt="">
 							</div>
-							<h6>Новость 1</h6>
+							<h6>{{ $new['title'] }}</h6>
 							<div class="news-info">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
+								{!! $new['text'] !!}
 							</div>
-							<a href="#" class="button-round">Подробнее</a>
+							<a href="{{ route('news-inner',$new['slug']) }}" class="button-round">Подробнее</a>
 						</div>
 					</li>
-					<li>
-						<div class="news-pic">
-							<img src="{{ URL::asset('images/news2.jpg') }}" alt="">
-						</div>
-						<div class="item-content">
-							<div class="news-icon">
-								<img src="{{ URL::asset('images/news-icon.png') }}" alt="">
-							</div>
-							<h6>Новость 2</h6>
-							<div class="news-info">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
-							</div>
-							<a href="#" class="button-round">Подробнее</a>
-						</div>
-					</li>
-					<li>
-						<div class="news-pic">
-							<img src="{{ URL::asset('images/news3.jpg') }}" alt="">
-						</div>
-						<div class="item-content">
-							<div class="news-icon">
-								<img src="{{ URL::asset('images/news-icon.png') }}" alt="">
-							</div>
-							<h6>Новость 3</h6>
-							<div class="news-info">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
-							</div>
-							<a href="#" class="button-round">Подробнее</a>
-						</div>
-					</li>
-					<li>
-						<div class="news-pic">
-							<img src="{{ URL::asset('images/news4.jpg') }}" alt="">
-						</div>
-						<div class="item-content">
-							<div class="news-icon">
-								<img src="{{ URL::asset('images/news-icon.png') }}" alt="">
-							</div>
-							<h6>Новость 4</h6>
-							<div class="news-info">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
-							</div>
-							<a href="#" class="button-round">Подробнее</a>
-						</div>
-					</li>
+				@endforeach
 				</ul>
 			</div>
+			@if($paginate_options['total'] < 2)
 			<div class="pagination">
-				<a href="#" class="prev">&lt;</a>
+				@if($paginate_options['prev'] > 0)
+					<a href="{{ route('news') }}/page/{{ $paginate_options['prev'] }}" class="prev">&lt;</a>
+				@endif
+
 				<ul>
-					<li><a href="#">1</a></li>
-					<li class="active">2</li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
+				@for($i = 1; $i<=$paginate_options['total']; $i++)
+					<li @if($i == $paginate_options['current']) class="active" @endif>
+					@if($i == $paginate_options['current'])
+						{{ $i }}
+					@else
+						<a href="{{ route('news') }}/page/{{ $i }}">{{$i}}</a>
+					@endif
+					</li>
+				@endfor
+
 				</ul>
-				<a href="#" class="next">&gt;</a>
+				@if($paginate_options['next'] <= $paginate_options['total'])
+					<a href="{{ route('news') }}/page/{{ $paginate_options['next'] }}" class="next">&gt;</a>
+				@endif
 			</div>
+			@endif
 		</section>
 	</div>
 	<!-- /MAIN -->

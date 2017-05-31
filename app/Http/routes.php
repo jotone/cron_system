@@ -90,8 +90,11 @@ Route::get('/equipment',[
 	'uses'=>'Site\HomeController@equipment'
 ]);
 //Новости
-Route::get('/news',[
+Route::get('/news/',[
 	'as'=>'news',
+	'uses'=>'Site\NewsController@news'
+]);
+Route::get('/news/page/{page}',[
 	'uses'=>'Site\NewsController@news'
 ]);
 	Route::get('/news/{slug}',[
