@@ -187,4 +187,30 @@ class Functions extends BaseController{
 			return 'Не известно';
 		}
 	}
+
+	public static function createImg($img_url, $use_img_check = true){
+		if( ('undefined' != $img_url) && (!empty($img_url)) ){
+			$destinationPath = base_path().'/public/img/';//Указываем папку хранения картинок
+			$img_file = pathinfo(self::str2url($img_url->getClientOriginalName()));//Узнаем реальное имя файла
+			$img_file['extension'] = strtolower($img_file['extension']);
+			if($use_img_check){
+				if(
+					($img_file['extension'] != 'png') &&
+					($img_file['extension'] != 'jpg') &&
+					($img_file['extension'] != 'jpeg') &&
+					($img_file['extension'] != 'gif') &&
+					($img_file['extension'] != 'svg') &&
+					($img_file['extension'] != 'bmp')
+				){
+					return '';
+				}
+			}
+			$img_file = $img_file['filename'].'_'.substr(uniqid(),6).'.'.$img_file['extension'];
+			$img_url -> move($destinationPath, $img_file);
+			$img_file = '/img/'.$img_file;
+		}else{
+			$img_file = '';
+		}
+		return $img_file;
+	}
 }

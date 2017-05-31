@@ -276,7 +276,7 @@
 						</li>
 					</ul>
 				</div>
-				<a href="news.html" class="all">Все новости<span></span></a>
+				<a href="{{ route('news') }}" class="all">Все новости<span></span></a>
 			</div>
 		</section>
 	</div>

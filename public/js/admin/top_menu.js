@@ -17,7 +17,7 @@ function sendPositions(){
 		success:function(data){
 			try{
 				data = JSON.parse(data);
-				if(data['message'] != 'success'){
+				if(data.message != 'success'){
 					showErrors(data, '/admin/change_postions');
 				}
 			}catch(e){
@@ -49,7 +49,7 @@ $(document).ready(function(){
 			success:	function(data){
 				try{
 					data = JSON.parse(data);
-					if (data['message'] == 'success') {
+					if (data.message == 'success') {
 						location = '/admin/top_menu';
 					}
 				}catch(e){
@@ -76,7 +76,7 @@ $(document).ready(function(){
 				success:function(data){
 					try{
 						data = JSON.parse(data);
-						if (data['message'] == 'success') {
+						if (data.message == 'success') {
 							_this.closest('li').remove();
 						}
 					}catch(e){
@@ -126,7 +126,7 @@ $(document).ready(function(){
 			success:function(data){
 				try{
 					data = JSON.parse(data);
-					if(data['message'] == 'success'){
+					if(data.message == 'success'){
 						if(enabled == 0){
 							_this.removeClass('trigger_on').addClass('trigger_off').text('off');
 						}else{

@@ -92,11 +92,11 @@ Route::get('/equipment',[
 //Новости
 Route::get('/news',[
 	'as'=>'news',
-	'uses'=>'Site\HomeController@news'
+	'uses'=>'Site\NewsController@news'
 ]);
 	Route::get('/news/{slug}',[
 		'as'=>'news-inner',
-		'uses'=>'Site\HomeController@newsInner'
+		'uses'=>'Site\NewsController@newsInner'
 	]);
 //Уточнить цену
 Route::get('/request',[
@@ -237,7 +237,7 @@ Route::group(['middleware' => 'admin'], function(){
 
 	//Similar queries
 	Route::get('/admin/get_all_images',[
-		'uses'=>'Admin\SimilarQueriesController@getAllImages'
+		'uses'=>'Admin\SimilarQueriesController@getAllImagesByRequest'
 	]);
 	Route::patch('/admin/change_enabled',[
 		'uses'=>'Admin\SimilarQueriesController@changeEnabled'

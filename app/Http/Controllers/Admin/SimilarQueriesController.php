@@ -21,12 +21,22 @@ class SimilarQueriesController extends BaseController{
 
 	public function changeEnabled(Request $request){
 		$data = $request->all();
+		$published = '';
 		switch($data['type']){
 			case 'top_menu': $result = TopMenu::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
 			case 'footer_menu': $result = FooterMenu::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
+			case 'news':
+				$result = News::find($data['id']);
+				$result->enabled = $data['val'];
+				if($data['val'] > 0) {
+					$result->published_at = date('Y-m-d H:i:s');
+				}
+				$result->save();
+				$published = Functions::convertDate($result->published_at);
+			break;
 		}
 		if($result != false){
-			return json_encode(['message'=>'success']);
+			return json_encode(['message'=>'success', 'published'=>$published]);
 		}
 	}
 
@@ -63,7 +73,7 @@ class SimilarQueriesController extends BaseController{
 		return $all_files;
 	}
 
-	public function getAllImages($http = false){
+	public static function getAllImages($http = false){
 		$folders = [];
 		$folders = self::getFolders('img', $folders);
 
@@ -87,11 +97,10 @@ class SimilarQueriesController extends BaseController{
 			foreach($images as $item) $used_in['vacancies'][] = $item->title;
 
 			$list[] = [
-				'img'=> \URL::asset($image),
+				'img'=> (substr($image,0,1) == '/')? $image: '/'.$image,
 				'used_in'=>$used_in
 			];
 		}
-
 		if($http){
 			return $list;
 		}else{
@@ -100,5 +109,9 @@ class SimilarQueriesController extends BaseController{
 				'images'	=> $list
 			]);
 		}
+	}
+
+	public function getAllImagesByRequest(){
+		return self::getAllImages();
 	}
 }

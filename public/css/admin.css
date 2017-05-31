@@ -101,7 +101,7 @@ footer .error-log{
 	content: '';
 	background-color: #449d44;
 }
-.overview-popup .image-container img{max-width: 250px; max-height: 200px; cursor: pointer;}
+.overview-popup .image-container img{max-width: 250px; max-height: 180px; cursor: pointer;}
 .overview-popup .image-container p{font-size: 12px; line-height: 26px; width: 100%;}
 
 .login-wrap{
@@ -395,11 +395,11 @@ a.control-button img, a.button img{max-height: 20px !important;}
 	border-left: 1px solid #73799c;
 	border-right: 1px solid #73799c;
 }
-.item-list tbody tr td .item-list-image{max-height: 50px;}
 .item-list tbody tr td p{line-height: 20px;}
 .item-list .direction{float: right;}
 .item-list .direction a{text-decoration: none; color: #dadadb;}
 .item-list .direction a.active, .item-list .direction a:hover{color: #f9cb65;}
+.item-list .preview{max-width: 200px; max-height: 100px;}
 fieldset{
 	padding: 10px;
 	margin-top: 20px;

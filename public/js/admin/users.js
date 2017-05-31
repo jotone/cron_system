@@ -40,10 +40,10 @@ $(document).ready(function(){
 			success:	function(data){
 				try{
 					data = JSON.parse(data);
-					if (data['message'] == 'success') {
+					if (data.message == 'success') {
 						location = '/admin/users';
-					}else if(data['message'] == 'error'){
-						alert(data['text']);
+					}else if(data.message == 'error'){
+						alert(data.text);
 					}
 				}catch(e){
 					showErrors(e + data, '/admin/users/edit')
@@ -69,7 +69,7 @@ $(document).ready(function(){
 				success:function(data){
 					try{
 						data = JSON.parse(data);
-						if (data['message'] == 'success') {
+						if (data.message == 'success') {
 							_this.closest('tr').remove();
 						}
 					}catch(e){

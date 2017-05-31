@@ -34,7 +34,7 @@ $(document).ready(function(){
 			success:	function(data){
 				try{
 					data = JSON.parse(data);
-					if (data['message'] == 'success') {
+					if (data.message == 'success') {
 						location = '/admin/users/roles';
 					}
 				}catch(e){
@@ -65,7 +65,7 @@ $(document).ready(function(){
 				success:function(data){
 					try{
 						data = JSON.parse(data);
-						if (data['message'] == 'success') {
+						if (data.message == 'success') {
 							_this.closest('tr').remove();
 						}
 					}catch(e){
