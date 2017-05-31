@@ -24,6 +24,7 @@ class NewsController extends BaseController{
 		$news = News::where('enabled','=',1)->orderBy('published_at','desc')->skip($start)->take($limit)->get();
 
 		$list = [];
+
 		foreach($news as $new){
 			$text_arr = explode(' ', strip_tags($new->text));
 			$n = count($text_arr);
@@ -55,12 +56,14 @@ class NewsController extends BaseController{
 	}
 
 	public function newsInner($slug){
-		dd($slug);
 		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
 		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+
+		$content = News::where('slug','=',$slug)->where('enabled','=',1)->first();
 		return view('news_inner', [
 			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu
+			'footer_menu'	=> $footer_menu,
+			'content'		=> $content
 		]);
 	}
 }
