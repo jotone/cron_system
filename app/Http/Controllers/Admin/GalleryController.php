@@ -19,6 +19,9 @@ class GalleryController extends BaseController{
 			$page_caption = AdminMenu::select('title','slug')->where('slug','LIKE','%'.$request->path().'%')->first();
 
 			$menu = Functions::buildMenuList($request->path());
+
+			$items = Functions::getAllImages();
+			dd($items);
 			return view('admin.gallery', [
 				'start'		=> $start,
 				'menu'		=> $menu,

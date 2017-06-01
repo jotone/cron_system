@@ -272,17 +272,12 @@ footer .error-log{
 
 .categories-list-wrap, .optional-list-wrap{width: 100%;}
 .categories-list-wrap>ul, .optional-list-wrap>ul{margin-left: 0px;}
-.categories-list-wrap .empty{
-	/*min-height: 40px;*/
-/*	margin-top: 4px;*/
-	display: none;
-	/*border: 2px dashed #252839;*/
-}
+.categories-list-wrap .empty{display: none;}
 .categories-list-wrap .ui-sortable-placeholder{
 	border: 2px dashed #252839;
-    min-height: 40px;
-    margin-top: 4px;
-    visibility: visible !important;
+	min-height: 40px;
+	margin-top: 4px;
+	visibility: visible !important;
 }
 .categories-list-wrap>ul ul, .optional-list-wrap>ul ul{margin-left: 40px;}
 .categories-list-wrap .category-wrap, .optional-list-wrap .category-wrap{
@@ -307,17 +302,10 @@ footer .error-log{
 	align-items: center;
 	color: #dadadb;
 }
-.categories-list-wrap .category-wrap .category-title .sort-controls,
-.optional-list-wrap .category-wrap .category-title .sort-controls
-{margin-right: 10px;}
-.categories-list-wrap .category-wrap .category-title .sort-controls p,
-.optional-list-wrap .category-wrap .category-title .sort-controls p
-{cursor: pointer;}
-.categories-list-wrap .category-wrap .category-title .sort-controls p:hover,
-.optional-list-wrap .category-wrap .category-title .sort-controls p:hover
-{color: #f9cb65;}
-.categories-list-wrap .category-wrap .category-slug,
-.optional-list-wrap .category-wrap .category-slug{
+.categories-list-wrap .category-wrap .category-title .sort-controls, .optional-list-wrap .category-wrap .category-title .sort-controls{margin-right: 10px;}
+.categories-list-wrap .category-wrap .category-title .sort-controls p, .optional-list-wrap .category-wrap .category-title .sort-controls p{cursor: pointer;}
+.categories-list-wrap .category-wrap .category-title .sort-controls p:hover, .optional-list-wrap .category-wrap .category-title .sort-controls p:hover{color: #f9cb65;}
+.categories-list-wrap .category-wrap .category-slug, .optional-list-wrap .category-wrap .category-slug{
 	width: 20%;
 	font-size: 14px;
 	color: #b5b5b7;
