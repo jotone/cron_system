@@ -213,4 +213,73 @@ class Functions extends BaseController{
 		}
 		return $img_file;
 	}
+
+	public static function buildVerticalOptionList($table, $id='', $current_id = 0, $refer_to = 0, $parent = '', $result = ''){
+		$items = \DB::table($table)->select('id','title')->where('refer_to','=',$refer_to)->orderBy('title','asc')->get();
+		if(!empty($items)){
+			foreach($items as $item){
+				if($item->id != $current_id){
+					$parent_title = (!empty($parent))? $parent.' &rarr; ': '';
+					$selected = ($item->id == $id)? 'selected="selected"': '';
+
+					$result .= '<option value="'.$item->id.'" '.$selected.'>'.$parent_title.$item->title.'</option>';
+
+					$inner_isset = \DB::table($table)->where('refer_to','=', $item->id)->count();
+					if($inner_isset > 0){
+						$result .= self::buildVerticalOptionList($table, $id, $current_id, $item->id, $parent_title.$item->title);
+					}
+				}
+			}
+		}
+		return $result;
+	}
+
+	public static function buildCategoriesView($table, $refer_to = 0, $result = ''){
+		$items = \DB::table($table)->select('id','title','slug','refer_to','enabled','created_at','updated_at')
+			->where('refer_to','=',$refer_to)
+			->orderBy('position','asc')
+			->get();
+		if(!empty($items)){
+			$result .= '<ul>';
+			foreach($items as $item){
+				$class = ($item->enabled == 1)? ['trigger_on','on']: ['trigger_off','off'];
+				switch($table){
+					case 'brands': $link = 'admin-brands-edit'; break;
+				}
+				$result .= '
+				<li data-id="'.$item->id.'">
+					<div class="category-wrap">
+						<div class="category-title">
+							<div class="sort-controls">
+								<p data-direction="up">▲</p>
+								<p data-direction="down">▼</p></div>
+							<div>'.$item->title.'</div>
+						</div>
+						<div class="category-slug">'.$item->slug.'</div>
+						<div class="timestamps">
+							<p>Создан: '.self::convertDate($item->created_at).'</p>
+							<p>Изменен: '.self::convertDate($item->updated_at).'</p>
+						</div>
+						<div class="category-controls">
+						<a class="button '.$class[0].'" href="#" title="Вкл/Выкл">'.$class[1].'</a>
+							<a class="button edit" href="'.route($link, $item->id).'" title="Редактировать">
+								<img src="'.\URL::asset('images/edit.png').'" alt="Редактировать">
+							</a>
+							<a class="button drop" href="#" title="Удалить" data-title="'.$item->title.'">
+								<img src="'.\URL::asset('images/drop.png').'" alt="Удалить">
+							</a>
+						</div>
+					</div>';
+				$inner_count = \DB::table($table)->where('refer_to','=',$item->id)->count();
+				if($inner_count > 0){
+					$result .= self::buildCategoriesView($table, $refer_to = $item->id);
+				}
+				$result .='
+					<ul class="empty"></ul>
+				</li>';
+			}
+			$result .= '</ul>';
+		}
+		return $result;
+	}
 }

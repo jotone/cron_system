@@ -272,7 +272,12 @@ footer .error-log{
 
 .categories-list-wrap, .optional-list-wrap{width: 100%;}
 .categories-list-wrap>ul, .optional-list-wrap>ul{margin-left: 0px;}
-.categories-list-wrap .empty{min-height: 40px; display: none; border: 1px dashed #252839;}
+.categories-list-wrap .empty{
+	min-height: 40px;
+	margin-top: 4px;
+	display: none;
+	border: 2px dashed #252839;
+}
 .categories-list-wrap>ul ul, .optional-list-wrap>ul ul{margin-left: 40px;}
 .categories-list-wrap .category-wrap, .optional-list-wrap .category-wrap{
 	padding: 0 10px;
@@ -323,6 +328,7 @@ footer .error-log{
 	display: none;
 	border: 2px dashed #b5b5b7;
 }
+
 .timestamps{width: 25%; font-size: 14px; color: #b5b5b7;}
 
 a.button, a.block-button{

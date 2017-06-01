@@ -19,6 +19,7 @@ class CreateBrands extends Migration
 			$table->text('img_url');
 			$table->tinyInteger('position')->unsigned();
 			$table->integer('refer_to')->unsigned();
+			$table->boolean('is_last')->unsigned();
 			$table->boolean('enabled')->unsigned();
 			$table->timestamps();
 		});

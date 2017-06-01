@@ -34,6 +34,7 @@ class SimilarQueriesController extends BaseController{
 				$result->save();
 				$published = Functions::convertDate($result->published_at);
 			break;
+			case 'brands': $result = Brand::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
 		}
 		if($result != false){
 			return json_encode(['message'=>'success', 'published'=>$published]);
@@ -53,6 +54,9 @@ class SimilarQueriesController extends BaseController{
 				foreach($data['positions'] as $position){
 					$result = FooterMenu::where('id','=',$position['id'])->update(['position'=>$position['pos']]);
 				}
+			break;
+			case 'brands':
+				//dd($data);
 			break;
 		}
 		if($result != false){

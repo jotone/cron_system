@@ -115,7 +115,7 @@ class AuthController extends BaseController{
 		$password = md5($data['email'].$data['pass']);
 		$activation_code = Crypt::encrypt(serialize([strtotime(date('Y-m-d')),base64_encode($data['email'])]));
 		//Create user
-		User::create([
+		$result = User::create([
 			'email' => $data['email'],
 			'password' => $password,
 			'role' => '',
