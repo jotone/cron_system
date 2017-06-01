@@ -48,6 +48,7 @@ footer .error-log{
 	padding: 20px;
 	min-width: 740px;
 	left:50%;
+	height: 80vh;
 	display: none;
 	box-sizing: border-box;
 	border: 2px solid #252839;
@@ -69,7 +70,7 @@ footer .error-log{
 }
 .popup-caption{text-align: center; font-size: 20px;}
 .overview-popup .popup-images{
-	height: 400px;
+	height: 90%;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	display:flex;
@@ -102,7 +103,8 @@ footer .error-log{
 	background-color: #449d44;
 }
 .overview-popup .image-container img{max-width: 250px; max-height: 180px; cursor: pointer;}
-.overview-popup .image-container p{font-size: 12px; line-height: 26px; width: 100%;}
+.overview-popup .image-container>div{width: 100%;}
+.overview-popup .image-container p{font-size: 12px; line-height: 16px;}
 
 .login-wrap{
 	width: 100%;
@@ -728,3 +730,53 @@ fieldset legend{
 	font-size: 16px;
 }
 .info-list dl dd{font-size: 14px;}
+
+.photos-main-wrap{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: stretch;
+}
+.photos-main-wrap .photo-wrap{
+	width: 24%;
+	position: relative;
+	padding: 10px;
+	margin-top: 20px;
+	justify-content: space-around;
+	display: flex;
+	box-sizing: border-box;
+	border: 1px solid #eee;
+	align-items: flex-start;
+}
+.photos-main-wrap .photo-wrap.disactive{border: 1px solid #e00;}
+.photos-main-wrap .photo-wrap .image-wrap, .photos-main-wrap .photo-wrap .desc-wrap{
+	width: 60%;
+	padding: 0px 5px 10px 5px;
+	box-sizing: border-box;
+	display: block;
+}
+.photos-main-wrap .photo-wrap .image-src{position: absolute; left: 15px; bottom: 5px;}
+.photos-main-wrap .photo-wrap .image-src span{
+	webkit-user-select: all;
+	-moz-user-select: all;
+	-ms-user-select: all;
+	user-select: all;
+}
+.photos-main-wrap .photo-wrap .desc-wrap{width: 40%;}
+
+.photos-main-wrap .photo-wrap .desc-wrap li{margin-left: 10px;}
+.photos-main-wrap .photo-wrap .desc-wrap li:before{content: '-'; padding-right: 3px;}
+.photos-main-wrap .photo-wrap .image-wrap img{max-height: 150px; max-width: 200px;}
+
+.photos-main-wrap .photo-wrap .image-drop{
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+}
+.photos-main-wrap .photo-wrap .image-drop img{
+	width: 25px;
+	cursor: pointer;
+}
+
+.image-add-wrap{display: none;}
+.image-add-wrap.active{display: block;}

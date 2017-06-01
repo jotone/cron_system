@@ -308,20 +308,31 @@ class Functions extends BaseController{
 		$list = [];
 		foreach($folders as $image){
 			$used_in = [];
+			$temp = explode('/',$image);
+			$temp = $temp[count($temp) -1];
 
-			$images = Brand::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			$images = Brand::select('title')->where('img_url','LIKE','%'.$temp.'%')->get();
 			foreach($images as $item) $used_in['brand'][] = $item->title;
 
-			$images = News::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			$images = News::select('title')
+				->where('img_url','LIKE','%'.$temp.'%')
+				->orWhere('text','LIKE','%'.$temp.'%')
+				->get();
 			foreach($images as $item) $used_in['news'][] = $item->title;
 
-			$images = Products::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			$images = Products::select('title')
+				->where('img_url','LIKE','%'.$temp.'%')
+				->orWhere('text','LIKE','%'.$temp.'%')
+				->get();
 			foreach($images as $item) $used_in['products'][] = $item->title;
 
-			$images = SocialMenu::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			$images = SocialMenu::select('title')->where('img_url','LIKE','%'.$temp.'%')->get();
 			foreach($images as $item) $used_in['social'][] = $item->title;
 
-			$images = Vacancies::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			$images = Vacancies::select('title')
+				->where('img_url','LIKE','%'.$temp.'%')
+				->orWhere('text','LIKE','%'.$temp.'%')
+				->get();
 			foreach($images as $item) $used_in['vacancies'][] = $item->title;
 
 			$list[] = [

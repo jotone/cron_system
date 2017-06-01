@@ -213,11 +213,24 @@ $(document).ready(function(){
 						$('.overview-popup .popup-images').off('click','.image-container');
 						$('.overview-popup .popup-images').empty();
 						for(var i in data.images){
-							if(data.images[i]['used_in'].length > 0){
-								var descript = '';
+							var descript = '<div>';
+							if(typeof data.images[i]['used_in'].length == 'undefined'){
+								for(var key in data.images[i]['used_in']){
+									switch(key){
+										case 'brand':		descript += '<p>Брэнды:</p>'; break;
+										case 'news':		descript += '<p>Новости:</p>'; break;
+										case 'products':	descript += '<p>Товары:</p>'; break;
+										case 'social':		descript += '<p>Соц.Сети:</p>'; break;
+										case 'vacancies':	descript += '<p>Вакансии:</p>'; break;
+									}
+									for(var iter in data.images[i]['used_in'][key]){
+										descript += '<p>'+data.images[i]['used_in'][key][iter]+'</p>';
+									}
+								}
 							}else{
-								var descript = '<p>Нигде не используется</p>';
+								descript += '<p>Нигде не используется</p>';
 							}
+							descript += '</div>';
 
 							$('.overview-popup .popup-images').append('<div class="image-container">' +
 								'<img src='+data.images[i]['img']+' alt="">'+descript+
@@ -238,14 +251,14 @@ $(document).ready(function(){
 
 						$('.overview-popup').on('click','button[name=addImageFromSaved]',function(){
 							if(_this.closest('fieldset').find('input[name=fakeLoad]').length > 0){
-                                var image = $('.overview-popup .popup-images .active img').attr('src');
+								var image = $('.overview-popup .popup-images .active img').attr('src');
 								_this.closest('fieldset').find('.upload-image-preview').empty().append('' +
 									'<img src="'+image+'" alt="" data-type="file">' +
 									'<input name="imageAlt" type="text" class="text-input col_1" placeholder="alt&hellip;">');
 							}else{
 
 							}
-                            $('.overview-popup').hide();
+							$('.overview-popup').hide();
 						});
 					}else{
 						showErrors(data.message, '/admin/get_all_images')

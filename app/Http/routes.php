@@ -223,6 +223,12 @@ Route::group(['middleware' => 'admin'], function(){
 		'as'=>'admin-gallery',
 		'uses'=>'Admin\GalleryController@index'
 	]);
+		Route::post('/admin/gallery/add',[
+			'uses'=>'Admin\GalleryController@addImage'
+		]);
+		Route::delete('/admin/gallery/drop',[
+			'uses'=>'Admin\GalleryController@dropImage'
+		]);
 	//Новости
 	Route::get('/admin/news',[
 		'as'=>'admin-news',
