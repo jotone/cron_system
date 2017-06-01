@@ -273,10 +273,16 @@ footer .error-log{
 .categories-list-wrap, .optional-list-wrap{width: 100%;}
 .categories-list-wrap>ul, .optional-list-wrap>ul{margin-left: 0px;}
 .categories-list-wrap .empty{
-	min-height: 40px;
-	margin-top: 4px;
+	/*min-height: 40px;*/
+/*	margin-top: 4px;*/
 	display: none;
+	/*border: 2px dashed #252839;*/
+}
+.categories-list-wrap .ui-sortable-placeholder{
 	border: 2px dashed #252839;
+    min-height: 40px;
+    margin-top: 4px;
+    visibility: visible !important;
 }
 .categories-list-wrap>ul ul, .optional-list-wrap>ul ul{margin-left: 40px;}
 .categories-list-wrap .category-wrap, .optional-list-wrap .category-wrap{

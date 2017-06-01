@@ -111,6 +111,12 @@ $(document).ready(function(){
 			$('.categories-list-wrap ul.empty').hide();
 		},
 		update: function(e, ui){
+			$(e.target).removeClass('empty');
+			$('.categories-list-wrap li').each(function(){
+				if($(this).find('ul.empty').length < 1){
+					$(this).append('<ul class="empty" data-refer="'+$(this).attr('data-id')+'"></ul>');
+				}
+			});
 			sendPositions();
 		}
 	});

@@ -1,7 +1,12 @@
 <?php
 namespace App\Http\Controllers\Supply;
 use App\AdminMenu;
+use App\Brand;
+use App\News;
+use App\Products;
+use App\SocialMenu;
 use App\UserRoles;
+use App\Vacancies;
 use Auth;
 
 use Illuminate\Routing\Controller as BaseController;
@@ -281,5 +286,60 @@ class Functions extends BaseController{
 			$result .= '</ul>';
 		}
 		return $result;
+	}
+
+	protected static function getFolders($folder = 'img', &$all_files){
+		$fp=opendir($folder);
+		while($cv_file=readdir($fp)) {
+			if(is_file($folder."/".$cv_file)) {
+				$all_files[] = $folder."/".$cv_file;
+			}elseif( ($cv_file != '.') && ($cv_file != '..') && (is_dir($folder.'/'.$cv_file)) ){
+				self::getFolders($folder."/".$cv_file, $all_files);
+			}
+		}
+		closedir($fp);
+		return $all_files;
+	}
+
+	public static function getAllImages($http = false){
+		$folders = [];
+		$folders = self::getFolders('img', $folders);
+
+		$list = [];
+		foreach($folders as $image){
+			$used_in = [];
+
+			$images = Brand::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			foreach($images as $item) $used_in['brand'][] = $item->title;
+
+			$images = News::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			foreach($images as $item) $used_in['news'][] = $item->title;
+
+			$images = Products::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			foreach($images as $item) $used_in['products'][] = $item->title;
+
+			$images = SocialMenu::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			foreach($images as $item) $used_in['social'][] = $item->title;
+
+			$images = Vacancies::select('title')->where('img_url','LIKE','%'.$image.'%')->get();
+			foreach($images as $item) $used_in['vacancies'][] = $item->title;
+
+			$list[] = [
+				'img'=> (substr($image,0,1) == '/')? $image: '/'.$image,
+				'used_in'=>$used_in
+			];
+		}
+		if($http){
+			return $list;
+		}else{
+			return json_encode([
+				'message'	=> 'success',
+				'images'	=> $list
+			]);
+		}
+	}
+
+	public function getAllImagesByRequest(){
+		return self::getAllImages();
 	}
 }

@@ -218,6 +218,11 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/footer_menu/drop',[
 			'uses'=>'Admin\FooterMenuController@dropItem'
 		]);
+	//Галлерея
+	Route::get('/admin/gallery',[
+		'as'=>'admin-gallery',
+		'uses'=>'Admin\GalleryController@index'
+	]);
 	//Новости
 	Route::get('/admin/news',[
 		'as'=>'admin-news',
@@ -259,7 +264,7 @@ Route::group(['middleware' => 'admin'], function(){
 
 	//Similar queries
 	Route::get('/admin/get_all_images',[
-		'uses'=>'Admin\SimilarQueriesController@getAllImagesByRequest'
+		'uses'=>'Supply\Functions@getAllImagesByRequest'
 	]);
 	Route::patch('/admin/change_enabled',[
 		'uses'=>'Admin\SimilarQueriesController@changeEnabled'
