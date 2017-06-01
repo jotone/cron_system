@@ -3,10 +3,11 @@ function sendPositions(){
 	$('.categories-list-wrap li').each(function(){
 		positions.push({
 			id: $(this).attr('data-id'),
+			refer: $(this).closest('ul').attr('data-refer'),
 			pos: $(this).index()
 		});
 	});
-	/*$.ajax({
+	$.ajax({
 		url:	'/admin/change_postions',
 		type:	'PATCH',
 		headers:{'X-CSRF-TOKEN':$('header').attr('data-token')},
@@ -17,14 +18,14 @@ function sendPositions(){
 		success:function(data){
 			try{
 				data = JSON.parse(data);
-				if(data.message != 'success'){
+				if(data['message'] != 'success'){
 					showErrors(data, '/admin/change_postions');
 				}
 			}catch(e){
 				showErrors(e+data, '/admin/change_postions');
 			}
 		}
-	});*/
+	});
 }
 
 $(document).ready(function(){
@@ -102,7 +103,7 @@ $(document).ready(function(){
 	});
 
 	$('.categories-list-wrap ul').sortable({
-		connectWith: ['.categories-list-wrap .empty'],
+		connectWith: ['.categories-list-wrap ul'],
 		over: function(e, ui){
 			$(this).find('ul.empty').show();
 		},
@@ -110,7 +111,6 @@ $(document).ready(function(){
 			$('.categories-list-wrap ul.empty').hide();
 		},
 		update: function(e, ui){
-			$(this).closest('ul.empty').removeClass('empty');
 			sendPositions();
 		}
 	});

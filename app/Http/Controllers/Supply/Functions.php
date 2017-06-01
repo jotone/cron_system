@@ -240,7 +240,7 @@ class Functions extends BaseController{
 			->orderBy('position','asc')
 			->get();
 		if(!empty($items)){
-			$result .= '<ul>';
+			$result .= '<ul data-refer="'.$refer_to.'">';
 			foreach($items as $item){
 				$class = ($item->enabled == 1)? ['trigger_on','on']: ['trigger_off','off'];
 				switch($table){
@@ -275,7 +275,7 @@ class Functions extends BaseController{
 					$result .= self::buildCategoriesView($table, $refer_to = $item->id);
 				}
 				$result .='
-					<ul class="empty"></ul>
+					<ul class="empty" data-refer="'.$item->id.'"></ul>
 				</li>';
 			}
 			$result .= '</ul>';

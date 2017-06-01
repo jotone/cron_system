@@ -56,12 +56,15 @@ class SimilarQueriesController extends BaseController{
 				}
 			break;
 			case 'brands':
-				//dd($data);
+				foreach($data['positions'] as $position){
+					$result = Brand::where('id','=',$position['id'])->update([
+						'position'=>$position['pos'],
+						'refer_to'=>$position['refer']
+					]);
+				}
 			break;
 		}
-		if($result != false){
-			return json_encode(['message'=>'success']);
-		}
+		return json_encode(['message'=>'success']);
 	}
 
 	protected static function getFolders($folder = 'img', &$all_files){
