@@ -14,8 +14,7 @@ use Validator;
 class NewsController extends BaseController{
 
 	public function news($page = 1){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 
 		$limit = 4;
 		$start = ($page-1) * $limit;
@@ -46,16 +45,14 @@ class NewsController extends BaseController{
 			'total'		=> ceil($news_count/$limit)
 		];
 		return view('news', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu,
+			'defaults' => $defaults,
 			'news'			=> $list,
 			'paginate_options' => $paginate_options
 		]);
 	}
 
 	public function newsInner($slug){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 
 		$content = News::where('slug','=',$slug)->where('enabled','=',1)->first();
 
@@ -80,8 +77,7 @@ class NewsController extends BaseController{
 			];
 		}
 		return view('news_inner', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu,
+			'defaults' => $defaults,
 			'content'		=> $content,
 			'also_reading'	=> $list
 		]);

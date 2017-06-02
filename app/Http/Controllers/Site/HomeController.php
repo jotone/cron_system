@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\FooterMenu;
+use App\Http\Controllers\Supply\Helpers;
 use App\TopMenu;
 use App\User;
 
@@ -14,103 +15,81 @@ use Validator;
 class HomeController extends BaseController{
 
 	public function index(){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 		return view('home', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu
+			'defaults' => $defaults
 		]);
 	}
 
 	public function aboutUs(){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 		return view('about_us', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu,
+			'defaults' => $defaults,
 			'allow_map'		=>true
 		]);
 	}
 
 	public function contacts(){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 		return view('contacts', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu,
+			'defaults' => $defaults,
 			'allow_map'		=>true
 		]);
 	}
 
 	public function brand(){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 		return view('brand', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu
+			'defaults' => $defaults,
 		]);
 	}
 
 	public function catalog(){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 		return view('catalog', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu
+			'defaults' => $defaults,
 		]);
 	}
 
 	public function equipment(){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 		return view('equipment', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu
+			'defaults' => $defaults,
 		]);
 	}
 
 	public function request(){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 		return view('request', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu
+			'defaults' => $defaults,
 		]);
 	}
 
 	public function services(){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 		return view('services', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu
+			'defaults' => $defaults,
 		]);
 	}
 
 	public function thanks(){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 		return view('thanks', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu
+			'defaults' => $defaults,
 		]);
 	}
 
 	public function vacancies(){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 		return view('vacancies', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu
+			'defaults' => $defaults,
 		]);
 	}
 
 	public function vacanciesInner($slug){
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 		return view('vacancies_inner', [
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu
+			'defaults' => $defaults,
 		]);
 	}
 }

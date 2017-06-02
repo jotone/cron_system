@@ -10,8 +10,6 @@ use App\Vacancies;
 use Auth;
 
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\URL;
-use League\Flysystem\Exception;
 
 class Functions extends BaseController{
 	public static function getMicrotime(){

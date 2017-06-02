@@ -12,7 +12,7 @@
 		<div class="footer-row">
 			<div class="footer-menu">
 				<ul>
-				@foreach($footer_menu as $item)
+				@foreach($defaults['footer_menu'] as $item)
 					<li><a href="@if($item->is_outer == 0){{ URL::asset($item->slug) }}@else{{$item->slug}}@endif">{{ $item->title }}</a></li>
 				@endforeach
 				</ul>

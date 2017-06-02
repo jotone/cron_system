@@ -20,11 +20,12 @@ class BrandController extends BaseController{
 			$page_caption = AdminMenu::select('title','slug')->where('slug','LIKE','%'.$request->path().'%')->first();
 			$menu = Functions::buildMenuList($request->path());
 			$brands = Functions::buildCategoriesView('brands');
+
 			return view('admin.brands', [
 				'start'		=> $start,
 				'menu'		=> $menu,
 				'page_title'=> $page_caption->title,
-				'brands'	=> $brands
+				'brands'	=> $brands,
 			]);
 		}
 	}

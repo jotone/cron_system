@@ -15,8 +15,7 @@ class UserController extends BaseController{
 
 	public function index(){
 		$user = Auth::user();
-		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
-		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
+		$defaults = Helpers::getDefaults();
 
 		return view('user_panel', [
 			'data' => [
@@ -27,8 +26,7 @@ class UserController extends BaseController{
 				'address'		=> $user['address'],
 				'correspondence'=> $user['correspondence']
 			],
-			'top_menu'		=> $top_menu,
-			'footer_menu'	=> $footer_menu
+			'defaults' => $defaults,
 		]);
 	}
 
