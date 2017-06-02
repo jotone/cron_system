@@ -229,6 +229,11 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/gallery/drop',[
 			'uses'=>'Admin\GalleryController@dropImage'
 		]);
+	//Контактные данные
+	Route::get('/admin/info',[
+		'as'=>'admin-info',
+		'uses'=>'Admin\ContactsController@index'
+	]);
 	//Новости
 	Route::get('/admin/news',[
 		'as'=>'admin-news',
