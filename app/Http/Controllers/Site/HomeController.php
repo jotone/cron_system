@@ -1,12 +1,8 @@
 <?php
 namespace App\Http\Controllers\Site;
 
-use App\FooterMenu;
 use App\Http\Controllers\Supply\Helpers;
-use App\TopMenu;
-use App\User;
 
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Auth;
 use Crypt;

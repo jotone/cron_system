@@ -1,8 +1,7 @@
 <?php
 namespace App\Http\Controllers\Site;
 
-use App\FooterMenu;
-use App\TopMenu;
+use App\Http\Controllers\Supply\Helpers;
 use App\User;
 
 use Illuminate\Http\Request;
