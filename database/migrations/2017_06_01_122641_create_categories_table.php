@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
 			$table->string('title');
 			$table->string('slug');
 			$table->tinyInteger('position')->unsigned();
+			$table->integer('refer_to')->unsigned();
 			$table->boolean('enabled')->unsigned();
 			$table->timestamps();
 		});

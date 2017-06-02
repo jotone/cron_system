@@ -267,6 +267,25 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/brands/drop',[
 			'uses'=>'Admin\BrandController@dropItem'
 		]);
+	//Категории
+	Route::get('/admin/categories',[
+		'as'=>'admin-categories',
+		'uses'=>'Admin\CategoryController@index'
+	]);
+		Route::get('/admin/categories/add',[
+			'as'=>'admin-categories-add',
+			'uses'=>'Admin\CategoryController@addPage'
+		]);
+		Route::get('/admin/categories/edit/{id}',[
+			'as'=>'admin-categories-edit',
+			'uses'=>'Admin\CategoryController@editPage'
+		]);
+		Route::post('/admin/categories/add',[
+			'uses'=>'Admin\CategoryController@addItem'
+		]);
+		Route::delete('/admin/categories/drop',[
+			'uses'=>'Admin\CategoryController@dropItem'
+		]);
 
 	//Similar queries
 	Route::get('/admin/get_all_images',[

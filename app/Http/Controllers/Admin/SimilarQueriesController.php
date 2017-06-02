@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Brand;
+use App\Category;
 use App\FooterMenu;
 use App\News;
 use App\TopMenu;
@@ -31,6 +32,7 @@ class SimilarQueriesController extends BaseController{
 				$published = Functions::convertDate($result->published_at);
 			break;
 			case 'brands': $result = Brand::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
+			case 'categories': $result = Category::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
 		}
 		if($result != false){
 			return json_encode(['message'=>'success', 'published'=>$published]);
@@ -59,6 +61,11 @@ class SimilarQueriesController extends BaseController{
 						'is_last' => 1
 					]);
 					Brand::where('id','=',$position['refer'])->update(['is_last'=>0]);
+				}
+			break;
+			case 'categories':
+				foreach($data['positions'] as $position){
+					Category::where('id','=',$position['id'])->update(['position'=>$position['pos']]);
 				}
 			break;
 		}

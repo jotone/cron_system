@@ -240,8 +240,7 @@ class Functions extends BaseController{
 	}
 
 	public static function buildCategoriesView($table, $refer_to = 0, $result = ''){
-		$items = \DB::table($table)->select('id','title','slug','refer_to','enabled','created_at','updated_at')
-			->where('refer_to','=',$refer_to)
+		$items = \DB::table($table)->where('refer_to','=',$refer_to)
 			->orderBy('position','asc')
 			->get();
 		if(!empty($items)){
@@ -250,6 +249,7 @@ class Functions extends BaseController{
 				$class = ($item->enabled == 1)? ['trigger_on','on']: ['trigger_off','off'];
 				switch($table){
 					case 'brands': $link = 'admin-brands-edit'; break;
+					case 'categories': $link = 'admin-categories-edit'; break;
 				}
 				$result .= '
 				<li data-id="'.$item->id.'">
