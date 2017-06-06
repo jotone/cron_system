@@ -19,6 +19,7 @@ class CreateUserVacancy extends Migration
 			$table->string('email');
 			$table->string('file');
 			$table->integer('refer_to_vacancy')->unsigned();
+			$table->tinyInteger('status')->unsigned();
 			$table->timestamps();
 		});
 	}

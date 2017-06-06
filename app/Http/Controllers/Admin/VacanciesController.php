@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\AdminMenu;
-use App\News;
+use App\Vacancies;
 
 use App\Http\Controllers\Supply\Functions;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ use Auth;
 use Crypt;
 use Validator;
 
-class NewsController extends BaseController{
+class VacanciesController extends BaseController{
 
 	public function index(Request $request){
 		$allow_access = Functions::checkAccessToPage($request->path());
@@ -21,7 +21,7 @@ class NewsController extends BaseController{
 
 			$menu = Functions::buildMenuList($request->path());
 
-			$content = News::select('id','title','slug','img_url','views','enabled','published_at','created_at','updated_at');
+			$content = Vacancies::select('*');
 
 			$request_data = $request->all();
 			$active_direction = ['sort'=>'title', 'dir'=>'asc'];
@@ -38,7 +38,7 @@ class NewsController extends BaseController{
 					case 'updated':		$content = $content->orderBy('updated_at',$direction); break;
 				}
 			}else{
-				$content = $content->orderBy('created_at','desc');
+				$content = $content->orderBy('title','asc');
 			}
 			$content = $content->paginate(20);
 
@@ -64,7 +64,7 @@ class NewsController extends BaseController{
 				'sort_by'		=> $active_direction['sort'],
 				'dir'			=> $active_direction['dir']
 			];
-			return view('admin.news', [
+			return view('admin.vacancies', [
 				'start'		=> $start,
 				'menu'		=> $menu,
 				'page_title'=> $page_caption->title,
@@ -80,10 +80,10 @@ class NewsController extends BaseController{
 			$start = Functions::getMicrotime();
 			$menu = Functions::buildMenuList($request->path());
 
-			return view('admin.add.news',[
+			return view('admin.add.vacancies',[
 				'start'		=> $start,
 				'menu'		=> $menu,
-				'page_title'=> 'Добавление новости',
+				'page_title'=> 'Добавление вакансии',
 			]);
 		}
 	}
@@ -94,11 +94,11 @@ class NewsController extends BaseController{
 			$start = Functions::getMicrotime();
 			$menu = Functions::buildMenuList($request->path());
 
-			$content = News::find($id);
-			return view('admin.add.news',[
+			$content = Vacancies::find($id);
+			return view('admin.add.vacancies',[
 				'start'		=> $start,
 				'menu'		=> $menu,
-				'page_title'=> 'Добавление новости',
+				'page_title'=> 'Редактирование вакансии',
 				'content'	=> $content
 			]);
 		}
@@ -106,7 +106,6 @@ class NewsController extends BaseController{
 
 	public function addItem(Request $request){
 		$data = $request->all();
-
 		if($data['image_type'] == 'file'){
 			$img_url = json_encode([
 				'img'=>$data['image'],
@@ -120,24 +119,22 @@ class NewsController extends BaseController{
 			]);
 		}
 		if( (isset($data['id'])) && (!empty($data['id'])) ){
-			$result = News::find($data['id']);
+			$result = Vacancies::find($data['id']);
 			$result->title			= trim($data['title']);
 			$result->slug			= trim($data['slug']);
 			$result->text			= $data['text'];
 			$result->img_url		= $img_url;
-			$result->also_reads		= $data['also_reads'];
 			$result->enabled		= $data['enabled'];
 			$result->meta_title		= $data['meta_title'];
 			$result->meta_keywords	= $data['meta_keywords'];
 			$result->meta_description = $data['meta_description'];
 			$result->save();
 		}else{
-			$result = News::create([
+			$result = Vacancies::create([
 				'title'			=> trim($data['title']),
 				'slug'			=> trim($data['slug']),
 				'text'			=> $data['text'],
 				'img_url'		=> $img_url,
-				'also_reads'	=> $data['also_reads'],
 				'enabled'		=> $data['enabled'],
 				'meta_title'	=> $data['meta_title'],
 				'meta_keywords'	=> $data['meta_keywords'],
@@ -150,9 +147,10 @@ class NewsController extends BaseController{
 			return json_encode(['message'=>'success']);
 		}
 	}
+
 	public function dropItem(Request $request){
 		$data = $request->all();
-		$result = News::where('id','=',$data['id'])->delete();
+		$result = Vacancies::where('id','=',$data['id'])->delete();
 		if($result != false){
 			return json_encode(['message'=>'success']);
 		}

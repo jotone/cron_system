@@ -44,7 +44,7 @@
 						</div>
 					</th>
 					<th>Превью</th>
-					<th>Количество просмотров
+					<th>Просмотров
 						<div class="direction" id="views">
 							<a href="{{ URL::asset('/admin/news/?page='.$pagination['current_page'].'&sort_by=views&dir=asc') }}" class="asc">&#9650;</a>
 							<a href="{{ URL::asset('/admin/news/?page='.$pagination['current_page'].'&sort_by=views&dir=desc') }}" class="desc">&#9660;</a>
@@ -58,14 +58,14 @@
 					</th>
 					<th>Создан
 						<div class="direction" id="created">
-							<a href="{{ URL::asset('/admin/users/?page='.$pagination['current_page'].'&sort_by=created&dir=asc') }}" class="asc">&#9650;</a>
-							<a href="{{ URL::asset('/admin/users/?page='.$pagination['current_page'].'&sort_by=created&dir=desc') }}" class="desc">&#9660;</a>
+							<a href="{{ URL::asset('/admin/news/?page='.$pagination['current_page'].'&sort_by=created&dir=asc') }}" class="asc">&#9650;</a>
+							<a href="{{ URL::asset('/admin/news/?page='.$pagination['current_page'].'&sort_by=created&dir=desc') }}" class="desc">&#9660;</a>
 						</div>
 					</th>
 					<th>Изменен
 						<div class="direction" id="updated">
-							<a href="{{ URL::asset('/admin/users/?page='.$pagination['current_page'].'&sort_by=updated&dir=asc') }}" class="asc">&#9650;</a>
-							<a href="{{ URL::asset('/admin/users/?page='.$pagination['current_page'].'&sort_by=updated&dir=desc') }}" class="desc">&#9660;</a>
+							<a href="{{ URL::asset('/admin/news/?page='.$pagination['current_page'].'&sort_by=updated&dir=asc') }}" class="asc">&#9650;</a>
+							<a href="{{ URL::asset('/admin/news/?page='.$pagination['current_page'].'&sort_by=updated&dir=desc') }}" class="desc">&#9660;</a>
 						</div>
 					</th>
 				</tr>

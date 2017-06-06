@@ -256,6 +256,25 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/news/drop',[
 			'uses'=>'Admin\NewsController@dropItem'
 		]);
+	//Вакансии
+	Route::get('/admin/vacancies',[
+		'as'=>'admin-vacancies',
+		'uses'=>'Admin\VacanciesController@index'
+	]);
+		Route::get('/admin/vacancies/add',[
+			'as'=>'admin-vacancies-add',
+			'uses'=>'Admin\VacanciesController@addPage'
+		]);
+		Route::get('/admin/vacancies/edit/{id}',[
+			'as'=>'admin-vacancies-edit',
+			'uses'=>'Admin\VacanciesController@editPage'
+		]);
+		Route::post('/admin/vacancies/add',[
+			'uses'=>'Admin\VacanciesController@addItem'
+		]);
+		Route::delete('/admin/vacancies/drop',[
+			'uses'=>'Admin\VacanciesController@dropItem'
+		]);
 	//Брэнды
 	Route::get('/admin/brands',[
 		'as'=>'admin-brands',

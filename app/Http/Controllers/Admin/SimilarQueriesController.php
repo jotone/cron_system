@@ -6,6 +6,7 @@ use App\Category;
 use App\FooterMenu;
 use App\News;
 use App\TopMenu;
+use App\Vacancies;
 
 use App\Http\Controllers\Supply\Functions;
 use Illuminate\Http\Request;
@@ -20,7 +21,8 @@ class SimilarQueriesController extends BaseController{
 		$data = $request->all();
 		$published = '';
 		switch($data['type']){
-			case 'top_menu': $result = TopMenu::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
+			case 'brands': $result = Brand::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
+			case 'categories': $result = Category::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
 			case 'footer_menu': $result = FooterMenu::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
 			case 'news':
 				$result = News::find($data['id']);
@@ -31,8 +33,16 @@ class SimilarQueriesController extends BaseController{
 				$result->save();
 				$published = Functions::convertDate($result->published_at);
 			break;
-			case 'brands': $result = Brand::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
-			case 'categories': $result = Category::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
+			case 'top_menu': $result = TopMenu::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
+			case 'vacancies':
+				$result = Vacancies::find($data['id']);
+				$result->enabled = $data['val'];
+				if($data['val'] > 0) {
+					$result->published_at = date('Y-m-d H:i:s');
+				}
+				$result->save();
+				$published = Functions::convertDate($result->published_at);
+			break;
 		}
 		if($result != false){
 			return json_encode(['message'=>'success', 'published'=>$published]);

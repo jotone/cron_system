@@ -53,31 +53,34 @@ class NewsController extends BaseController{
 		$defaults = Helpers::getDefaults();
 
 		$content = News::where('slug','=',$slug)->where('enabled','=',1)->first();
-
-		$also_reading = News::where('also_reads','=',1)
-			->where('id','!=',$content->id)
-			->orderBy('published_at','desc')
-			->take(3)->get();
-		$list = [];
-		foreach($also_reading as $new){
-			$text_arr = explode(' ', strip_tags($new->text));
-			$n = count($text_arr);
-			if($n >= 18) $n = 18;
-			$text = '';
-			for($i = 0; $i<$n; $i++){
-				$text .= $text_arr[$i].' ';
+		if(!empty($content)){
+			$views = $content->views +1;
+			News::where('slug','=',$slug)->where('enabled','=',1)->update(['views'=>$views]);
+			$also_reading = News::where('also_reads','=',1)
+				->where('id','!=',$content->id)
+				->orderBy('published_at','desc')
+				->take(3)->get();
+			$list = [];
+			foreach($also_reading as $new){
+				$text_arr = explode(' ', strip_tags($new->text));
+				$n = count($text_arr);
+				if($n >= 18) $n = 18;
+				$text = '';
+				for($i = 0; $i<$n; $i++){
+					$text .= $text_arr[$i].' ';
+				}
+				$list[] = [
+					'title' => $new->title,
+					'slug' => $new->slug,
+					'img_url' => json_decode($new->img_url),
+					'text' => $text.'&hellip;'
+				];
 			}
-			$list[] = [
-				'title' => $new->title,
-				'slug' => $new->slug,
-				'img_url' => json_decode($new->img_url),
-				'text' => $text.'&hellip;'
-			];
+			return view('news_inner', [
+				'defaults' => $defaults,
+				'content'		=> $content,
+				'also_reading'	=> $list
+			]);
 		}
-		return view('news_inner', [
-			'defaults' => $defaults,
-			'content'		=> $content,
-			'also_reading'	=> $list
-		]);
 	}
 }
