@@ -5,6 +5,7 @@ use App\Brand;
 use App\Category;
 use App\FooterMenu;
 use App\News;
+use App\Products;
 use App\TopMenu;
 use App\Vacancies;
 
@@ -26,6 +27,15 @@ class SimilarQueriesController extends BaseController{
 			case 'footer_menu': $result = FooterMenu::where('id','=',$data['id'])->update(['enabled'=>$data['val']]); break;
 			case 'news':
 				$result = News::find($data['id']);
+				$result->enabled = $data['val'];
+				if($data['val'] > 0) {
+					$result->published_at = date('Y-m-d H:i:s');
+				}
+				$result->save();
+				$published = Functions::convertDate($result->published_at);
+			break;
+			case 'products':
+				$result = Products::find($data['id']);
 				$result->enabled = $data['val'];
 				if($data['val'] > 0) {
 					$result->published_at = date('Y-m-d H:i:s');

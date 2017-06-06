@@ -7,6 +7,7 @@ use App\Category;
 use App\Products;
 
 use App\Http\Controllers\Supply\Functions;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Auth;
@@ -43,7 +44,7 @@ class ProductController extends BaseController{
 					case 'updated':		$content = $content->orderBy('updated_at',$direction); break;
 				}
 			}else{
-				$content = $content->orderBy('created_at','desc');
+				$content = $content->orderBy('title','asc');
 			}
 			$content = $content->paginate(20);
 
@@ -51,16 +52,20 @@ class ProductController extends BaseController{
 			foreach($content as $product){
 				$category = Category::select('title')->find($product->refer_to_category);
 				$brand = Brand::select('title')->find($product->refer_to_brand);
+				switch($product->is_hot){
+					case '0': $is_hot = 'Не назначено'; break;
+					case '1': $is_hot = '<div class="hot">HOT</div>'; break;
+					case '2': $is_hot = '<div class="sale">SALE</div>'; break;
+				}
 				$list[] = [
 					'id'		=> $product->id,
 					'title'		=> $product->title,
 					'img_url'	=> json_decode($product->img_url),
 					'price'		=> number_format($product->price, 2, '.', ' '),
-					'category'	=> $category,
-					'brand'		=> $brand,
+					'category'	=> $category->title,
+					'brand'		=> $brand->title,
 					'rating'	=> $product->rating,
-					'is_hot'	=> $product->is_hot,
-					'views'		=> $product->views,
+					'is_hot'	=> $is_hot,
 					'enabled'	=> ($product->enabled == 1)? 'checked="checked"': '',
 					'published_at'=>Functions::convertDate($product->published_at),
 					'created_at'=> Functions::convertDate($product->created_at),
@@ -91,8 +96,8 @@ class ProductController extends BaseController{
 			$start = Functions::getMicrotime();
 			$menu = Functions::buildMenuList($request->path());
 
-			$brands_list = Functions::buildVerticalOptionList('brands');
-			$categories_list = Functions::buildVerticalOptionList('categories');
+			$brands_list = Brand::where('is_last','=',1)->select('id','title')->orderBy('refer_to','asc')->get();
+			$categories_list = Category::select('id','title')->orderBy('title','asc')->get();
 
 			return view('admin.add.products',[
 				'start'		=> $start,
@@ -103,7 +108,87 @@ class ProductController extends BaseController{
 			]);
 		}
 	}
-	public function editPage($id, Request $request){}
-	public function addItem(Request $request){}
-	public function dropItem(Request $request){}
+
+	public function editPage($id, Request $request){
+		$allow_access = Functions::checkAccessToPage($request->path());
+		if($allow_access) {
+			$start = Functions::getMicrotime();
+			$menu = Functions::buildMenuList($request->path());
+
+			$content = Products::find($id);
+			$brands_list = Brand::where('is_last','=',1)->select('id','title')->orderBy('refer_to','asc')->get();
+			$categories_list = Category::select('id','title')->orderBy('title','asc')->get();
+
+			return view('admin.add.products',[
+				'start'		=> $start,
+				'menu'		=> $menu,
+				'page_title'=> 'Редактирование товара',
+				'content'	=> $content,
+				'brands'	=> $brands_list,
+				'categories'=> $categories_list
+			]);
+		}
+	}
+
+	public function addItem(Request $request){
+		$data = $request->all();
+		//dd($data);
+		if($data['image_type'] == 'file'){
+			$img_url = json_encode([
+				'img'=>$data['image'],
+				'alt'=>$data['image_alt']
+			]);
+		}else{
+			$image = Functions::createImg($data['image'], true);
+			$img_url = json_encode([
+				'img'=>$image,
+				'alt'=>$data['image_alt']
+			]);
+		}
+		if( (isset($data['id'])) && (!empty($data['id'])) ){
+			$result = Products::find($data['id']);
+			$result->title				= trim($data['title']);
+			$result->slug				= trim($data['slug']);
+			$result->text				= $data['text'];
+			$result->img_url			= $img_url;
+			$result->old_price			= str_replace(',','.',$data['old_price']);
+			$result->price				= str_replace(',','.',$data['price']);
+			$result->refer_to_category	= $data['category'];
+			$result->refer_to_brand		= $data['brand'];
+			$result->rating				= ( ($data['rating'] == 'undefined') || ($data['rating'] == '') )? 0: $data['rating'];
+			$result->is_hot				= $data['is_hot'];
+			$result->enabled			= $data['enabled'];
+			if($result->enabled > 0){
+				$result->published_at = date('Y-m-d H:i:s');
+			}
+			$result->save();
+		}else{
+			$result = Products::create([
+				'title'				=> trim($data['title']),
+				'slug'				=> trim($data['slug']),
+				'text'				=> $data['text'],
+				'img_url'			=> $img_url,
+				'old_price'			=> str_replace(',','.',$data['old_price']),
+				'price'				=> str_replace(',','.',$data['price']),
+				'refer_to_category'	=> $data['category'],
+				'refer_to_brand'	=> $data['brand'],
+				'rating'			=> ( ($data['rating'] == 'undefined') || ($data['rating'] == '') )? 0: $data['rating'],
+				'is_hot'			=> $data['is_hot'],
+				'views'				=> 0,
+				'enabled'			=> $data['enabled'],
+				'published_at'		=> date('Y-m-d H:i:s')
+			]);
+		}
+		if($result != false){
+			return json_encode(['message'=>'success']);
+		}
+	}
+
+	public function dropItem(Request $request){
+		$data = $request->all();
+		$result = Products::where('id','=',$data['id'])->delete();
+		if($result != false){
+			return json_encode(['message'=>'success']);
+		}
+	}
 }

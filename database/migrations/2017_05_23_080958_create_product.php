@@ -18,6 +18,7 @@ class CreateProduct extends Migration
 			$table->string('slug');
 			$table->text('text');
 			$table->text('img_url');
+			$table->float('old_price');
 			$table->float('price');
 			$table->integer('refer_to_category')->unsigned();
 			$table->integer('refer_to_brand')->unsigned();

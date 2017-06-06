@@ -130,6 +130,9 @@ class NewsController extends BaseController{
 			$result->meta_title		= $data['meta_title'];
 			$result->meta_keywords	= $data['meta_keywords'];
 			$result->meta_description = $data['meta_description'];
+			if($result->enabled > 0){
+				$result->published_at = date('Y-m-d H:i:s');
+			}
 			$result->save();
 		}else{
 			$result = News::create([
