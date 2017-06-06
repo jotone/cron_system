@@ -324,9 +324,6 @@ class Functions extends BaseController{
 				->get();
 			foreach($images as $item) $used_in['products'][] = $item->title;
 
-			$images = SocialMenu::select('title')->where('img_url','LIKE','%'.$temp.'%')->get();
-			foreach($images as $item) $used_in['social'][] = $item->title;
-
 			$images = Vacancies::select('title')
 				->where('img_url','LIKE','%'.$temp.'%')
 				->orWhere('text','LIKE','%'.$temp.'%')

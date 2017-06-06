@@ -43,7 +43,7 @@
 						<a href="{{ URL::asset('/admin/users/roles/?page='.$pagination['current_page'].'&sort_by=pseudonim&dir=desc') }}" class="desc">&#9660;</a>
 					</div>
 				</th>
-				<th>Доступные страницы</th>
+				<th>Запрещеные страницы</th>
 				<th>Пользователи</th>
 				<th>Создан
 					<div class="direction" id="created">
