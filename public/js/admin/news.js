@@ -50,7 +50,7 @@ $(document).ready(function(){
 			success:function(data){
 				try{
 					data = JSON.parse(data);
-					if (data.message == 'success') {
+					if(data.message == 'success'){
 						location = '/admin/news';
 					}
 				}catch(e){

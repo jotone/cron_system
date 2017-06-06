@@ -52,7 +52,7 @@
 						@if(!empty($content['social']['val']))
 							@foreach($content['social']['val'] as $social)
 								<?php
-								switch($social->type){
+								switch($social->slug){
 									case 'facebook':	$title = 'FaceBook'; break;
 									case 'google_plus':	$title = 'Google+'; break;
 									case 'instagram':	$title = 'Instagram'; break;
@@ -70,7 +70,7 @@
 								?>
 								<div class="row-wrap col_1_2" style="display: flex; align-items: center">
 									<span style="width: 110px; padding-right: 10px;" class="tar">{{ $title }}:</span>
-									<input name="socLink" type="text" class="text-input col_4_5" placeholder="Ссылка&hellip;" data-soc="{{$social->type}}" value="{{$social->link}}">
+									<input name="socLink" type="text" class="text-input col_4_5" placeholder="Ссылка&hellip;" data-soc="{{$social->slug}}" value="{{$social->link}}">
 									<span class="drop-add-field">×</span>
 								</div>
 							@endforeach

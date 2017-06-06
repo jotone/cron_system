@@ -16,9 +16,8 @@ class CreateSocialMenu extends Migration
 			$table->increments('id');
 			$table->string('title');
 			$table->string('slug');
-			$table->text('img_url');
+			$table->text('link');
 			$table->tinyInteger('position')->unsigned();
-			$table->boolean('enabled')->unsigned();
 			$table->timestamps();
 		});
 	}

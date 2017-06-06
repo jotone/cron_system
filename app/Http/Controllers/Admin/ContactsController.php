@@ -28,7 +28,7 @@ class ContactsController extends BaseController{
 				'title'	=> 'Социальные Сети',
 				'val'	=> $social
 			]];
-			foreach ($content as $item) {
+			foreach($content as $item){
 				switch($item->key){
 					case 'marker_coordinates': $value = json_decode($item->value); break;
 					default: $value = $item->value;
@@ -38,7 +38,6 @@ class ContactsController extends BaseController{
 					'val'	=> $value
 				];
 			}
-			//dd($list);
 			return view('admin.info', [
 				'start'		=> $start,
 				'menu'		=> $menu,
@@ -46,5 +45,61 @@ class ContactsController extends BaseController{
 				'content'	=> $list
 			]);
 		}
+	}
+
+	public function save(Request $request){
+		$data = $request->all();
+		if($data['image_type'] == 'file'){
+			$img_url = $data['image'];
+		}else{
+			$img_url = Functions::createImg($data['image'], true);
+		}
+
+		SocialMenu::truncate();
+		$socials = json_decode($data['social']);
+		foreach($socials as $social){
+			switch($social->type){
+				case 'facebook':	$title = 'FaceBook'; break;
+				case 'google_plus':	$title = 'Google+'; break;
+				case 'instagram':	$title = 'Instagram'; break;
+				case 'linkedin':	$title = 'LinkedIn'; break;
+				case 'livejournal':	$title = 'LiveJournal'; break;
+				case 'mailru':		$title = 'MailRu'; break;
+				case 'pinterest':	$title = 'Pinterest'; break;
+				case 'twitter':		$title = 'Twitter'; break;
+				case 'viber':		$title = 'Viber'; break;
+				case 'whatsapp':	$title = 'WhatsApp'; break;
+				case 'vkontakte':	$title = 'Вконтакте'; break;
+				case 'odnoklassniki':$title= 'Одноклассники'; break;
+				default: $title = '';
+			}
+			SocialMenu::create([
+				'title' => $title,
+				'slug'  => $social->type,
+				'link'  => $social->val,
+				'position'=>$social->pos
+			]);
+		}
+
+		foreach($data as $key => $value){
+			switch($key){
+				case 'address':
+				case 'marker_coordinates':
+				case 'email':
+				case 'phone':
+				case 'work_time':
+					$result = EtcData::where('label','=','info')
+						->where('key','=',$key)
+						->update(['value'=>$value]);
+				break;
+				case 'image':
+					$result = EtcData::where('label','=','info')
+						->where('key','=','map_marker')
+						->update(['value'=>$img_url]);
+				break;
+			}
+		}
+
+		return json_encode(['message'=>'success']);
 	}
 }

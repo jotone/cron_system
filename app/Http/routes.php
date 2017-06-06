@@ -234,6 +234,9 @@ Route::group(['middleware' => 'admin'], function(){
 		'as'=>'admin-info',
 		'uses'=>'Admin\ContactsController@index'
 	]);
+		Route::post('/admin/info',[
+			'uses'=>'Admin\ContactsController@save'
+		]);
 	//Новости
 	Route::get('/admin/news',[
 		'as'=>'admin-news',

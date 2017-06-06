@@ -43,6 +43,54 @@ $(document).ready(function(){
 	});
 
 	$('button[name=save]').click(function(){
-	    formData.append('phone', $('input[name=phone]').val());
-    })
+		var social = [];
+		$('#socList input[name=socLink]').each(function(){
+			social.push({
+				type: $(this).attr('data-soc'),
+				val: $(this).val(),
+				pos: $(this).closest('.row-wrap').index()
+			});
+		});
+		formData.append('phone', $('input[name=phone]').val());
+		formData.append('email', $('input[name=email]').val());
+		formData.append('address', CKEDITOR.instances.address.getData());
+		formData.append('work_time', CKEDITOR.instances.work_time.getData());
+		formData.append('social', JSON.stringify(social));
+		if($('.upload-image-preview img').length > 0){
+			if($('.upload-image-preview img').attr('data-type') == 'upload'){
+				formData.append('image_type', 'upload');
+			}else{
+				formData.append('image', $('.upload-image-preview img').attr('src'));
+				formData.append('image_type', 'file');
+			}
+		}else{
+			formData.append('image', '');
+			formData.append('image_type', 'file');
+		}
+		formData.append('marker_coordinates', JSON.stringify({
+			x:	$('input[name=x]').val(),
+			y:	$('input[name=y]').val()
+		}));
+		$.ajax({
+			url:		'/admin/info',
+			type:		'POST',
+			headers:	{'X-CSRF-TOKEN': $('header').attr('data-token')},
+			processData:false,
+			contentType:false,
+			data:		formData,
+			error:		function (jqXHR, textStatus, errorThrown) {
+				showErrors(jqXHR.responseText, '/admin/info')
+			},
+			success:	function(data) {
+				try{
+					data = JSON.parse(data);
+					if(data.message == 'success'){
+						alert('Данные успешно изменены.');
+					}
+				}catch(e){
+					showErrors(e + data, '/admin/info')
+				}
+			}
+		});
+	})
 });
