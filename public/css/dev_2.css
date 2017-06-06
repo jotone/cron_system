@@ -938,8 +938,7 @@
 
 .header .header-huge-menu .bottom-menu>ul li a span:hover:before, .header .header-huge-menu .bottom-menu > ul li a span:hover:after{background: #00b3ad; transition: .3s;}
 .header .header-huge-menu .bottom-menu>ul>li{width: 22%;}
-.header .header-huge-menu .bottom-menu>ul>li:first-child{width: 48%;}
-.header .header-huge-menu .bottom-menu>ul>li:first-child>ul{-webkit-columns: 2; columns: 2;}
+.header .header-huge-menu .bottom-menu>ul>li.wide {width: 48%;}
 .header .header-huge-menu .bottom-menu>ul>li:before{
 	content: '';
 	position: absolute;
@@ -962,6 +961,19 @@
 .header .header-huge-menu .bottom-menu>ul>li>ul>li>ul>li>ul>li{padding-left: 17px;}
 .header .header-huge-menu .bottom-menu>ul>li>ul>li>ul>li>ul>li>a{font-weight: 300; letter-spacing: -.7px;}
 .header .header-huge-menu .bottom-menu>ul>li>ul>li>ul>li>ul>li>a:hover{font-weight: 600;}
+.header .header-huge-menu .bottom-menu > ul > li > div { display: -webkit-box; display: -ms-flexbox; display: flex; }
+.header .header-huge-menu .bottom-menu > ul > li > div > a { color: #a7a7a7; }
+.header .header-huge-menu .bottom-menu > ul > li > div > a:hover { color: #696969; transition: .3s; }
+.header .header-huge-menu .bottom-menu > ul > li > div > ul > li { padding-left: 12px; }
+.header .header-huge-menu .bottom-menu > ul > li > div > ul > li > a:hover { color: #00b3ad; transition: .3s; }
+.header .header-huge-menu .bottom-menu > ul > li > div > ul > li > ul > li { padding-left: 9px; }
+.header .header-huge-menu .bottom-menu > ul > li > div > ul > li > ul > li > ul { display: none; }
+.header .header-huge-menu .bottom-menu > ul > li > div > ul > li > ul { display: none; }
+.header .header-huge-menu .bottom-menu > ul > li > div > ul > li > ul > li > a { font-weight: 400; }
+.header .header-huge-menu .bottom-menu > ul > li > div > ul > li > ul > li > a:hover { font-weight: 600; }
+.header .header-huge-menu .bottom-menu > ul > li > div > ul > li > ul > li > ul > li { padding-left: 17px; }
+.header .header-huge-menu .bottom-menu > ul > li > div > ul > li > ul > li > ul > li > a { font-weight: 300; letter-spacing: -.7px; }
+.header .header-huge-menu .bottom-menu > ul > li > div > ul > li > ul > li > ul > li > a:hover { font-weight: 600; }
 
 .footer{background: url("/images/footer-bg.jpg"); padding-top: 61px;}
 

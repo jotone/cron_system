@@ -313,6 +313,25 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/categories/drop',[
 			'uses'=>'Admin\CategoryController@dropItem'
 		]);
+	//Товары
+	Route::get('/admin/products',[
+		'as'=>'admin-products',
+		'uses'=>'Admin\ProductController@index'
+	]);
+		Route::get('/admin/products/add',[
+			'as'=>'admin-products-add',
+			'uses'=>'Admin\ProductController@addPage'
+		]);
+		Route::get('/admin/products/edit/{id}',[
+			'as'=>'admin-products-edit',
+			'uses'=>'Admin\ProductController@editPage'
+		]);
+		Route::post('/admin/products/add',[
+			'uses'=>'Admin\ProductController@addItem'
+		]);
+		Route::delete('/admin/products/drop',[
+			'uses'=>'Admin\ProductController@dropItem'
+		]);
 
 	//Similar queries
 	Route::get('/admin/get_all_images',[

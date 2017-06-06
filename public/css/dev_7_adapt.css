@@ -11,6 +11,7 @@
 }
 
 @media screen and (max-width: 1680px){
+	.vacancies .vacancies-wrap ul {justify-content: center;}
 	.vacancies .vacancies-wrap ul li{margin-right: 15px;}
 	.vacancies .vacancies-wrap ul li:last-child{margin: 0;}
 	.news-content img{width: 35%; height: 35%;}
@@ -40,8 +41,7 @@
 	.brand .brand-items .product-item{width: 45%;}
 	.news-popular-list li .popular-pic{height: 165px;}
 }
-
-@media screen and (max-width: 1023px){
+@media screen and (max-width: 1139px){
 	.vacancies .vacancies-wrap ul{
 		-webkit-box-orient: vertical;
 		-webkit-box-direction: normal;
@@ -62,6 +62,8 @@
 		-ms-flex-align: center;
 		align-items: center;
 	}
+}
+@media screen and (max-width: 1023px){
 	.vacancies-inner .vacancy-content .vacancy-wrap .vacancy-left{padding-top: 0; margin: 0 0 40px 0;}
 	.catalog .catalog-wrap .catalog-filter-wrap{
 		position: absolute;

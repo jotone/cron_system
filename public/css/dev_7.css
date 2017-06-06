@@ -699,6 +699,7 @@ ul{margin: 0; padding: 0; list-style: none;}
 /* End News Inner */
 /* Begin Vacancies */
 .vacancies{
+	overflow: hidden;
 	position: relative;
 	padding: 21px 0 213px 0;
 	background: #a2e1f3 url("/images/bg.jpg");
@@ -746,12 +747,13 @@ ul{margin: 0; padding: 0; list-style: none;}
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
+  flex-wrap: wrap;
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
 	justify-content: space-between;
 }
 
-.vacancies .vacancies-wrap ul li{max-width: 540px; background: white;}
+.vacancies .vacancies-wrap ul li{max-width: 540px; margin-bottom: 60px; background: white;}
 
 .vacancies .vacancies-wrap ul li .vacancy-title{
 	display: -webkit-box;

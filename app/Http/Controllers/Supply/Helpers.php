@@ -27,17 +27,36 @@ class Helpers extends BaseController{
 			->orderBy('position','asc')
 			->get();
 		if(!empty($items->all())){
-			$result .= ($refer_to == 0)? '<ul class="menu-list">': '<ul>';
-			foreach($items as $item){
-				$result .= '<li><a href="#'.$item->slug.'">'.$item->title.'</a>';
-				$inner_count = Brand::where('refer_to','=',$item->id)->count();
+
+			$n = count($items);
+			if($refer_to == 0) {
+				$result .= '<ul class="menu-list">';
+			}else{
+				$result .= ($n > 15)? '<div>': '<ul>';
+			}
+
+			for($i = 0; $i<$n; $i++){
+				if( (count($items) > 15) && ($i%15 == 0) ){
+					$result .= '<ul>';
+				}
+				$inner_count = Brand::where('refer_to','=',$items[$i]->id)->count();
+				$wide_class = ( ($refer_to == 0) && ($inner_count > 15) )? 'class="wide"': '';
+
+				$result .= '<li '.$wide_class.'><a href="#'.$items[$i]->slug.'">'.$items[$i]->title.'</a>';
+
 				if($inner_count > 0){
-					$result .= self::buildBrandList($item->id);
+					$result .= self::buildBrandList($items[$i]->id);
 				}
 				$result .= '</li>';
+
+				if( (count($items) > 15) && (($i%15 == 14) || ($i == $n-1)) ){
+					$result .= '</ul>';
+				}
 			}
-			$result .= '</ul>';
+			$result .= ($n > 15)? '</div>': '</ul>';
 		}
+
 		return $result;
+
 	}
 }
