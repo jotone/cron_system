@@ -171,6 +171,7 @@
 	.enter .enter-content .enter-center h1, .enter .enter-content .enter-center h2, .enter .enter-content .enter-center h3{font-size: 32px; margin-bottom: 10px;}
 	.brand .brand-info h1, .brand .brand-info h2, .brand .brand-info h3{font-size: 32px;}
 	.catalog .catalog-wrap .catalog-right h1, .catalog .catalog-wrap .catalog-right h2, .catalog .catalog-wrap .catalog-right h3{font-size: 32px;}
+	.news-inner .title {margin-bottom: 35px;}
 	.news-inner .news-popular{padding: 25px 0 100px 0;}
 	.news-inner .news-popular .title-line{margin-bottom: 30px;}
 	.news-inner .news-popular .title-line h1, .news-inner .news-popular .title-line h2, .news-inner .news-popular .title-line h3{font-size: 32px;}

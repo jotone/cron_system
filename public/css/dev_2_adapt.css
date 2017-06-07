@@ -415,6 +415,7 @@
     opacity: 0;
     padding: 20px 0;
   }
+  .header .header-huge-menu .bottom-menu>ul li a {font-size: 17px;}
   .header .bottom-header .wrapper .header-menu.active {
     opacity: 1;
     transition: .5s;

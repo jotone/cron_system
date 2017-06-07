@@ -650,7 +650,7 @@ ul{margin: 0; padding: 0; list-style: none;}
 .news-inner{
 	position: relative;
 	overflow: hidden;
-	padding-top: 19px;
+	padding-top: 22px;
 	background: #a2e1f3 url("/images/bg.jpg");
 	z-index: 0;
 }
@@ -663,6 +663,17 @@ ul{margin: 0; padding: 0; list-style: none;}
 	height: 302px;
 	width: 287px;
 	background: url("/images/airplane-big.png") no-repeat;
+}
+
+.news-inner .title {
+  margin-bottom: 75px;
+}
+
+.news-inner .title h1,h2,h3 {
+	color: dimgrey;
+	font-size: 36px;
+	font-weight: 700;
+	line-height: 30px;
 }
 
 .news-inner .news-popular{

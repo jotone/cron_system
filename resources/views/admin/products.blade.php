@@ -90,40 +90,42 @@
 			</thead>
 			<tbody>
 			@foreach($content as $item)
-				<td>
-					<a class="block-button edit" href="{{ route('admin-products-edit',$item['id']) }}" title="Редактировать">
-						<img src="{{ URL::asset('images/edit.png') }}" alt="Редактировать">
-					</a>
-				</td>
-				<td>
-					<a class="block-button drop" data-id="{{ $item['id'] }}" href="#" data-title="{{ $item['title'] }}" title="Удалить">
-						<img src="{{ URL::asset('images/drop.png') }}" alt="Удалить">
-					</a>
-				</td>
-				<td>{{ $item['title'] }}</td>
-				<td>
-				@if(!empty($item['img_url']->img))
-					<img class="preview" src="{{ $item['img_url']->img }}" alt="{{ $item['img_url']->alt }}">
-				@endif
-				</td>
-				<td>{{ $item['price'] }}</td>
-				<td>{{ $item['brand'] }}</td>
-				<td>{{ $item['category'] }}</td>
-				<td>
-					@for($i=0; $i<$item['rating']; $i++)
-					<img src="{{ URL::asset('images/star.png') }}" alt="">
-					@endfor
-				</td>
-				<td>{!! $item['is_hot'] !!}</td>
-				<td>
-					<div class="row-wrap">{{ $item['published_at'] }}</div>
-					<label class="fieldset-label-wrap">
-						<input name="enabled" class="chbox-input" type="checkbox" {{ $item['enabled'] }} data-id="{{ $item['id'] }}">
-						<span>Опубликован</span>
-					</label>
-				</td>
-				<td>{{ $item['created_at'] }}</td>
-				<td>{{ $item['updated_at'] }}</td>
+				<tr data-id="{{ $item['id'] }}">
+					<td>
+						<a class="block-button edit" href="{{ route('admin-products-edit',$item['id']) }}" title="Редактировать">
+							<img src="{{ URL::asset('images/edit.png') }}" alt="Редактировать">
+						</a>
+					</td>
+					<td>
+						<a class="block-button drop" data-id="{{ $item['id'] }}" href="#" data-title="{{ $item['title'] }}" title="Удалить">
+							<img src="{{ URL::asset('images/drop.png') }}" alt="Удалить">
+						</a>
+					</td>
+					<td>{{ $item['title'] }}</td>
+					<td>
+					@if(!empty($item['img_url']->img))
+						<img class="preview" src="{{ $item['img_url']->img }}" alt="{{ $item['img_url']->alt }}">
+					@endif
+					</td>
+					<td>{{ $item['price'] }}</td>
+					<td>{{ $item['brand'] }}</td>
+					<td>{{ $item['category'] }}</td>
+					<td>
+						@for($i=0; $i<$item['rating']; $i++)
+						<img src="{{ URL::asset('images/star.png') }}" alt="">
+						@endfor
+					</td>
+					<td>{!! $item['is_hot'] !!}</td>
+					<td>
+						<div class="row-wrap">{{ $item['published_at'] }}</div>
+						<label class="fieldset-label-wrap">
+							<input name="enabled" class="chbox-input" type="checkbox" {{ $item['enabled'] }} data-id="{{ $item['id'] }}">
+							<span>Опубликован</span>
+						</label>
+					</td>
+					<td>{{ $item['created_at'] }}</td>
+					<td>{{ $item['updated_at'] }}</td>
+				</tr>
 			@endforeach
 			</tbody>
 		</table>
