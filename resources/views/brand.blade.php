@@ -17,6 +17,7 @@
 							<li>{{ $page_title }}</li>
 						</ul>
 						<form action="ajax.php" name="brandFilters" class="brand-filters">
+							{{ csrf_field() }}
 							<div class="select-big">
 								<select class="js-select" name="brands" data-placeholder="Выберите продукт">
 									<option label="empty"></option>
@@ -60,11 +61,8 @@
 							<div class="price">
 								@if(!empty($product['price']))
 									<div class="prod-price">
-										@if(!empty($product['old_price']))
-											<span class="old">$ {{ $product['old_price'] }}</span>
-										@endif
-
-											<span class="new">$ {{ $product['price'] }}</span>
+										<span class="old">@if(!empty($product['old_price'])) $ {{ $product['old_price'] }}@endif</span>
+										<span class="new">$ {{ $product['price'] }}</span>
 									</div>
 									<a href="#" class="button-invers">В корзину</a>
 								@else

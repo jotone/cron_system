@@ -6,7 +6,6 @@ use App\Category;
 use App\Products;
 
 use App\Http\Controllers\Supply\Helpers;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Auth;
 use Crypt;
@@ -26,7 +25,7 @@ class ProductController extends BaseController{
 		return $result;
 	}
 
-	public function brand($brand = '', $slug = '', $page = 1, $per = 6){
+	public function brand($brand = '', $slug = '', $page = 1){
 		$defaults = Helpers::getDefaults();
 
 		if(preg_match('/^\d+$/',$slug) > 0){
@@ -60,8 +59,8 @@ class ProductController extends BaseController{
 						'slug'		=> $item->slug,
 						'img_url'	=> json_decode($item->img_url),
 						'text'		=> $item->text,
-						'price'		=> $item->price,
-						'old_price'	=> $item->old_price,
+						'price'		=> number_format($item->price, 0, '',' '),
+						'old_price'	=> number_format($item->old_price, 0, '',' '),
 						'is_hot'	=> $is_hot
 					];
 				}
@@ -69,7 +68,8 @@ class ProductController extends BaseController{
 		}
 		$products = array_values($products);
 
-		$limit = $per;
+		$limit = (isset($_COOKIE['per_page']))? $_COOKIE['per_page']: 8;
+
 		$start = ($page-1) * $limit;
 		$products_count = count($products);
 
@@ -93,7 +93,8 @@ class ProductController extends BaseController{
 			'paginate_options'=> $paginate_options,
 			'page_title'	=> $brand_data->title,
 			'link'			=> $link,
-			'products_list'	=> $products_list
+			'products_list'	=> $products_list,
+			'limit'			=> $limit
 		]);
 	}
 

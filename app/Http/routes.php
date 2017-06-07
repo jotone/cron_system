@@ -139,6 +139,10 @@ Route::get('/shopping_cart',[
 		'uses'=>'Site\HomeController@thanks'
 	]);
 
+Route::patch('/change_per_page',[
+	'uses'=>'Supply\Helpers@changePerPage'
+]);
+
 //Authorisation
 Route::get('/admin/login', [
 	'as'	=> 'admin-login',

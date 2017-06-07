@@ -96,7 +96,7 @@ class ProductController extends BaseController{
 			$start = Functions::getMicrotime();
 			$menu = Functions::buildMenuList($request->path());
 
-			$brands_list = Brand::where('is_last','=',1)->select('id','title')->orderBy('refer_to','asc')->get();
+			$brands_list = Brand::where('is_last','=',1)->select('id','title')->orderBy('title','asc')->get();
 			$categories_list = Category::select('id','title')->orderBy('title','asc')->get();
 
 			return view('admin.add.products',[
@@ -116,7 +116,7 @@ class ProductController extends BaseController{
 			$menu = Functions::buildMenuList($request->path());
 
 			$content = Products::find($id);
-			$brands_list = Brand::where('is_last','=',1)->select('id','title')->orderBy('refer_to','asc')->get();
+			$brands_list = Brand::where('is_last','=',1)->select('id','title')->orderBy('title','asc')->get();
 			$categories_list = Category::select('id','title')->orderBy('title','asc')->get();
 
 			return view('admin.add.products',[

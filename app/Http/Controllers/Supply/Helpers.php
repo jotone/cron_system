@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Supply;
 
 use App\Brand;
 use App\FooterMenu;
+use Illuminate\Http\Request;
 use App\TopMenu;
 use Auth;
 
@@ -61,8 +62,15 @@ class Helpers extends BaseController{
 			}
 			$result .= ($n > 15)? '</div>': '</ul>';
 		}
-
 		return $result;
+	}
 
+	public function changePerPage(Request $request){
+		$data = $request->all();
+		if(isset($data['per_page'])){
+			$data['per_page'] = intval($data['per_page']);
+			setcookie('per_page',$data['per_page'], time()+36000, '/');
+			return 'success';
+		}
 	}
 }

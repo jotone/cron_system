@@ -214,6 +214,10 @@
 
 @media screen and (max-width: 383px){
 	.news-popular-list li .popular-pic{height: 180px;}
+	.brand .brand-items .product-item .price{
+		flex-direction: column;
+    align-items: center;
+	}
 }
 
 @media screen and (max-width: 350px){
