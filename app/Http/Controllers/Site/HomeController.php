@@ -33,20 +33,6 @@ class HomeController extends BaseController{
 		]);
 	}
 
-	public function brand(){
-		$defaults = Helpers::getDefaults();
-		return view('brand', [
-			'defaults' => $defaults,
-		]);
-	}
-
-	public function catalog(){
-		$defaults = Helpers::getDefaults();
-		return view('catalog', [
-			'defaults' => $defaults,
-		]);
-	}
-
 	public function equipment(){
 		$defaults = Helpers::getDefaults();
 		return view('equipment', [

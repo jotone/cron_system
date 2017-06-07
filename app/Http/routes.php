@@ -75,14 +75,14 @@ Route::get('/contacts',[
 	'uses'=>'Site\HomeController@contacts'
 ]);
 //Бренды
-Route::get('/brand',[
+Route::get('/brand/{brand}/{slug?}',[
 	'as'=>'brand',
-	'uses'=>'Site\HomeController@brand'
+	'uses'=>'Site\ProductController@brand'
 ]);
 //Каталог
 Route::get('/catalog',[
 	'as'=>'catalog',
-	'uses'=>'Site\HomeController@catalog'
+	'uses'=>'Site\ProductController@catalog'
 ]);
 //Оборудование
 Route::get('/equipment',[

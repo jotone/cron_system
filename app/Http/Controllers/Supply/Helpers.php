@@ -20,7 +20,7 @@ class Helpers extends BaseController{
 		];
 	}
 
-	public static function buildBrandList($refer_to = 0, $result = ''){
+	public static function buildBrandList($refer_to = 0, $parent = '', $result = ''){
 		$items = Brand::select('id','title','slug')
 			->where('refer_to','=',$refer_to)
 			->where('enabled','=',1)
@@ -36,22 +36,28 @@ class Helpers extends BaseController{
 			}
 
 			for($i = 0; $i<$n; $i++){
-				if( (count($items) > 15) && ($i%15 == 0) ){
-					$result .= '<ul>';
+				if($refer_to == 0){
+					$parent = $items[$i]->slug.'/';
+					$link = $items[$i]->slug;
+				}else{
+					$link = $parent.$items[$i]->slug;
 				}
+
+				if( (count($items) > 15) && ($i%15 == 0) )
+					$result .= '<ul>';
+
 				$inner_count = Brand::where('refer_to','=',$items[$i]->id)->count();
 				$wide_class = ( ($refer_to == 0) && ($inner_count > 15) )? 'class="wide"': '';
 
-				$result .= '<li '.$wide_class.'><a href="#'.$items[$i]->slug.'">'.$items[$i]->title.'</a>';
+				$result .= '<li '.$wide_class.'><a href="'.route('brand', $link).'">'.$items[$i]->title.'</a>';
 
 				if($inner_count > 0){
-					$result .= self::buildBrandList($items[$i]->id);
+					$result .= self::buildBrandList($items[$i]->id, $parent);
 				}
 				$result .= '</li>';
 
-				if( (count($items) > 15) && (($i%15 == 14) || ($i == $n-1)) ){
+				if( (count($items) > 15) && (($i%15 == 14) || ($i == $n-1)) )
 					$result .= '</ul>';
-				}
 			}
 			$result .= ($n > 15)? '</div>': '</ul>';
 		}
