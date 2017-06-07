@@ -14,7 +14,7 @@
 					<div class="breadcrumbs-inner">
 						<ul class="breadcrumbs-list">
 							<li><a href="{{ route('home') }}">Главная</a></li>
-							<li>This Page</li>
+							<li>{{ $page_title }}</li>
 						</ul>
 						<form action="ajax.php" name="brandFilters" class="brand-filters">
 							<div class="select-big">
@@ -37,132 +37,51 @@
 				</div>
 			</div>
 			<div class="mbox">
-				<h1>Microsoft</h1>
+				<h1>{{ $page_title }}</h1>
+
 				<div class="brand-items">
+				@foreach($products as $product)
 					<div class="product-item">
 						<div class="pic">
-							<img src="{{ URL::asset('images/Office365.jpg') }}" alt="">
+						@if(isset($product['img_url']->img))
+							<img src="{{ URL::asset($product['img_url']->img) }}" alt="{{ $product['img_url']->alt }}">
+						@endif
 						</div>
 						<div class="name">
-							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Cum sociis natoque penatibus et magnis dis parturient
-								montes, nascetur ridiculus mus.</p>
+							<div class="prod-name">{{ $product['title'] }}</div>
+							{!! $product['text'] !!}
 						</div>
 						<div class="price">
 							<a href="#" class="button-invers">КАТАЛОГ</a>
 						</div>
 					</div>
-					<div class="product-item">
-						<div class="pic">
-							<img src="{{ URL::asset('images/OfficePro2013.jpg') }}" alt="">
-						</div>
-						<div class="name">
-							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Cum sociis natoque penatibus et magnis dis parturient
-								montes, nascetur ridiculus mus.</p>
-						</div>
-						<div class="price">
-							<a href="#" class="button-invers">КАТАЛОГ</a>
-						</div>
-					</div>
-					<div class="product-item">
-						<div class="pic">
-							<img src="{{ URL::asset('images/OfficeHome2016.jpg') }}" alt="">
-						</div>
-						<div class="name">
-							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Cum sociis natoque penatibus et magnis dis parturient
-								montes, nascetur ridiculus mus.</p>
-						</div>
-						<div class="price">
-							<a href="#" class="button-invers">КАТАЛОГ</a>
-						</div>
-					</div>
-					<div class="product-item">
-						<div class="pic">
-							<img src="{{ URL::asset('images/OfficeBussines2016.jpg') }}" alt="">
-						</div>
-						<div class="name">
-							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Cum sociis natoque penatibus et magnis dis parturient
-								montes, nascetur ridiculus mus.</p>
-						</div>
-						<div class="price">
-							<a href="#" class="button-invers">КАТАЛОГ</a>
-						</div>
-					</div>
-					<div class="product-item">
-						<div class="pic">
-							<img src="{{ URL::asset('images/Office2016.jpg') }}" alt="">
-						</div>
-						<div class="name">
-							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Cum sociis natoque penatibus et magnis dis parturient
-								montes, nascetur ridiculus mus.</p>
-						</div>
-						<div class="price">
-							<a href="#" class="button-invers">КАТАЛОГ</a>
-						</div>
-					</div>
-					<div class="product-item">
-						<div class="pic">
-							<img src="{{ URL::asset('images/WinServer2012.jpg') }}" alt="">
-						</div>
-						<div class="name">
-							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Cum sociis natoque penatibus et magnis dis parturient
-								montes, nascetur ridiculus mus.</p>
-						</div>
-						<div class="price">
-							<a href="#" class="button-invers">КАТАЛОГ</a>
-						</div>
-					</div>
-					<div class="product-item">
-						<div class="pic">
-							<img src="{{ URL::asset('images/Office2007.jpg') }}" alt="">
-						</div>
-						<div class="name">
-							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Cum sociis natoque penatibus et magnis dis parturient
-								montes, nascetur ridiculus mus.</p>
-						</div>
-						<div class="price">
-							<a href="#" class="button-invers">КАТАЛОГ</a>
-						</div>
-					</div>
-					<div class="product-item">
-						<div class="pic">
-							<img src="{{ URL::asset('images/WinXP.jpg') }}" alt="">
-						</div>
-						<div class="name">
-							<div class="prod-name">Microsoft CSP Office 365 Cloud</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								Cum sociis natoque penatibus et magnis dis parturient
-								montes, nascetur ridiculus mus.</p>
-						</div>
-						<div class="price">
-							<a href="#" class="button-invers">КАТАЛОГ</a>
-						</div>
-					</div>
+				@endforeach
 				</div>
-				<div class="pagination">
-					<a href="#" class="prev">&lt;</a>
-					<ul>
-						<li><a href="#">1</a></li>
-						<li class="active">2</li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-					</ul>
-					<a href="#" class="next">&gt;</a>
-				</div>
+
+				@if($paginate_options['total'] > 1)
+					<div class="pagination">
+						@if($paginate_options['prev'] > 0)
+							<a href="{{ route('brand', $link) }}/page/{{ $paginate_options['prev'] }}" class="prev">&lt;</a>
+						@endif
+
+						<ul>
+							@for($i = 1; $i<=$paginate_options['total']; $i++)
+								<li @if($i == $paginate_options['current']) class="active" @endif>
+									@if($i == $paginate_options['current'])
+										{{ $i }}
+									@else
+										<a href="{{ route('brand', $link) }}/page/{{ $i }}">{{$i}}</a>
+									@endif
+								</li>
+							@endfor
+						</ul>
+
+						@if($paginate_options['next'] <= $paginate_options['total'])
+							<a href="{{ route('brand', $link) }}/page/{{ $paginate_options['next'] }}" class="next">&gt;</a>
+						@endif
+					</div>
+				@endif
+
 				<div class="brand-info">
 					<h2>СЕО текст</h2>
 					<div class="info-content">
