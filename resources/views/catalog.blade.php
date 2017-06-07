@@ -14,7 +14,7 @@
 					<div class="breadcrumbs-inner">
 						<ul class="breadcrumbs-list">
 							<li><a href="{{ route('home') }}">Главная</a></li>
-							<li><a href="#">This Page</a></li>
+							<li>This Page</li>
 						</ul>
 						<form action="ajax.php" name="brandFilters" class="brand-filters">
 							<div class="select-small">

@@ -12,7 +12,7 @@
 			<div class="mbox2">
 				<ul class="breadcrumbs-list">
 					<li><a href="{{ route('home') }}">Главная</a></li>
-					<li><a href="#">Новости</a></li>
+					<li>Новости</li>
 				</ul>
 			</div>
 		</div>

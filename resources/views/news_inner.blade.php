@@ -13,7 +13,7 @@
 				<ul class="breadcrumbs-list">
 					<li><a href="{{ route('home') }}">Главная</a></li>
 					<li><a href="{{ route('news') }}">Новости</a></li>
-					<li><a href="#">{{ $content->title }}</a></li>
+					<li>{{ $content->title }}</li>
 				</ul>
 			</div>
 		</div>

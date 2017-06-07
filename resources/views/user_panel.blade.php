@@ -17,7 +17,7 @@ $user = Auth::user();
 				<div class="breadcrumbs-box">
 					<ul>
 						<li><a href="{{ route('home') }}">Главная</a></li>
-						<li><a href="{{ route('user-panel') }}">Личный кабинет</a></li>
+						<li>Личный кабинет</li>
 					</ul>
 				</div>
 

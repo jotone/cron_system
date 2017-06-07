@@ -13,7 +13,7 @@
 				<ul class="breadcrumbs-list">
 					<li><a href="{{ route('home') }}">Главная</a></li>
 					<li><a href="{{ route('registration-page') }}">Регистрация</a></li>
-					<li><a href="#">Регистрация провалена</a></li>
+					<li>Регистрация провалена</li>
 				</ul>
 			</div>
 		</div>

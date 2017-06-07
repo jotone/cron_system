@@ -11,7 +11,7 @@
 			<div class="mbox2">
 				<ul class="breadcrumbs-list">
 					<li><a href="{{ route('home') }}">Главная</a></li>
-					<li><a href="#">This Page</a></li>
+					<li>This Page</li>
 				</ul>
 			</div>
 		</div>
