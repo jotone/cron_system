@@ -18,7 +18,12 @@ class NewsController extends BaseController{
 		$start = ($page-1) * $limit;
 		$news_count = News::where('enabled','=',1)->count();
 
-		$news = News::where('enabled','=',1)->orderBy('published_at','desc')->skip($start)->take($limit)->get();
+		$news = News::select('title','slug','img_url','text')
+			->where('enabled','=',1)
+			->orderBy('published_at','desc')
+			->skip($start)
+			->take($limit)
+			->get();
 
 		$list = [];
 		foreach($news as $new){
@@ -30,10 +35,10 @@ class NewsController extends BaseController{
 				$text .= $text_arr[$i].' ';
 			}
 			$list[] = [
-				'title' => $new->title,
-				'slug' => $new->slug,
-				'img_url' => json_decode($new->img_url),
-				'text' => $text.'&hellip;'
+				'title'		=> $new->title,
+				'slug'		=> $new->slug,
+				'img_url'	=> json_decode($new->img_url),
+				'text'		=> $text.'&hellip;'
 			];
 		}
 		$paginate_options = [
@@ -43,8 +48,8 @@ class NewsController extends BaseController{
 			'total'		=> ceil($news_count/$limit)
 		];
 		return view('news', [
-			'defaults' => $defaults,
-			'news'			=> $list,
+			'defaults'	=> $defaults,
+			'news'		=> $list,
 			'paginate_options' => $paginate_options
 		]);
 	}

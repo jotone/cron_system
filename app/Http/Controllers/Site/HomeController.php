@@ -74,18 +74,4 @@ class HomeController extends BaseController{
 			'defaults' => $defaults,
 		]);
 	}
-
-	public function vacancies(){
-		$defaults = Helpers::getDefaults();
-		return view('vacancies', [
-			'defaults' => $defaults,
-		]);
-	}
-
-	public function vacanciesInner($slug){
-		$defaults = Helpers::getDefaults();
-		return view('vacancies_inner', [
-			'defaults' => $defaults,
-		]);
-	}
 }

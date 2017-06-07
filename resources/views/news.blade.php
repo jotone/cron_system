@@ -37,7 +37,7 @@
 							<div class="news-info">
 								<p>{!! $new['text'] !!}</p>
 							</div>
-							<a href="{{ route('news-inner',$new['slug']) }}" class="button-round">Подробнее</a>
+							<a href="{{ route('news-inner', $new['slug']) }}" class="button-round">Подробнее</a>
 						</div>
 					</li>
 				@endforeach

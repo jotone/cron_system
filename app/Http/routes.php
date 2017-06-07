@@ -114,11 +114,14 @@ Route::get('/services',[
 //Вакансии
 Route::get('/vacancies',[
 	'as'=>'vacancies',
-	'uses'=>'Site\HomeController@vacancies'
+	'uses'=>'Site\VacanciesController@vacancies'
+]);
+Route::get('/vacancies/page/{page}',[
+	'uses'=>'Site\VacanciesController@vacancies'
 ]);
 	Route::get('/vacancies/{slug}',[
 		'as'=>'vacancies-inner',
-		'uses'=>'Site\HomeController@vacanciesInner'
+		'uses'=>'Site\VacanciesController@vacanciesInner'
 	]);
 //Корзина
 Route::get('/shopping_cart',[

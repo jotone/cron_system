@@ -132,7 +132,7 @@ class ProductController extends BaseController{
 
 	public function addItem(Request $request){
 		$data = $request->all();
-		//dd($data);
+
 		if($data['image_type'] == 'file'){
 			$img_url = json_encode([
 				'img'=>$data['image'],

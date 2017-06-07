@@ -22,114 +22,22 @@
 					<h1>Вакансии</h1>
 				</div>
 				<ul>
+				@foreach($vacancies as $vacancy)
 					<li>
 						<div class="vacancy-title">
-							<h2>Вакансия 1</h2>
+							<h2>{{ $vacancy['title'] }}</h2>
 						</div>
 						<div class="vacancy-pic">
-							<img src="{{ URL::asset('images/vacancy1.jpg') }}" alt="">
+							@if(!empty($vacancy['img_url']->img))
+							<img src="{{ URL::asset($vacancy['img_url']->img) }}" alt="{{ $vacancy['img_url']->alt }}">
+							@endif
 						</div>
 						<div class="vacancy-content">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
+							<p>{{ $vacancy['text'] }}</p>
 						</div>
-						<a href="#" class="button-round">Подробнее</a>
+						<a href="{{ route('vacancies-inner', $vacancy['slug']) }}" class="button-round">Подробнее</a>
 					</li>
-					<li>
-						<div class="vacancy-title">
-							<h2>Вакансия 2</h2>
-						</div>
-						<div class="vacancy-pic">
-							<img src="{{ URL::asset('images/vacancy2.jpg') }}" alt="">
-						</div>
-						<div class="vacancy-content">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
-						</div>
-						<a href="#" class="button-round">Подробнее</a>
-					</li>
-					<li>
-						<div class="vacancy-title">
-							<h2>Вакансия 3</h2>
-						</div>
-						<div class="vacancy-pic">
-							<img src="{{ URL::asset('images/vacancy3.jpg') }}" alt="">
-						</div>
-						<div class="vacancy-content">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
-						</div>
-						<a href="#" class="button-round">Подробнее</a>
-					</li>
-					<li>
-						<div class="vacancy-title">
-							<h2>Вакансия 3</h2>
-						</div>
-						<div class="vacancy-pic">
-							<img src="{{ URL::asset('images/vacancy3.jpg') }}" alt="">
-						</div>
-						<div class="vacancy-content">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
-						</div>
-						<a href="#" class="button-round">Подробнее</a>
-					</li>
-					<li>
-						<div class="vacancy-title">
-							<h2>Вакансия 3</h2>
-						</div>
-						<div class="vacancy-pic">
-							<img src="{{ URL::asset('images/vacancy3.jpg') }}" alt="">
-						</div>
-						<div class="vacancy-content">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
-						</div>
-						<a href="#" class="button-round">Подробнее</a>
-					</li>
-					<li>
-						<div class="vacancy-title">
-							<h2>Вакансия 3</h2>
-						</div>
-						<div class="vacancy-pic">
-							<img src="{{ URL::asset('images/vacancy3.jpg') }}" alt="">
-						</div>
-						<div class="vacancy-content">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
-						</div>
-						<a href="#" class="button-round">Подробнее</a>
-					</li>
-					<li>
-						<div class="vacancy-title">
-							<h2>Вакансия 3</h2>
-						</div>
-						<div class="vacancy-pic">
-							<img src="{{ URL::asset('images/vacancy3.jpg') }}" alt="">
-						</div>
-						<div class="vacancy-content">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
-						</div>
-						<a href="#" class="button-round">Подробнее</a>
-					</li>
-					<li>
-						<div class="vacancy-title">
-							<h2>Вакансия 3</h2>
-						</div>
-						<div class="vacancy-pic">
-							<img src="{{ URL::asset('images/vacancy3.jpg') }}" alt="">
-						</div>
-						<div class="vacancy-content">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
-						</div>
-						<a href="#" class="button-round">Подробнее</a>
-					</li>
-					<li>
-						<div class="vacancy-title">
-							<h2>Вакансия 3</h2>
-						</div>
-						<div class="vacancy-pic">
-							<img src="{{ URL::asset('images/vacancy3.jpg') }}" alt="">
-						</div>
-						<div class="vacancy-content">
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum.</p>
-						</div>
-						<a href="#" class="button-round">Подробнее</a>
-					</li>
+				@endforeach
 				</ul>
 			</div>
 		</section>
