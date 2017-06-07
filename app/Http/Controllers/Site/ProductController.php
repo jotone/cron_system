@@ -41,6 +41,13 @@ class ProductController extends BaseController{
 		$inner_brands = explode(',', self::findLastBrand($brand_data));
 		$inner_brands = array_diff($inner_brands, array(''));
 
+		if(count($inner_brands) == 1){
+			$brand_is_last = Brand::select('is_last')->find($inner_brands[0]);
+			$brand_is_last = ($brand_is_last->is_last == 1)? true: false;
+		}else{
+			$brand_is_last = false;
+		}
+
 		$products = [];
 		foreach($inner_brands as $brand_id){
 			$items = Products::select('id','title','slug','img_url','text','price','old_price','is_hot')
@@ -61,7 +68,7 @@ class ProductController extends BaseController{
 						'text'		=> $item->text,
 						'price'		=> number_format($item->price, 0, '',' '),
 						'old_price'	=> number_format($item->old_price, 0, '',' '),
-						'is_hot'	=> $is_hot
+						'is_hot'	=> $is_hot,
 					];
 				}
 			}
@@ -94,7 +101,8 @@ class ProductController extends BaseController{
 			'page_title'	=> $brand_data->title,
 			'link'			=> $link,
 			'products_list'	=> $products_list,
-			'limit'			=> $limit
+			'limit'			=> $limit,
+			'brand_is_last'	=> $brand_is_last
 		]);
 	}
 

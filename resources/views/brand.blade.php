@@ -16,15 +16,18 @@
 							<li><a href="{{ route('home') }}">Главная</a></li>
 							<li>{{ $page_title }}</li>
 						</ul>
+
 						<form action="ajax.php" name="brandFilters" class="brand-filters">
 							{{ csrf_field() }}
 							<div class="select-big">
+								@if(!$brand_is_last)
 								<select class="js-select" name="brands" data-placeholder="Выберите продукт">
 									<option label="empty"></option>
 									@foreach($products_list as $item)
 										<option value="{{ $item['slug'] }}">{{ $item['title'] }}</option>
 									@endforeach
 								</select>
+								@endif
 							</div>
 							<div class="select-small">
 								<label for="number-select">Показать:</label>
@@ -34,6 +37,7 @@
 								</select>
 							</div>
 						</form>
+
 					</div>
 				</div>
 			</div>
