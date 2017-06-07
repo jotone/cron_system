@@ -56,8 +56,26 @@ class VacanciesController extends BaseController{
 
 	public function vacanciesInner($slug){
 		$defaults = Helpers::getDefaults();
-		return view('vacancies_inner', [
-			'defaults' => $defaults,
-		]);
+
+		$content = Vacancies::select('title','text','img_url','meta_title','meta_description','meta_keywords','views')
+			->where('slug','=',$slug)
+			->where('enabled','=',1)
+			->first();
+		if(!empty($content)){
+			$views = $content->views +1;
+			Vacancies::where('slug','=',$slug)->update(['views'=>$views]);
+
+			return view('vacancies_inner', [
+				'defaults'	=> $defaults,
+				'meta_title'=> $content->meta_title,
+				'meta_description' => $content->meta_description,
+				'meta_keywords' => $content->meta_keywords,
+				'content'	=> [
+					'title'		=> $content->title,
+					'text'		=> $content->text,
+					'img_url'	=> json_decode($content->img_url),
+				],
+			]);
+		}
 	}
 }

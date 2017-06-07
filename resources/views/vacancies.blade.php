@@ -40,6 +40,29 @@
 				@endforeach
 				</ul>
 			</div>
+			@if($paginate_options['total'] > 1)
+				<div class="pagination">
+					@if($paginate_options['prev'] > 0)
+						<a href="{{ route('vacancies') }}/page/{{ $paginate_options['prev'] }}" class="prev">&lt;</a>
+					@endif
+
+					<ul>
+					@for($i = 1; $i<=$paginate_options['total']; $i++)
+						<li @if($i == $paginate_options['current']) class="active" @endif>
+							@if($i == $paginate_options['current'])
+								{{ $i }}
+							@else
+								<a href="{{ route('vacancies') }}/page/{{ $i }}">{{$i}}</a>
+							@endif
+						</li>
+					@endfor
+					</ul>
+
+					@if($paginate_options['next'] <= $paginate_options['total'])
+						<a href="{{ route('vacancies') }}/page/{{ $paginate_options['next'] }}" class="next">&gt;</a>
+					@endif
+				</div>
+			@endif
 		</section>
 	</div>
 	<!-- /MAIN -->

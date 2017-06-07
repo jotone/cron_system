@@ -12,7 +12,8 @@
 			<div class="mbox2">
 				<ul class="breadcrumbs-list">
 					<li><a href="{{ route('home') }}">Главная</a></li>
-					<li><a href="#">This Page</a></li>
+					<li><a href="{{ route('vacancies') }}">Вакансии</a></li>
+					<li><a href="#">{{ $content['title'] }}</a></li>
 				</ul>
 			</div>
 		</div>
@@ -20,13 +21,15 @@
 			<div class="title">
 				<h1>Вакансия</h1>
 			</div>
+			@if(isset($content['img_url']->img))
 			<div class="vacancy-pic">
-				<img src="{{ URL::asset('images/vacancy-pic.jpg') }}" alt="">
+				<img src="{{ URL::asset($content['img_url']->img) }}" alt="{{ $content['img_url']->alt }}">
 			</div>
+			@endif
 			<div class="vacancy-content">
 				<div class="vacancy-wrap">
 					<div class="vacancy-left">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
+						{!! $content['text'] !!}
 					</div>
 					<div class="vacancy-right">
 						<form action="ajax.php" name="vacancy" class="vacancy-form">

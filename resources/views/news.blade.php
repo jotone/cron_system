@@ -59,8 +59,8 @@
 					@endif
 					</li>
 				@endfor
-
 				</ul>
+
 				@if($paginate_options['next'] <= $paginate_options['total'])
 					<a href="{{ route('news') }}/page/{{ $paginate_options['next'] }}" class="next">&gt;</a>
 				@endif
