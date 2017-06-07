@@ -26,7 +26,7 @@ class ProductController extends BaseController{
 		return $result;
 	}
 
-	public function brand($brand = '', $slug = '', $page = 1){
+	public function brand($brand = '', $slug = '', $page = 1, $per = 6){
 		$defaults = Helpers::getDefaults();
 
 		if(preg_match('/^\d+$/',$slug) > 0){
@@ -38,29 +38,45 @@ class ProductController extends BaseController{
 			$link = $brand.'/'.$slug;
 		}
 
-		$brand_data = Brand::select('id','title','is_last')->where('slug','=',$brand_slug)->first();
+		$brand_data = Brand::select('id','title','slug','is_last')->where('slug','=',$brand_slug)->first();
 		$inner_brands = explode(',', self::findLastBrand($brand_data));
 		$inner_brands = array_diff($inner_brands, array(''));
 
 		$products = [];
 		foreach($inner_brands as $brand_id){
-			$items = Products::where('refer_to_brand','=',$brand_id)
+			$items = Products::select('id','title','slug','img_url','text','price','old_price','is_hot')
+				->where('refer_to_brand','=',$brand_id)
 				->where('enabled','=',1)
 				->get();
 			foreach($items as $item){
 				if(!isset($products[$item->id])){
+					switch($item->is_hot){
+						case '1': $is_hot = 'hot'; break;
+						case '2': $is_hot = 'sale'; break;
+						default: $is_hot = '';
+					}
 					$products[$item->id] = [
-						'title' => $item->title,
-						'img_url' => json_decode($item->img_url),
-						'text' => $item->text
+						'title'		=> $item->title,
+						'slug'		=> $item->slug,
+						'img_url'	=> json_decode($item->img_url),
+						'text'		=> $item->text,
+						'price'		=> $item->price,
+						'old_price'	=> $item->old_price,
+						'is_hot'	=> $is_hot
 					];
 				}
 			}
 		}
+		$products = array_values($products);
 
-		$limit = 6;
+		$limit = $per;
 		$start = ($page-1) * $limit;
 		$products_count = count($products);
+
+		$products_list = $products;
+		usort($products_list, function($a, $b){
+			return strcmp($a['title'], $b['title']);
+		});
 
 		$products = array_slice($products, $start, $limit);
 
@@ -72,11 +88,12 @@ class ProductController extends BaseController{
 		];
 
 		return view('brand', [
-			'defaults'	=> $defaults,
-			'products'	=> $products,
-			'paginate_options' => $paginate_options,
-			'page_title'=> $brand_data->title,
-			'link'		=> $link
+			'defaults'		=> $defaults,
+			'products'		=> $products,
+			'paginate_options'=> $paginate_options,
+			'page_title'	=> $brand_data->title,
+			'link'			=> $link,
+			'products_list'	=> $products_list
 		]);
 	}
 

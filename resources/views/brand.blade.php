@@ -19,10 +19,10 @@
 						<form action="ajax.php" name="brandFilters" class="brand-filters">
 							<div class="select-big">
 								<select class="js-select" name="brands" data-placeholder="Выберите продукт">
-									<option></option>
-									<option>Пункт 1</option>
-									<option>Пункт 2</option>
-									<option>Пункт 3</option>
+									<option label="empty"></option>
+									@foreach($products_list as $item)
+										<option value="{{ $item['slug'] }}">{{ $item['title'] }}</option>
+									@endforeach
 								</select>
 							</div>
 							<div class="select-small">
@@ -40,22 +40,39 @@
 				<h1>{{ $page_title }}</h1>
 
 				<div class="brand-items">
-				@foreach($products as $product)
-					<div class="product-item">
-						<div class="pic">
-						@if(isset($product['img_url']->img))
-							<img src="{{ URL::asset($product['img_url']->img) }}" alt="{{ $product['img_url']->alt }}">
-						@endif
+					@foreach($products as $product)
+						<div class="product-item @if(!empty($product['is_hot'])) hot-item @endif">
+							<div class="pic">
+								@if(!empty($product['img_url']->img))
+									<img src="{{ URL::asset($product['img_url']->img) }}" alt="{{ $product['img_url']->alt }}">
+								@endif
+
+								@if(!empty($product['is_hot']))
+									<div class="{{ $product['is_hot'] }}">{{ $product['is_hot'] }}</div>
+								@endif
+							</div>
+
+							<div class="name">
+								<div class="prod-name">{{ $product['title'] }}</div>
+								{!! $product['text'] !!}
+							</div>
+
+							<div class="price">
+								@if(!empty($product['price']))
+									<div class="prod-price">
+										@if(!empty($product['old_price']))
+											<span class="old">$ {{ $product['old_price'] }}</span>
+										@endif
+
+											<span class="new">$ {{ $product['price'] }}</span>
+									</div>
+									<a href="#" class="button-invers">В корзину</a>
+								@else
+									<a href="#" class="button-invers">Уточнить цену</a>
+								@endif
+							</div>
 						</div>
-						<div class="name">
-							<div class="prod-name">{{ $product['title'] }}</div>
-							{!! $product['text'] !!}
-						</div>
-						<div class="price">
-							<a href="#" class="button-invers">КАТАЛОГ</a>
-						</div>
-					</div>
-				@endforeach
+					@endforeach
 				</div>
 
 				@if($paginate_options['total'] > 1)

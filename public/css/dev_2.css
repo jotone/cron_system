@@ -25,7 +25,7 @@
 .title-line.line-white{padding-bottom: 29px;}
 .title-line.line-white:before{background: #fff; width: 333px;}
 
-.hot{
+.hot, .sale{
 	text-transform: uppercase;
 	position: absolute;
 	font-weight: 700;
@@ -36,8 +36,9 @@
 	background: #ee6111;
 	top: -10px;
 	right: 8px;
-	display: none;
+	display: block;
 }
+.sale{background: #2ca02c; font-size: 22px;}
 
 .product-item{
 	width: 24%;
