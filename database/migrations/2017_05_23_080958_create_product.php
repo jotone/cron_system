@@ -24,6 +24,7 @@ class CreateProduct extends Migration
 			$table->integer('refer_to_brand')->unsigned();
 			$table->tinyInteger('rating')->unsigned();
 			$table->tinyInteger('is_hot')->unsigned();
+			$table->boolean('show_on_main')->unsigned();
 			$table->integer('views')->unsigned();
 			$table->boolean('enabled')->unsigned();
 			$table->timestamp('published_at');

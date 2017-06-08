@@ -49,6 +49,7 @@ $(document).ready(function(){
 		formData.append('text', CKEDITOR.instances.text.getData());
 		formData.append('rating', $('input[name=rating]:checked').val());
 		formData.append('is_hot', $('select[name=is_hot]').val());
+		formData.append('show_on_main', ($('input[name=show_on_main]').prop('checked') == true)? 1: 0);
 		$.ajax({
 			url:		'/admin/products/add',
 			type:		'POST',

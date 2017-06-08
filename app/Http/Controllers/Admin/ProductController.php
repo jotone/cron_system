@@ -157,6 +157,7 @@ class ProductController extends BaseController{
 			$result->refer_to_brand		= $data['brand'];
 			$result->rating				= ( ($data['rating'] == 'undefined') || ($data['rating'] == '') )? 0: $data['rating'];
 			$result->is_hot				= $data['is_hot'];
+			$result->show_on_main		= $data['show_on_main'];
 			$result->enabled			= $data['enabled'];
 			if($result->enabled > 0){
 				$result->published_at = date('Y-m-d H:i:s');
@@ -174,6 +175,7 @@ class ProductController extends BaseController{
 				'refer_to_brand'	=> $data['brand'],
 				'rating'			=> ( ($data['rating'] == 'undefined') || ($data['rating'] == '') )? 0: $data['rating'],
 				'is_hot'			=> $data['is_hot'],
+				'show_on_main'		=> $data['show_on_main'],
 				'views'				=> 0,
 				'enabled'			=> $data['enabled'],
 				'published_at'		=> date('Y-m-d H:i:s')

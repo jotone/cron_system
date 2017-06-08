@@ -395,6 +395,9 @@ Route::group(['middleware' => 'admin'], function(){
 	Route::get('/admin/get_all_images',[
 		'uses'=>'Supply\Functions@getAllImagesByRequest'
 	]);
+	Route::get('/admin/get_template',[
+		'uses'=>'Supply\Functions@getTemplate'
+	]);
 	Route::patch('/admin/change_enabled',[
 		'uses'=>'Admin\SimilarQueriesController@changeEnabled'
 	]);

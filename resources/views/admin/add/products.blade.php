@@ -28,11 +28,17 @@
 							<input name="slug" type="text" class="text-input col_1_2" placeholder="Ссылка&hellip;" @if(isset($content->slug)) value="{{ $content->slug }}" @endif>
 							<span>Ссылка</span>
 						</label>
-					</div>
+					</div>show_on_main
 					<div class="row-wrap">
 						<label class="fieldset-label-wrap">
 							<input name="enabled" type="checkbox" class="chbox-input" @if(isset($content)) @if($content->enabled == 1) checked="checked" @endif @else checked="checked" @endif>
 							<span>Опубликовать немедленно</span>
+						</label>
+					</div>
+					<div class="row-wrap">
+						<label class="fieldset-label-wrap">
+							<input name="show_on_main" type="checkbox" class="chbox-input" @if( (isset($content)) && ($content->show_on_main == 1)) checked="checked" @endif>
+							<span>Показать на главной</span>
 						</label>
 					</div>
 				</fieldset>

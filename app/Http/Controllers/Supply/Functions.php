@@ -4,11 +4,12 @@ use App\AdminMenu;
 use App\Brand;
 use App\News;
 use App\Products;
-use App\SocialMenu;
+use App\Template;
 use App\UserRoles;
 use App\Vacancies;
 use Auth;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 
 class Functions extends BaseController{
@@ -347,5 +348,14 @@ class Functions extends BaseController{
 
 	public function getAllImagesByRequest(){
 		return self::getAllImages();
+	}
+
+	public function getTemplate(Request $request){
+		$data = $request->all();
+		$template = Template::select('content')->find($data['id']);
+		return json_encode([
+			'message'=>'success',
+			'content'=>$template->content
+		]);
 	}
 }
