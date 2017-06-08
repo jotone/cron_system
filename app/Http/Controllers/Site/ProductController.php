@@ -12,6 +12,7 @@ use Crypt;
 use Validator;
 
 class ProductController extends BaseController{
+
 	protected static function findLastBrand($brand_data){
 		$result = '';
 		if($brand_data->is_last < 1){
@@ -21,6 +22,25 @@ class ProductController extends BaseController{
 			}
 		}else{
 			$result = $brand_data->id.',';
+		}
+		return $result;
+	}
+
+	protected static function findLastBrandWithProducts($parent_brand_id, $result = []){
+		$inner_brands = Brand::select('id','title','slug','is_last')->where('refer_to','=',$parent_brand_id)->get();
+		foreach($inner_brands as $brand_data){
+			if($brand_data->is_last == 1){
+				$brand_products_count = Products::where('refer_to_brand','=',$brand_data->id)->count();
+				if($brand_products_count > 0){
+					$result[] = [
+						'title'	=> $brand_data->title,
+						'slug'	=> $brand_data->slug,
+					];
+				}
+			}else{
+				$temp = self::findLastBrandWithProducts($brand_data->id);
+				foreach($temp as $item) $result[] = $item;
+			}
 		}
 		return $result;
 	}
@@ -40,13 +60,6 @@ class ProductController extends BaseController{
 		$brand_data = Brand::select('id','title','slug','is_last')->where('slug','=',$brand_slug)->first();
 		$inner_brands = explode(',', self::findLastBrand($brand_data));
 		$inner_brands = array_diff($inner_brands, array(''));
-
-		if(count($inner_brands) == 1){
-			$brand_is_last = Brand::select('is_last')->find($inner_brands[0]);
-			$brand_is_last = ($brand_is_last->is_last == 1)? true: false;
-		}else{
-			$brand_is_last = false;
-		}
 
 		$products = [];
 		foreach($inner_brands as $brand_id){
@@ -76,16 +89,16 @@ class ProductController extends BaseController{
 		$products = array_values($products);
 
 		$limit = (isset($_COOKIE['per_page']))? $_COOKIE['per_page']: 8;
-
+		if($limit < 2) $limit = 8;
 		$start = ($page-1) * $limit;
 		$products_count = count($products);
+		$products = array_slice($products, $start, $limit);
 
-		$products_list = $products;
+		$parent_brand = Brand::select('id')->where('slug','=',$brand)->first();
+		$products_list = self::findLastBrandWithProducts($parent_brand->id);
 		usort($products_list, function($a, $b){
 			return strcmp($a['title'], $b['title']);
 		});
-
-		$products = array_slice($products, $start, $limit);
 
 		$paginate_options = [
 			'prev'		=> $page-1,
@@ -101,8 +114,8 @@ class ProductController extends BaseController{
 			'page_title'	=> $brand_data->title,
 			'link'			=> $link,
 			'products_list'	=> $products_list,
+			'parent_brand'	=> $brand,
 			'limit'			=> $limit,
-			'brand_is_last'	=> $brand_is_last
 		]);
 	}
 

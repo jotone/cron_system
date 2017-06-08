@@ -1,5 +1,3 @@
-"use strict";
-
 $(document).ready(function () {
 	if($('#number-select').length > 0){
 		$('#number-select').change(function(){
@@ -16,9 +14,8 @@ $(document).ready(function () {
 			});
 		})
 	}
+
+	$('form[name=brandFilters] select[name=brands]').change(function(){
+		location = '/brand/'+$(this).attr('data-parent')+'/'+$(this).val();
+	})
 });
-
-$(window).load(function () {});
-
-$(window).resize(function () {});
-//# sourceMappingURL=develop_1.js.map

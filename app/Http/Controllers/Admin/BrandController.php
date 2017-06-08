@@ -79,11 +79,11 @@ class BrandController extends BaseController{
 				'alt'=>$data['image_alt']
 			]);
 		}
+		if($data['refer_to'] != 0){
+			Brand::where('id','=',$data['refer_to'])->update(['is_last'=>0]);
+		}
 
 		if( (isset($data['id'])) && (!empty($data['id'])) ){
-			if($data['refer_to'] != 0){
-				Brand::where('id','=',$data['refer_to'])->update(['is_last'=>0]);
-			}
 			$result = Brand::find($data['id']);
 			$result->title		= trim($data['title']);
 			$result->slug		= trim($data['slug']);
