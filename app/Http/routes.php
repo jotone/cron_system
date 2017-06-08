@@ -351,10 +351,43 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/products/drop',[
 			'uses'=>'Admin\ProductController@dropItem'
 		]);
+	//Страницы
 	Route::get('/admin/pages',[
 		'as'=>'admin-pages',
 		'uses'=>'Admin\PagesController@index'
 	]);
+		Route::get('/admin/pages/add',[
+			'as'=>'admin-pages-add',
+			'uses'=>'Admin\PagesController@addPage'
+		]);
+		Route::get('/admin/pages/edit/{id}',[
+			'as'=>'admin-pages-edit',
+			'uses'=>'Admin\PagesController@editPage'
+		]);
+		Route::post('/admin/pages/add',[
+			'uses'=>'Admin\PagesController@addItem'
+		]);
+		Route::delete('/admin/pages/drop',[
+			'uses'=>'Admin\PagesController@dropItem'
+		]);
+
+	//Шаблоны
+	Route::get('/admin/templates', [
+		'as'=>'admin-templates',
+		'uses'=>'Admin\TemplateController@index'
+	]);
+		Route::get('/admin/templates/add', [
+			'as'=>'admin-templates-add-page',
+			'uses'=>'Admin\TemplateController@addPage'
+		]);
+		Route::get('/admin/templates/edit/{id}',[
+			'as'=>'admin-templates-edit-page',
+			'uses'=>'Admin\TemplateController@editPage'
+		]);
+		Route::post('/admin/templates/add', [
+			'as'=>'admin-templates-add',
+			'uses'=>'Admin\TemplateController@addItem'
+		]);
 
 	//Similar queries
 	Route::get('/admin/get_all_images',[

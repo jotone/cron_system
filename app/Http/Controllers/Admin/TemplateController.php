@@ -10,7 +10,7 @@ use Auth;
 use Crypt;
 use Validator;
 
-class PagesController extends BaseController{
+class TemplateController extends BaseController{
 
 	public function index(Request $request){
 		$allow_access = Functions::checkAccessToPage($request->path());
@@ -20,7 +20,7 @@ class PagesController extends BaseController{
 
 			$menu = Functions::buildMenuList($request->path());
 
-			return view('admin.pages', [
+			return view('admin.templates', [
 				'start'		=> $start,
 				'menu'		=> $menu,
 				'page_title'=> $page_caption->title,
@@ -35,10 +35,10 @@ class PagesController extends BaseController{
 			$start = Functions::getMicrotime();
 			$menu = Functions::buildMenuList($request->path());
 
-			return view('admin.add.pages',[
+			return view('admin.add.templates',[
 				'start'		=> $start,
 				'menu'		=> $menu,
-				'page_title'=> 'Добавление страницы',
+				'page_title'=> 'Добавление шаблона',
 			]);
 		}
 	}
