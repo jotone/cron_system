@@ -26,7 +26,15 @@ $(document).ready(function () {
 				type:	'GET',
 				data:	{word: $(this).val()},
 				success:function(data){
-					console.log(data);
+					try{
+						data = JSON.parse(data);
+						if( (data.message == 'success') && (data.items.length > 0) ){
+							console.log(data.items);
+							/*$(".search-input").autocomplete({
+								source: data.items
+							});*/
+						}
+					}catch(e){}
 				}
 			})
 		}

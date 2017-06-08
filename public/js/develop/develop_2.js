@@ -97,11 +97,6 @@ $(document).ready(function () {
 		$('.product-item .name').css('height', test);
 	}
 
-	var availableTags = ["ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++", "Clojure", "COBOL", "ColdFusion", "Erlang", "Fortran", "Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl", "PHP", "Python", "Ruby", "Scala", "Scheme"];
-	$(".search-input").autocomplete({
-		source: availableTags
-	});
-
 	$('.header .busket').click(function (e) {
 		e.preventDefault();
 		$(this).next('.busket-popup').slideToggle();
