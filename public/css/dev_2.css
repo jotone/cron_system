@@ -49,6 +49,9 @@
 	background: #fff;
 	padding: 30px 15px 15px;
 	margin-bottom: 23px;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: space-between;
 }
 .product-item .pic{
 	position: relative;
@@ -72,6 +75,7 @@
 	line-height: 21px;
 	text-align: left;
 	letter-spacing: .2px;
+	width: 100%;
 }
 .product-item .name .prod-name{
 	font-weight: 600;
@@ -79,7 +83,7 @@
 	color: #303030;
 	letter-spacing: -.7px;
 }
-.product-item .price{padding: 15px 0px 10px 9px; display: block;}
+.product-item .price{padding: 15px 0px 10px 9px; display: block; width: 100%;}
 .product-item .price .prod-price{float: left; text-align: left;}
 .product-item .price .prod-price .old{
 	font-weight: 400;
@@ -1258,7 +1262,7 @@
 	display: flex;
 	-webkit-box-pack: justify;
 		-ms-flex-pack: justify;
-		justify-content: space-between;
+		justify-content: space-around;
 	-webkit-box-align: center;
 		-ms-flex-align: center;
 		align-items: center;

@@ -145,6 +145,9 @@ Route::get('/shopping_cart',[
 Route::patch('/change_per_page',[
 	'uses'=>'Supply\Helpers@changePerPage'
 ]);
+Route::get('/filter_brand',[
+	'uses'=>'Supply\Helpers@filterBrand'
+]);
 
 //Authorisation
 Route::get('/admin/login', [

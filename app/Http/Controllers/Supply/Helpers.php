@@ -10,6 +10,31 @@ use Auth;
 use Illuminate\Routing\Controller as BaseController;
 
 class Helpers extends BaseController{
+	public $upcase;
+	public $locase;
+
+	public function __construct(){
+		$this->upcase = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯІЇЄABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$this->locase = 'абвгдеёжзийклмнопрстуфхцчшщьыъэюяіїєabcdefghijklmnopqrstuvwxyz';
+	}
+
+	public function mb_str_split($str){
+		preg_match_all('/.{1}|[^\x00]{1}$/us', $str, $ar);
+		return $ar[0];
+	}
+
+	public function mb_strtr($str, $from, $to){
+		return str_replace($this->mb_str_split($from), $this->mb_str_split($to), $str);
+	}
+
+	public function lowercase($arg){
+		return $this->mb_strtr($arg, $this->upcase, $this->locase);
+	}
+
+	public function uppercase($arg){
+		return $this->mb_strrt($arg, $this->upcase, $this->locase);
+	}
+
 	public static function getDefaults(){
 		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
 		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
@@ -71,6 +96,35 @@ class Helpers extends BaseController{
 			$data['per_page'] = intval($data['per_page']);
 			setcookie('per_page',$data['per_page'], time()+36000, '/');
 			return 'success';
+		}
+	}
+
+	public function filterBrand(Request $request){
+		$data = $request->all();
+		if( (isset($data['word'])) && (strlen($data['word']) > 2) ){
+			$data['word'] = $this->lowercase($data['word']);
+			$brands = Brand::select('title','slug')
+				->where('enabled','=','1')
+				->where('title','LIKE','%'.$data['word'].'%')
+				->where('refer_to','=',0)
+				->take(10)
+				->get();
+			$result = [];
+			foreach($brands as $brand){
+				$result[] = [
+					'title'	=> $brand->title,
+					'slug'	=> $brand->slug
+				];
+			}
+			return json_encode([
+				'message' => 'success',
+				'data' => $result
+			]);
+		}else{
+			return json_encode([
+				'message' => 'success',
+				'data' => []
+			]);
 		}
 	}
 }
