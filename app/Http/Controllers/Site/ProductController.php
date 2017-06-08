@@ -163,8 +163,8 @@ class ProductController extends BaseController{
 				'slug'		=> $product->slug,
 				'text'		=> $product->text,
 				'img_url'	=> json_decode($product->img_url),
-				'old_price'	=> $product->old_price,
-				'price'		=> $product->price,
+				'old_price'	=> number_format($product->old_price, 0, '',' '),
+				'price'		=> number_format($product->price, 0, '',' '),
 				'is_hot'	=> $is_hot
 			];
 		}
