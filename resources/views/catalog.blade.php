@@ -14,14 +14,14 @@
 					<div class="breadcrumbs-inner">
 						<ul class="breadcrumbs-list">
 							<li><a href="{{ route('home') }}">Главная</a></li>
-							<li>This Page</li>
+							<li>Каталог</li>
 						</ul>
-						<form action="ajax.php" name="brandFilters" class="brand-filters">
+						<form name="brandFilters" class="brand-filters">
 							<div class="select-small">
 								<label for="number-select">Показать:</label>
 								<select id="number-select" name="brandsNumber" class="js-select" >
-									<option>8</option>
-									<option>16</option>
+									<option @if($limit == 8) selected="selected" @endif>8</option>
+									<option @if($limit == 16) selected="selected" @endif>16</option>
 								</select>
 							</div>
 						</form>
@@ -38,26 +38,9 @@
 							</a>
 							<div class="link-list-wrap">
 								<ul class="link-list js-scrollpane">
-									<li><a href="#">Антивирусы и Безопасность</a></li>
-									<li><a href="#">Продукты 1С Предприятие</a></li>
-									<li><a href="#">Офисные программы</a></li>
-									<li><a href="#">Средства обработки графики</a></li>
-									<li><a href="#">3D-моделирование САПР, СПДС</a></li>
-									<li><a href="#">Администрирование сетей</a></li>
-									<li><a href="#">Почтовые серверы и клиенты</a></li>
-									<li><a href="#">Средства обработки видео</a></li>
-									<li><a href="#">Средства обработки аудио</a></li>
-									<li><a href="#">Средства виртуализации</a></li>
-									<li><a href="#">Запись CD DVD HD Blu-Ray</a></li>
-									<li><a href="#">Антивирусы и Безопасность</a></li>
-									<li><a href="#">Продукты 1С</a></li>
-									<li><a href="#">Офисные программы</a></li>
-									<li><a href="#">Средства обработки аудио</a></li>
-									<li><a href="#">Средства виртуализации</a></li>
-									<li><a href="#">Запись CD DVD HD Blu-Ray</a></li>
-									<li><a href="#">Антивирусы и Безопасность</a></li>
-									<li><a href="#">Продукты 1С</a></li>
-									<li><a href="#">Офисные программы</a></li>
+								@foreach($categories as $category)
+									<li><a href="#{{ $category->slug }}">{{ $category->title }}</a></li>
+								@endforeach
 								</ul>
 							</div>
 						</div>
@@ -74,50 +57,15 @@
 									</div>
 									<div class="checkbox-list-wrap">
 										<ul class="checkbox-list js-scrollpane">
+										@foreach($brands as $brand)
 											<li>
-												<input type="checkbox" id="adobe" name="adobe">
-												<label for="adobe"><span></span>Adobe</label>
+												<label>
+													<input type="checkbox" id="{{ $brand->slug }}" name="{{ $brand->slug }}">
+													<span></span>
+													{{ $brand->title }}
+												</label>
 											</li>
-											<li>
-												<input type="checkbox" id="kasper" name="kasper">
-												<label for="kasper"><span></span>Kasperskiy</label>
-											</li>
-											<li>
-												<input type="checkbox" id="eset" name="eset">
-												<label for="eset"><span></span>Eset</label>
-											</li>
-											<li>
-												<input type="checkbox" id="ms" name="ms">
-												<label for="ms"><span></span>Microsoft</label>
-											</li>
-											<li>
-												<input type="checkbox"  id="apple" name="apple">
-												<label for="apple"><span></span>Apple</label>
-											</li>
-											<li>
-												<input type="checkbox" id="test1" name="test1">
-												<label for="test1"><span></span>test1</label>
-											</li>
-											<li>
-												<input type="checkbox" id="test2" name="test2">
-												<label for="test2"><span></span>test2</label>
-											</li>
-											<li>
-												<input type="checkbox"  id="test3" name="test3">
-												<label for="test3"><span></span>test3</label>
-											</li>
-											<li>
-												<input type="checkbox" id="test4" name="test4">
-												<label for="test4"><span></span>test4</label>
-											</li>
-											<li>
-												<input type="checkbox" id="test5" name="test5">
-												<label for="test5"><span></span>test5</label>
-											</li>
-											<li>
-												<input type="checkbox"  id="test6" name="test6">
-												<label for="test6"><span></span>test6</label>
-											</li>
+										@endforeach
 										</ul>
 									</div>
 								</div>

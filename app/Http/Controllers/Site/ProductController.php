@@ -16,7 +16,10 @@ class ProductController extends BaseController{
 	protected static function findLastBrand($brand_data){
 		$result = '';
 		if($brand_data->is_last < 1){
-			$sub_brands = Brand::select('id','is_last')->where('refer_to','=',$brand_data->id)->get();
+			$sub_brands = Brand::select('id','is_last')
+				->where('refer_to','=',$brand_data->id)
+				->where('enabled','=',1)
+				->get();
 			foreach($sub_brands as $sub_brand){
 				$result .= self::findLastBrand($sub_brand);
 			}
@@ -27,10 +30,13 @@ class ProductController extends BaseController{
 	}
 
 	protected static function findLastBrandWithProducts($parent_brand_id, $result = []){
-		$inner_brands = Brand::select('id','title','slug','is_last')->where('refer_to','=',$parent_brand_id)->get();
+		$inner_brands = Brand::select('id','title','slug','is_last')
+			->where('refer_to','=',$parent_brand_id)
+			->where('enabled','=',1)
+			->get();
 		foreach($inner_brands as $brand_data){
 			if($brand_data->is_last == 1){
-				$brand_products_count = Products::where('refer_to_brand','=',$brand_data->id)->count();
+				$brand_products_count = Products::where('refer_to_brand','=',$brand_data->id)->where('enabled','=',1)->count();
 				if($brand_products_count > 0){
 					$result[] = [
 						'title'	=> $brand_data->title,
@@ -121,8 +127,25 @@ class ProductController extends BaseController{
 
 	public function catalog(){
 		$defaults = Helpers::getDefaults();
+
+		$categories = Category::select('slug','title')
+			->where('enabled','=',1)
+			->orderBy('position','asc')
+			->get();
+
+		$brands = Brand::select('slug','title')
+			->where('refer_to','=',0)
+			->where('enabled','=',1)
+			->orderBy('position','asc')
+			->get();
+
+		$limit = (isset($_COOKIE['per_page']))? $_COOKIE['per_page']: 8;
+		if($limit < 2) $limit = 8;
 		return view('catalog', [
-			'defaults' => $defaults,
+			'defaults'=> $defaults,
+			'categories'=> $categories,
+			'brands'=> $brands,
+			'limit'=> $limit,
 		]);
 	}
 }

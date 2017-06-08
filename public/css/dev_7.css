@@ -1288,7 +1288,7 @@ ul{margin: 0; padding: 0; list-style: none;}
 }
 
 .catalog .catalog-wrap .catalog-filter-wrap .filter-item .link-list-wrap{padding: 26px 0 0 36px;}
-.catalog .catalog-wrap .catalog-filter-wrap .filter-item .link-list-wrap .link-list{height: 458px; overflow-y: scroll;}
+.catalog .catalog-wrap .catalog-filter-wrap .filter-item .link-list-wrap .link-list{height: 420px; overflow-y: scroll;}
 .catalog .catalog-wrap .catalog-filter-wrap .filter-item .link-list-wrap .link-list li a{
 	color: dimgrey;
 	font-size: 18px;
@@ -1313,7 +1313,7 @@ ul{margin: 0; padding: 0; list-style: none;}
 	width: 40px;
 	background: #00b3ad;
 	border: 0;
-	padding: 8px 0 6px;
+	padding: 9px 0 6px 0;
 }
 .catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-checkbox-inner .checkbox-list-wrap{padding-left: 33px;}
 .catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-checkbox-inner .checkbox-list-wrap .checkbox-list{height: 290px; overflow-y: scroll;}
@@ -1323,7 +1323,8 @@ ul{margin: 0; padding: 0; list-style: none;}
 	font-weight: 400;
 	line-height: 37px;
 }
-.catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-checkbox-inner .checkbox-list-wrap .checkbox-list li input + label span{
+.catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-checkbox-inner .checkbox-list-wrap .checkbox-list li input{display: none}
+.catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-checkbox-inner .checkbox-list-wrap .checkbox-list li label input+span{
 	display: inline-block;
 	margin-right: 10px;
 	width: 13px;
@@ -1331,7 +1332,7 @@ ul{margin: 0; padding: 0; list-style: none;}
 	border: 1px solid #00b3ad;
 	border-radius: 5px;
 }
-.catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-checkbox-inner .checkbox-list-wrap .checkbox-list li input:checked + label span{
+.catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-checkbox-inner .checkbox-list-wrap .checkbox-list li label input:checked+span{
 	width: 13px;
 	height: 13px;
 	border: 1px solid #00b3ad;
