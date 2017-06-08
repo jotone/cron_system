@@ -351,6 +351,10 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/products/drop',[
 			'uses'=>'Admin\ProductController@dropItem'
 		]);
+	Route::get('/admin/pages',[
+		'as'=>'admin-pages',
+		'uses'=>'Admin\PagesController@index'
+	]);
 
 	//Similar queries
 	Route::get('/admin/get_all_images',[
