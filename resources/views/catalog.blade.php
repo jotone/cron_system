@@ -54,6 +54,7 @@
 									<div class="filter-search">
 										<input type="text" class="search-input" placeholder="Поиск...">
 										<button type="submit"><img src="{{ URL::asset('images/search.png') }}" alt=""></button>
+										<ul class="autocomplete-dropdown"></ul>
 									</div>
 									<div class="checkbox-list-wrap">
 										<ul class="checkbox-list js-scrollpane">
@@ -108,6 +109,9 @@
 								</div>
 							</div>
 						</form>
+						<div class="filter-reset">
+					       <a href="#" class="button-invers">СБРОСИТЬ ФИЛЬТРЫ</a>
+					    </div>
 					</aside>
 					<section class="catalog-right">
 						<h1>Каталог</h1>

@@ -372,21 +372,23 @@ Route::group(['middleware' => 'admin'], function(){
 		]);
 
 	//Шаблоны
-	Route::get('/admin/templates', [
+	Route::get('/admin/templates',[
 		'as'=>'admin-templates',
 		'uses'=>'Admin\TemplateController@index'
 	]);
-		Route::get('/admin/templates/add', [
-			'as'=>'admin-templates-add-page',
+		Route::get('/admin/templates/add',[
+			'as'=>'admin-templates-add',
 			'uses'=>'Admin\TemplateController@addPage'
 		]);
 		Route::get('/admin/templates/edit/{id}',[
-			'as'=>'admin-templates-edit-page',
+			'as'=>'admin-templates-edit',
 			'uses'=>'Admin\TemplateController@editPage'
 		]);
-		Route::post('/admin/templates/add', [
-			'as'=>'admin-templates-add',
+		Route::post('/admin/templates/add',[
 			'uses'=>'Admin\TemplateController@addItem'
+		]);
+		Route::delete('/admin/templates/drop',[
+			'uses'=>'Admin\TemplateController@dropItem'
 		]);
 
 	//Similar queries

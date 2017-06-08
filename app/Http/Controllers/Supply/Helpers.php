@@ -101,7 +101,7 @@ class Helpers extends BaseController{
 
 	public function filterBrand(Request $request){
 		$data = $request->all();
-		if( (isset($data['word'])) && (strlen($data['word']) > 2) ){
+		if( (isset($data['word'])) && (strlen($data['word']) > 1) ){
 			$data['word'] = $this->lowercase($data['word']);
 			$brands = Brand::select('title','slug')
 				->where('enabled','=','1')

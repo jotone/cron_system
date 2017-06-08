@@ -20,7 +20,7 @@ $(document).ready(function () {
 	});
 
 	$('.filter-item .filter-search').on('keyup', 'input', function(){
-		if($(this).val().length > 2){
+		if($(this).val().length > 1){
 			$.ajax({
 				url:	'/filter_brand',
 				type:	'GET',
@@ -29,14 +29,21 @@ $(document).ready(function () {
 					try{
 						data = JSON.parse(data);
 						if( (data.message == 'success') && (data.items.length > 0) ){
-							console.log(data.items);
-							/*$(".search-input").autocomplete({
-								source: data.items
-							});*/
+							for(var i in data.items){
+								$('.autocomplete-dropdown').append('<li><a href="'+data.items[i]['slug']+'">'+data.items[i]['title']+'</a></li>').slideDown();
+							}
+							return false;
 						}
 					}catch(e){}
 				}
 			})
 		}
 	})
+});
+
+jQuery(document).click(function (event) {
+  if ($(event.target).closest(".advertising-sidebar").length) return;
+  jQuery(".autocomplite-dropdown").slideUp("active");
+
+  event.stopPropagation();
 });
