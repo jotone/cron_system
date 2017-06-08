@@ -90,6 +90,9 @@ Route::get('/catalog',[
 	'as'=>'catalog',
 	'uses'=>'Site\ProductController@catalog'
 ]);
+	Route::get('/catalog/page/{page?}',[
+		'uses'=>'Site\ProductController@catalog'
+	]);
 //Оборудование
 Route::get('/equipment',[
 	'as'=>'equipment',

@@ -76,9 +76,9 @@ class ProductController extends BaseController{
 			foreach($items as $item){
 				if(!isset($products[$item->id])){
 					switch($item->is_hot){
-						case '1': $is_hot = 'hot'; break;
-						case '2': $is_hot = 'sale'; break;
-						default: $is_hot = '';
+						case '1':	$is_hot = 'hot'; break;
+						case '2':	$is_hot = 'sale'; break;
+						default:	$is_hot = '';
 					}
 					$products[$item->id] = [
 						'title'		=> $item->title,
@@ -125,8 +125,13 @@ class ProductController extends BaseController{
 		]);
 	}
 
-	public function catalog(){
+	public function catalog($page = 1){
 		$defaults = Helpers::getDefaults();
+
+		$limit = (isset($_COOKIE['per_page']))? $_COOKIE['per_page']: 8;
+		if($limit < 8) $limit = 8;
+		$start = ($page-1) * $limit;
+		$products_count = Products::where('enabled','=',1)->count();
 
 		$categories = Category::select('slug','title')
 			->where('enabled','=',1)
@@ -139,13 +144,45 @@ class ProductController extends BaseController{
 			->orderBy('position','asc')
 			->get();
 
-		$limit = (isset($_COOKIE['per_page']))? $_COOKIE['per_page']: 8;
-		if($limit < 2) $limit = 8;
+		$products = Products::select('title','slug','text','img_url','old_price','price','is_hot')
+			->where('enabled','=',1)
+			->orderBy('title','asc')
+			->skip($start)
+			->take($limit)
+			->get();
+
+		$list = [];
+		foreach($products as $product){
+			switch($product->is_hot){
+				case '1':	$is_hot = 'hot'; break;
+				case '2':	$is_hot = 'sale'; break;
+				default:	$is_hot = '';
+			}
+			$list[] = [
+				'title'		=> $product->title,
+				'slug'		=> $product->slug,
+				'text'		=> $product->text,
+				'img_url'	=> json_decode($product->img_url),
+				'old_price'	=> $product->old_price,
+				'price'		=> $product->price,
+				'is_hot'	=> $is_hot
+			];
+		}
+		$paginate_options = [
+			'prev'		=> $page-1,
+			'next'		=> $page+1,
+			'current'	=> $page,
+			'total'		=> ceil($products_count/$limit)
+		];
+
+
 		return view('catalog', [
-			'defaults'=> $defaults,
+			'defaults'	=> $defaults,
 			'categories'=> $categories,
-			'brands'=> $brands,
-			'limit'=> $limit,
+			'brands'	=> $brands,
+			'limit'		=> $limit,
+			'products'	=> $list,
+			'paginate_options'=> $paginate_options,
 		]);
 	}
 }

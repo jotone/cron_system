@@ -60,7 +60,7 @@
 										@foreach($brands as $brand)
 											<li>
 												<label>
-													<input type="checkbox" id="{{ $brand->slug }}" name="{{ $brand->slug }}">
+													<input type="radio" id="{{ $brand->slug }}" name="{{ $brand->slug }}">
 													<span></span>
 													{{ $brand->title }}
 												</label>
@@ -117,142 +117,35 @@
 							<div class="burger-brick"></div>
 						</div>
 						<div class="products">
-							<div class="product-item hot-item">
+						@foreach($products as $product)
+							<div class="product-item @if(!empty($product['is_hot'])) hot-item @endif">
 								<div class="pic">
-									<img src="{{ URL::asset('images/windows.png') }}" alt="">
-									<div class="hot">hot</div>
+									@if(!empty($product['img_url']->img))
+										<img src="{{ URL::asset($product['img_url']->img) }}" alt="{{ $product['img_url']->alt }}">
+									@endif
+									@if(!empty($product['is_hot']))
+										<div class="{{ $product['is_hot'] }}">{{ $product['is_hot'] }}</div>
+									@endif
 								</div>
+
 								<div class="name">
-									<div class="prod-name">Furniture for Home</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+									<div class="prod-name">{{ $product['title'] }}</div>
+									{!! $product['text'] !!}
 								</div>
-								<div class="price">
-									<div class="prod-price">
-										<span class="old">$ 200</span>
-										<span class="new">$ 100</span>
-									</div>
-									<a href="#" class="button-invers">В КОРЗИНУ</a>
+
+								<div class="price cfix">
+									@if(!empty($product['price']))
+										<div class="prod-price">
+											<span class="old">@if(!empty($product['old_price'])) $ {{ $product['old_price'] }}@endif</span>
+											<span class="new">$ {{ $product['price'] }}</span>
+										</div>
+										<a href="#" class="button-invers">В корзину</a>
+									@else
+										<a href="#" class="button-invers">Уточнить цену</a>
+									@endif
 								</div>
 							</div>
-							<div class="product-item hot-item">
-								<div class="pic">
-									<img src="{{ URL::asset('images/photoshop.png') }}" alt="">
-									<div class="hot">hot</div>
-								</div>
-								<div class="name">
-									<div class="prod-name">Furniture for Home</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								</div>
-								<div class="price">
-									<div class="prod-price">
-										<span class="old">$ 200</span>
-										<span class="new">$ 100</span>
-									</div>
-									<a href="#" class="button-invers">В КОРЗИНУ</a>
-								</div>
-							</div>
-							<div class="product-item hot-item">
-								<div class="pic">
-									<img src="{{ URL::asset('images/drweb.png') }}" alt="">
-									<div class="hot">hot</div>
-								</div>
-								<div class="name">
-									<div class="prod-name">Furniture for Home</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								</div>
-								<div class="price">
-									<div class="prod-price">
-										<span class="old">$ 200</span>
-										<span class="new">$ 100</span>
-									</div>
-									<a href="#" class="button-invers">В КОРЗИНУ</a>
-								</div>
-							</div>
-							<div class="product-item hot-item">
-								<div class="pic">
-									<img src="{{ URL::asset('images/adobe.png') }}" alt="">
-									<div class="hot">hot</div>
-								</div>
-								<div class="name">
-									<div class="prod-name">Furniture for Home</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								</div>
-								<div class="price">
-									<div class="prod-price">
-										<span class="old">$ 200</span>
-										<span class="new">$ 100</span>
-									</div>
-									<a href="#" class="button-invers">В КОРЗИНУ</a>
-								</div>
-							</div>
-							<div class="product-item hot-item">
-								<div class="pic">
-									<img src="{{ URL::asset('images/illustrator.png') }}" alt="">
-									<div class="hot">hot</div>
-								</div>
-								<div class="name">
-									<div class="prod-name">Furniture for Home</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								</div>
-								<div class="price">
-									<div class="prod-price">
-										<span class="old"></span>
-										<span class="new"></span>
-									</div>
-									<a href="request.html" class="button-invers">уточнить цену</a>
-								</div>
-							</div>
-							<div class="product-item hot-item">
-								<div class="pic">
-									<img src="{{ URL::asset('images/indesign.png') }}" alt="">
-									<div class="hot">hot</div>
-								</div>
-								<div class="name">
-									<div class="prod-name">Furniture for Home</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								</div>
-								<div class="price">
-									<div class="prod-price">
-										<span class="old">$ 200</span>
-										<span class="new">$ 100</span>
-									</div>
-									<a href="#" class="button-invers">В КОРЗИНУ</a>
-								</div>
-							</div>
-							<div class="product-item hot-item">
-								<div class="pic">
-									<img src="{{ URL::asset('images/microsoft.png') }}" alt="">
-									<div class="hot">hot</div>
-								</div>
-								<div class="name">
-									<div class="prod-name">Furniture for Home</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								</div>
-								<div class="price">
-									<div class="prod-price">
-										<span class="old">$ 200</span>
-										<span class="new">$ 100</span>
-									</div>
-									<a href="#" class="button-invers">В КОРЗИНУ</a>
-								</div>
-							</div>
-							<div class="product-item hot-item">
-								<div class="pic">
-									<img src="{{ URL::asset('images/kaspersky.png') }}" alt="">
-									<div class="hot">hot</div>
-								</div>
-								<div class="name">
-									<div class="prod-name">Furniture for Home</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								</div>
-								<div class="price">
-									<div class="prod-price">
-										<span class="old">$ 200</span>
-										<span class="new">$ 100</span>
-									</div>
-									<a href="#" class="button-invers">В КОРЗИНУ</a>
-								</div>
-							</div>
+						@endforeach
 						</div>
 						<div class="pagination">
 							<a href="#" class="prev">&lt;</a>
