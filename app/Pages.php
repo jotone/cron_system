@@ -6,6 +6,6 @@ class Pages extends Model{
 	protected $fillable = [
 		'title','link','content',
 		'meta_title','meta_keywords','meta_description',
-		'need_seo','seo_title','seo_text'
+		'need_seo','seo_title','seo_text','used_template'
 	];
 }

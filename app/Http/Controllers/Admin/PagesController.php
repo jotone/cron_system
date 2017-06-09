@@ -50,7 +50,10 @@ class PagesController extends BaseController{
 
 	public function editPage($id, Request $request){}
 
-	public function addItem(Request $request){}
+	public function addItem(Request $request){
+		$data = $request->all();
+		dd($data);
+	}
 
 	public function dropItem(Request $request){}
 }

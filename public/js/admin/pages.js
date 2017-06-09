@@ -23,7 +23,7 @@ function getTemplateData(){
 						CKEDITOR.replace($(this).attr('name'));
 					});
 				}
-				if($('#newsContainer').length() > 0){
+				if($(document).find('#newsContainer').length > 0){
 					$.ajax({
 						url:	'/admin/get_latest_news',
 						type:	'GET',
@@ -45,7 +45,8 @@ function getTemplateData(){
 									}
 									containerContent += '<span>'+data[i]['title']+'</span></li>';
 								}
-								$('#newsContainer').empty().append(containerContent);
+								$(document).find('.pseudo-selector').empty().append(containerContent);
+								pseudoSelectorControls();
 							}catch(e){
 								showErrors(e + data, '/admin/get_latest_news')
 							}
@@ -58,12 +59,10 @@ function getTemplateData(){
 		}
 	});
 }
-$(document).ready(function(){
-	buildFixedNavMenu();
-	seoToggle();
-	$('input[name=need_seo]').change(function(){
-		seoToggle();
-	});
+function pseudoSelectorControls(){
+	$(document).find('.pseudo-selector').off('click','li');
+	$(document).off('click','button[name=moreNews]');
+	$(document).find('#newsContainer').off('click', '.drop-add-field');
 
 	$(document).find('.pseudo-selector').on('click','li',function(e){
 		e.stopPropagation();
@@ -78,7 +77,7 @@ $(document).ready(function(){
 		});
 	});
 
-	$(document).find('button[name=moreNews]').click(function(){
+	$(document).on('click','button[name=moreNews]',function(){
 		var title = $(this).closest('fieldset').find('ul.pseudo-selector li.active span').text();
 		$('#newsContainer').append('<div class="row-wrap col_1_2" style="display: flex; align-items: center">' +
 			'<span style="width: 110px; padding-right: 10px;" class="tar">'+title+'</span>'+
@@ -89,10 +88,92 @@ $(document).ready(function(){
 	$(document).find('#newsContainer').on('click', '.drop-add-field', function(){
 		$(this).closest('.row-wrap').remove();
 	});
+}
+$(document).ready(function(){
+	buildFixedNavMenu();
+	seoToggle();
+	$('input[name=need_seo]').change(function(){
+		seoToggle();
+	});
+
 	if($('select[name=templateType]').length > 0){
 		getTemplateData();
 		$('select[name=templateType]').change(function () {
 			getTemplateData();
 		});
 	}
+	pseudoSelectorControls();
+
+	$('button[name=save]').click(function(){
+		formData.append('id', $('input[name=id]').val());
+		formData.append('title', $('input[name=title]').val());
+		formData.append('link', $('input[name=link]').val());
+		formData.append('meta_title', $('input[name=metaTitle]').val());
+		formData.append('meta_keywords', $('textarea[name=metaKeywords]').val());
+		formData.append('meta_description', $('textarea[name=metaDescription]').val());
+		formData.append('need_seo', ($('input[name=need_seo]').prop('checked') == true)? 1: 0);
+		formData.append('seo_title', $('input[name=seo_title]').val());
+		formData.append('seo_text', CKEDITOR.instances.seo_text.getData());
+		formData.append('used_template', $('select[name=templateType]').val());
+
+		var temp = [];
+		$(document).find('#contentData fieldset').each(function(){
+			switch($(this).attr('data-type')){
+				case 'text':
+					temp.push({
+						type: $(this).attr('data-type'),
+						name: $(this).attr('data-name'),
+						field: $(this).find('textarea') .attr('name'),
+						value: CKEDITOR.instances[$(this).find('textarea') .attr('name')].getData()
+					});
+				break;
+				case 'single-image':
+					temp.push({
+						type: $(this).attr('data-type'),
+						name: $(this).attr('data-name')
+					});
+					if($(this).find('.upload-image-preview img').length > 0){
+						if($(this).find('.upload-image-preview img').attr('data-type') == 'upload'){
+							formData.append('image_alt'+$(this).attr('data-name'), $(this).find('input[name=imageAlt]').val());
+							formData.append('image_type'+$(this).attr('data-name'), 'upload');
+						}else{
+							formData.append('image'+$(this).attr('data-name'), $(this).find('.upload-image-preview img').attr('src'));
+							formData.append('image_alt'+$(this).attr('data-name'), $(this).find('input[name=imageAlt]').val());
+							formData.append('image_type'+$(this).attr('data-name'), 'file');
+						}
+					}else{
+						formData.append('image'+$(this).attr('data-name'), '');
+						formData.append('image_alt'+$(this).attr('data-name'), '');
+						formData.append('image_type'+$(this).attr('data-name'), 'file');
+					}
+				break;
+				case 'block':
+				break;
+			}
+		});
+
+		formData.append('content', JSON.stringify(temp));
+
+		$.ajax({
+			url:	'/admin/pages/add',
+			type:	'POST',
+			headers:	{'X-CSRF-TOKEN': $('header').attr('data-token')},
+			processData:false,
+			contentType:false,
+			data:	formData,
+			error:	function (jqXHR, textStatus, errorThrown) {
+				showErrors(jqXHR.responseText, '/admin/pages/add')
+			},
+			success:function(data){
+				try{
+					data = JSON.parse(data);
+					if(data.message == 'success'){
+						location = '/admin/pages';
+					}
+				}catch(e){
+					showErrors(e + data, '/admin/pages/add')
+				}
+			}
+		})
+	});
 });

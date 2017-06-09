@@ -23,6 +23,7 @@ class CreatePagesTable extends Migration
 			$table->boolean('need_seo')->unsigned();
 			$table->string('seo_title');
 			$table->text('seo_text');
+			$table->integer('used_template')->unsigned();
 			$table->timestamps();
 		});
 	}
