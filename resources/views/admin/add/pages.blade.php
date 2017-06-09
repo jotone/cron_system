@@ -42,9 +42,7 @@
 				</fieldset>
 			</div>
 
-			<div id="contentData">
-
-			</div>
+			<div id="contentData"></div>
 
 			<div>
 				<fieldset>

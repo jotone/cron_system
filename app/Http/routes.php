@@ -398,6 +398,9 @@ Route::group(['middleware' => 'admin'], function(){
 	Route::get('/admin/get_template',[
 		'uses'=>'Supply\Functions@getTemplate'
 	]);
+	Route::get('/admin/get_latest_news',[
+		'uses'=>'Supply\Functions@getLatestNews'
+	]);
 	Route::patch('/admin/change_enabled',[
 		'uses'=>'Admin\SimilarQueriesController@changeEnabled'
 	]);

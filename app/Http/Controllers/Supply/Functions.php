@@ -354,4 +354,17 @@ class Functions extends BaseController{
 			'content'=>$template->content
 		]);
 	}
+
+	public function getLatestNews(){
+		$news = News::select('id','title','img_url')->where('enabled','=',1)->orderBy('published_at','desc')->get();
+		$news_list = [];
+		foreach($news as $new){
+			$news_list[] = [
+				'id'=> $new->id,
+				'title'=> $new->title,
+				'img_url'=>json_decode($new->img_url)
+			];
+		}
+		return json_encode($news_list);
+	}
 }

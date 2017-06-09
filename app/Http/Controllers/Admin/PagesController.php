@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\AdminMenu;
 
 use App\Http\Controllers\Supply\Functions;
+use App\News;
 use App\Template;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -36,12 +37,13 @@ class PagesController extends BaseController{
 			$start = Functions::getMicrotime();
 			$menu = Functions::buildMenuList($request->path());
 
+
 			$templates = Template::orderBy('title','asc')->get();
 			return view('admin.add.pages',[
 				'start'		=> $start,
 				'menu'		=> $menu,
 				'page_title'=> 'Добавление страницы',
-				'templates'	=> $templates
+				'templates'	=> $templates,
 			]);
 		}
 	}
