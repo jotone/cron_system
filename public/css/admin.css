@@ -606,7 +606,7 @@ fieldset legend{
 }
 .slider-wrap .slider-content-element:first-child{color: #73799c; border: 1px solid #449d44; background-color: #fff;}
 .slider-wrap .slider-content-element:first-child:before{
-	content: 'PREVIEW';
+	content: 'FIRST';
 	transform: translateX(-50%);
 	top: 14px;
 	opacity: 0.1;

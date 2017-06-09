@@ -36,8 +36,10 @@ $(document).ready(function(){
 		seoToggle();
 	});
 
-	getTemplateData();
-	$('select[name=templateType]').change(function(){
+	/*if($('select[name=templateType]').length > 0){
 		getTemplateData();
-	});
+		$('select[name=templateType]').change(function () {
+			getTemplateData();
+		});
+	}*/
 });

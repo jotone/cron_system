@@ -66,19 +66,6 @@ class BrandController extends BaseController{
 
 	public function addItem(Request $request){
 		$data = $request->all();
-
-		if($data['image_type'] == 'file'){
-			$img_url = json_encode([
-				'img'=>$data['image'],
-				'alt'=>$data['image_alt']
-			]);
-		}else{
-			$image = Functions::createImg($data['image'], true);
-			$img_url = json_encode([
-				'img'=>$image,
-				'alt'=>$data['image_alt']
-			]);
-		}
 		if($data['refer_to'] != 0){
 			Brand::where('id','=',$data['refer_to'])->update(['is_last'=>0]);
 		}
@@ -87,7 +74,6 @@ class BrandController extends BaseController{
 			$result = Brand::find($data['id']);
 			$result->title		= trim($data['title']);
 			$result->slug		= trim($data['slug']);
-			$result->img_url	= $img_url;
 			$result->refer_to	= $data['refer_to'];
 			$result->is_last	= 1;
 			$result->enabled	= $data['enabled'];
@@ -101,7 +87,6 @@ class BrandController extends BaseController{
 			$result = Brand::create([
 				'title'		=> trim($data['title']),
 				'slug'		=> trim($data['slug']),
-				'img_url'	=> $img_url,
 				'refer_to'	=> $data['refer_to'],
 				'position'	=> $position,
 				'is_last'	=> 1,

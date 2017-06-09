@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Supply;
 use App\AdminMenu;
-use App\Brand;
 use App\News;
 use App\Products;
 use App\Template;
@@ -309,9 +308,6 @@ class Functions extends BaseController{
 			$used_in = [];
 			$temp = explode('/',$image);
 			$temp = $temp[count($temp) -1];
-
-			$images = Brand::select('title')->where('img_url','LIKE','%'.$temp.'%')->get();
-			foreach($images as $item) $used_in['brand'][] = $item->title;
 
 			$images = News::select('title')
 				->where('img_url','LIKE','%'.$temp.'%')

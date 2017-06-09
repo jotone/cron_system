@@ -16,7 +16,6 @@ class CreateBrands extends Migration
 			$table->increments('id');
 			$table->string('title');
 			$table->string('slug');
-			$table->text('img_url');
 			$table->tinyInteger('position')->unsigned();
 			$table->integer('refer_to')->unsigned();
 			$table->boolean('is_last')->unsigned();

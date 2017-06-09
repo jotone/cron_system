@@ -38,20 +38,6 @@ $(document).ready(function(){
 		formData.append('slug', $('input[name=slug]').val());
 		formData.append('enabled', ($('input[name=enabled]').prop('checked') == true)? 1: 0);
 		formData.append('refer_to', $('select[name=refer_to]').val());
-		if($('.upload-image-preview img').length > 0){
-			if($('.upload-image-preview img').attr('data-type') == 'upload'){
-				formData.append('image_alt', $('input[name=imageAlt]').val());
-				formData.append('image_type', 'upload');
-			}else{
-				formData.append('image', $('.upload-image-preview img').attr('src'));
-				formData.append('image_alt', $('input[name=imageAlt]').val());
-				formData.append('image_type', 'file');
-			}
-		}else{
-			formData.append('image', '');
-			formData.append('image_alt', '');
-			formData.append('image_type', 'file');
-		}
 		$.ajax({
 			url:		'/admin/brands/add',
 			type:		'POST',

@@ -140,6 +140,45 @@ function autoSlug(){
 	});
 }
 
+function caseImageInOverviewPopup(_this){
+	var point = 0;
+	$('.overview-popup .popup-images .active').each(function(){
+		var imageSrc	= $(this).find('img').attr('src');
+		var imageCaption= imageSrc.split('/');
+
+		imageCaption = imageCaption[imageCaption.length -1];
+		imageSrc = (imageSrc.substr(0,1) != '/')? '/'+imageSrc: imageSrc;
+
+		_this.closest('.slider-wrap').find('.slider-images-wrap').append('' +
+			'<div class="image-wrap" data-position="'+point+'">' +
+			'<img src="'+imageSrc+'" alt="">' +
+			'<div class="attributes-wrap">' +
+			'<input name="altText" type="text" class="text-input" placeholder="Альтернативный текст&hellip;" style="width: 90%;">' +
+			'<a href="#" class="drop-image button" title="Удалить">' +
+			'<img src="/images/drop.png" alt="">' +
+			'</a>' +
+			'</div>' +
+			'</div>');
+		_this.closest('.slider-wrap').find('.slider-list-wrap').append('' +
+			'<div class="slider-content-element" data-position="'+point+'">' +
+			'<div class="element-title">'+imageCaption+'</div>' +
+			'<div class="element-size"></div>' +
+			'<div class="element-image">' +
+			'<img src="'+imageSrc+'" alt="">' +
+			'</div>' +
+			'<div class="element-alt"></div>' +
+			'<div class="element-drop">' +
+			'<img src="/images/drop.png" alt="Удалить" title="Удалить">' +
+			'	</div>' +
+			'</div>');
+		point++
+	});
+	_this.closest('.slider-wrap').find('.slider-images-wrap .image-wrap').removeClass('active');
+	_this.closest('.slider-wrap').find('.slider-images-wrap .image-wrap:first').addClass('active');
+	resortSliderWrap(_this);
+	$('.overview-popup').hide();
+}
+
 $(document).ready(function(){
 	$('footer .error-log').click(function(){
 		$('.error-popup').show();
@@ -198,7 +237,7 @@ $(document).ready(function(){
 	// /Single Image Loader
 
 	//Call Gallery
-	$(document).on('click','input[name=viewGallery]',function(){
+	$(document).on('click','input[name=viewGallery], input[name=getImgToSlider]',function(){
 		var _this = $(this);
 		$.ajax({
 			url:	'/admin/get_all_images',
@@ -217,10 +256,8 @@ $(document).ready(function(){
 							if(typeof data.images[i]['used_in'].length == 'undefined'){
 								for(var key in data.images[i]['used_in']){
 									switch(key){
-										case 'brand':		descript += '<p>Брэнды:</p>'; break;
 										case 'news':		descript += '<p>Новости:</p>'; break;
 										case 'products':	descript += '<p>Товары:</p>'; break;
-										case 'social':		descript += '<p>Соц.Сети:</p>'; break;
 										case 'vacancies':	descript += '<p>Вакансии:</p>'; break;
 									}
 									for(var iter in data.images[i]['used_in'][key]){
@@ -243,9 +280,7 @@ $(document).ready(function(){
 								$('.overview-popup .popup-images .image-container').removeClass('active');
 								$(this).addClass('active');
 							}else{
-								$('.overview-popup .popup-images').on('click','.image-container', function(){
-									$('.overview-popup .popup-images .image-container').toggleClass('active');
-								});
+								$(this).toggleClass('active');
 							}
 						});
 
@@ -256,7 +291,7 @@ $(document).ready(function(){
 									'<img src="'+image+'" alt="" data-type="file">' +
 									'<input name="imageAlt" type="text" class="text-input col_1" placeholder="alt&hellip;">');
 							}else{
-
+								caseImageInOverviewPopup(_this);
 							}
 							$('.overview-popup').hide();
 						});
@@ -270,4 +305,103 @@ $(document).ready(function(){
 		});
 	});
 	// /Call Gallery
+
+	//Slider
+	$(document).on('click','input[name=loadFileToSlider]', function(){
+		$(this).closest('.slider-manage-buttons').find('input[name=imageFileToUpload]').trigger('click');
+	});
+
+	var point = 0;
+	$(document).on('change', 'input[name=imageFileToUpload]', function(){
+		point = 0;
+		var formdata_iter = point;
+		var sliderName = $(this).closest('fieldset').attr('data-name');
+		var _this = $(this);
+		var count = $(this).prop('files').length;
+		for(var i=0; i<count; i++){
+			var reader = new FileReader();
+			reader.onload = function(e){
+				_this.closest('.slider-wrap').find('.slider-images-wrap').append('' +
+					'<div class="image-wrap" data-position="'+point+'">' +
+					'<img src="'+e.target.result+'" alt="">' +
+					'<div class="attributes-wrap">' +
+					'<input name="altText" type="text" class="text-input" placeholder="Альтернативный текст&hellip;" style="width: 90%;">' +
+					'<a href="#" class="drop-image button" title="Удалить">' +
+					'<img src="/images/drop.png" alt="">' +
+					'</a>' +
+					'</div>' +
+					'</div>');
+
+				_this.closest('.slider-wrap').find('.slider-list-wrap').append('' +
+					'<div class="slider-content-element" data-position="'+point+'">' +
+					'<div class="element-title">'+(_this.prop('files')[point]['name'])+'</div>' +
+					'<div class="element-size">'+(_this.prop('files')[point]['size'] /1024).toFixed(2)+' Kb</div>' +
+					'<div class="element-image">' +
+					'<img src="'+e.target.result+'" alt="">' +
+					'</div>' +
+					'<div class="element-alt"></div>' +
+					'<div class="element-drop">' +
+					'<img src="/images/drop.png" alt="Удалить" title="Удалить">' +
+					'</div>' +
+					'</div>');
+				for(var key of formData.keys()){
+					if(key == sliderName+'_file_'+formdata_iter){
+						formdata_iter++;
+					}
+				}
+				formData.append(sliderName+'_file_'+formdata_iter , _this.prop('files')[point]);
+				if(point == count-1){
+					_this.closest('.slider-wrap').find('.slider-images-wrap .image-wrap').removeClass('active');
+					_this.closest('.slider-wrap').find('.slider-images-wrap .image-wrap:first').addClass('active');
+					resortSliderWrap(_this);
+				}
+				point++;
+				formdata_iter++;
+			};
+			reader.readAsDataURL($(this).prop('files')[i]);
+		}
+	});
+
+	// slider controls
+	$(document).on('click', '.slider-controls', function(){
+		var sliderLength = $(this).closest('.slider-preview').find('.slider-images-wrap .image-wrap').length -1;
+		var activeEl = $(this).closest('.slider-preview').find('.slider-images-wrap').find('.active').index();
+		if($(this).hasClass('left')){
+			var showEl = (activeEl == 0)? sliderLength: activeEl -1;
+		}else{
+			var showEl = (activeEl == sliderLength)? 0: activeEl+1;
+		}
+		$(this).closest('.slider-preview').find('.slider-images-wrap .image-wrap').removeClass('active');
+		$(this).closest('.slider-preview').find('.slider-images-wrap .image-wrap:eq('+showEl+')').addClass('active');
+	});
+
+	// slider sortable
+	sliderSortable();
+
+	$(document).on('keyup','input[name=altText]', function(){
+		var position = $(this).closest('.image-wrap').index();
+		$(this).closest('.slider-wrap').find('.slider-list-wrap').find('.slider-content-element[data-position='+position+']').find('.element-alt').text($(this).val());
+	});
+	//drop image
+	$(document).on('click', '.drop-image', function(e){
+		e.preventDefault();
+		var sliderName = $(this).closest('fieldset').attr('data-name');
+		var position = $(this).closest('.image-wrap').index();
+		var _that = $(this).closest('.slider-images-wrap');
+		$(this).closest('.slider-wrap').find('.slider-list-wrap').find('.slider-content-element[data-position='+position+']').remove();
+		$(this).closest('.image-wrap').remove();
+		resortSliderWrap(_that);
+		formData.delete(sliderName+'_file_'+position);
+	});
+	$(document).on('click', '.element-drop', function(){
+		var sliderName = $(this).closest('fieldset').attr('data-name');
+		var position = $(this).closest('.slider-content-element').index();
+		var _that = $(this).closest('.slider-list-wrap');
+		$(this).closest('.slider-wrap').find('.slider-images-wrap').find('.image-wrap[data-position='+position+']').remove();
+		$(this).closest('.slider-content-element').remove();
+		resortSliderWrap(_that);
+		formData.delete(sliderName+'_file_'+position);
+	});
+	//add images from uploaded
+
 });
