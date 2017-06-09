@@ -43,61 +43,7 @@
 			</div>
 
 			<div id="contentData">
-				<fieldset data-type="block" data-name="top_article">
-					<legend>Заглавная Новость</legend>
-					<div class="row-wrap">
-						<label class="fieldset-label-wrap">
-							<input name="article_title" type="text" class="text-input col_1_2" placeholder="Название&hellip;">
-							<span>Название</span>
-						</label>
-					</div>
-					<div class="row-wrap cfix">
-						<p>Изображение</p>
-						<div class="fl col_1_8">
-							<input style="display: none" name="imageLoader" placeholder="Обзор…" type="file">
-							<div class="row-wrap">
-								<input class="control-button" name="fakeLoad" type="button" value="Обзор…">
-							</div>
-							<div class="row-wrap">
-								<input class="control-button" name="clear" type="button" value="Очистить…">
-							</div>
-							<div class="row-wrap">
-								<input class="control-button" name="viewGallery" type="button" value="Галлерея…">
-							</div>
-						</div>
-						<div class="upload-image-preview tac fl col_3_4">
-						</div>
-					</div>
-					<div class="row-wrap cfix">
-						<p>Текст</p>
-						<textarea name="atricle_text" class="needCKE"></textarea>
-					</div>
-					<div class="row-wrap">
-						<label class="fieldset-label-wrap">
-							<input name="article_link" type="text" class="text-input col_1_2" placeholder="Ссылка (кнопка Детальнее)&hellip;">
-							<span>Ссылка (кнопка Детальнее)</span>
-						</label>
-					</div>
-				</fieldset>
 
-				<fieldset data-type="slider" data-name="slider">
-					<legend>Слайдер брендов</legend>
-					<div class="slider-wrap">
-						<div class="slider-content">
-							<div class="slider-preview">
-								<div class="slider-controls left">&#9664;</div>
-								<div class="slider-images-wrap"></div>
-								<div class="slider-controls right">&#9658;</div>
-							</div>
-							<div class="slider-manage-buttons">
-								<input name="imageFileToUpload" type="file" class="dn" multiple>
-								<input class="control-button" name="loadFileToSlider" type="button" value="Загрузить файл&hellip;">
-								<input class="control-button" name="getImgToSlider" type="button" value="Выбрать из загруженых&hellip;">
-							</div>
-						</div>
-						<div class="slider-list-wrap"></div>
-					</div>
-				</fieldset>
 			</div>
 
 			<div>
