@@ -85,9 +85,9 @@ function resortSliderWrap(_this){
 
 function sliderDataFill(obj, name){
 	var sliderData = {
+		type: obj.attr('data-type'),
 		name: name,
-		type: 'slider',
-		items: []
+		value: []
 	};
 	obj.find('.slider-list-wrap').find('.slider-content-element').each(function(){
 		var temp = {
@@ -100,7 +100,7 @@ function sliderDataFill(obj, name){
 		temp.image = ($(this).find('.element-size').text().trim().length > 0)
 			? ''
 			: $(this).find('.element-image').find('img').attr('src');
-		sliderData.items.push(temp);
+		sliderData.value.push(temp);
 	});
 	return sliderData;
 }
