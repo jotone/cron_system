@@ -79,10 +79,13 @@ function pseudoSelectorControls(){
 
 	$(document).on('click','button[name=moreNews]',function(){
 		var title = $(this).closest('fieldset').find('ul.pseudo-selector li.active span').text();
-		$('#newsContainer').append('<div class="row-wrap col_1_2" style="display: flex; align-items: center">' +
-			'<span style="width: 110px; padding-right: 10px;" class="tar">'+title+'</span>'+
-			'<span class="drop-add-field">×</span>'+
-		'</div>');
+		var id = $(this).closest('fieldset').find('ul.pseudo-selector li.active').attr('data-id');
+		if($('#newsContainer .row-wrap').length <= 2){
+			$('#newsContainer').append('<div class="row-wrap col_1_2" style="display: flex; align-items: center" data-id="'+id+'">' +
+				'<span style="width: 110px; padding-right: 10px;" class="tar">'+title+'</span>'+
+				'<span class="drop-add-field">×</span>'+
+			'</div>');
+		}
 	});
 
 	$(document).find('#newsContainer').on('click', '.drop-add-field', function(){
@@ -119,18 +122,69 @@ $(document).ready(function(){
 		var temp = [];
 		$(document).find('#contentData fieldset').each(function(){
 			switch($(this).attr('data-type')){
-				case 'text':
+				case 'block':
+					var inner_temp = [];
+					$(this).children('.row-wrap').each(function(){
+						switch($(this).attr('data-type')){
+							case 'string':
+								inner_temp.push({
+									type:	$(this).attr('data-type'),
+									field:	$(this).find('input[type=text]').attr('name'),
+									value:	$(this).find('input[type=text]').val()
+								});
+							break;
+							case 'single-image':
+								inner_temp.push({
+									type:	$(this).attr('data-type'),
+									name:	$(this).closest('fieldset').attr('data-name')
+								});
+								if($(this).find('.upload-image-preview img').length > 0){
+									if($(this).find('.upload-image-preview img').attr('data-type') == 'upload'){
+										formData.append('image_alt'+$(this).closest('fieldset').attr('data-name'), $(this).find('input[name=imageAlt]').val());
+										formData.append('image_type'+$(this).closest('fieldset').attr('data-name'), 'upload');
+									}else{
+										formData.append('image'+$(this).closest('fieldset').attr('data-name'), $(this).find('.upload-image-preview img').attr('src'));
+										formData.append('image_alt'+$(this).closest('fieldset').attr('data-name'), $(this).find('input[name=imageAlt]').val());
+										formData.append('image_type'+$(this).closest('fieldset').attr('data-name'), 'file');
+									}
+								}else{
+									formData.append('image'+$(this).closest('fieldset').attr('data-name'), '');
+									formData.append('image_alt'+$(this).closest('fieldset').attr('data-name'), '');
+									formData.append('image_type'+$(this).closest('fieldset').attr('data-name'), 'file');
+								}
+							break;
+							case 'text':
+								inner_temp.push({
+									type:	$(this).attr('data-type'),
+									field:	$(this).find('textarea') .attr('name'),
+									value:	CKEDITOR.instances[$(this).find('textarea') .attr('name')].getData()
+								});
+							break;
+						}
+					});
 					temp.push({
 						type: $(this).attr('data-type'),
 						name: $(this).attr('data-name'),
-						field: $(this).find('textarea') .attr('name'),
-						value: CKEDITOR.instances[$(this).find('textarea') .attr('name')].getData()
+						value: inner_temp
 					});
 				break;
+
+				case 'drop_down':
+					inner_temp = [];
+					$(this).find('#newsContainer .row-wrap').each(function(){
+						inner_temp.push($(this).attr('data-id'));
+					});
+					temp.push({
+						type:	$(this).attr('data-type'),
+						name:	$(this).attr('data-name'),
+						value:	inner_temp
+					});
+				break;
+
 				case 'single-image':
 					temp.push({
-						type: $(this).attr('data-type'),
-						name: $(this).attr('data-name')
+						type:	$(this).attr('data-type'),
+						name:	$(this).attr('data-name')
 					});
 					if($(this).find('.upload-image-preview img').length > 0){
 						if($(this).find('.upload-image-preview img').attr('data-type') == 'upload'){
@@ -147,7 +201,18 @@ $(document).ready(function(){
 						formData.append('image_type'+$(this).attr('data-name'), 'file');
 					}
 				break;
-				case 'block':
+
+				case 'slider':
+					temp.push(sliderDataFill($(this), $(this).attr('data-name')));
+				break;
+
+				case 'text':
+					temp.push({
+						type:	$(this).attr('data-type'),
+						name:	$(this).attr('data-name'),
+						field:	$(this).find('textarea') .attr('name'),
+						value:	CKEDITOR.instances[$(this).find('textarea') .attr('name')].getData()
+					});
 				break;
 			}
 		});
