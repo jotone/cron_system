@@ -10,32 +10,16 @@
 		<!-- add partials here -->
 		<section class="top-slider">
 			<div class="index-slider">
-				<div class="slide">
-					<div class="photo"><img src="{{ URL::asset('images/laptop.jpg') }}" alt=""></div>
+				<div class="slide" style="background: url('images/laptop.jpg') no-repeat center/cover;">
+					<!-- <div class="photo"> -->
+						<!-- <img src="{{ URL::asset('images/laptop.jpg') }}" alt=""> -->
+					<!-- </div> -->
 					<div class="text">
 						<h4>НОВАЯ КОЛЕКЦИЯ</h4>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut aliquam leo. Quisque ac justo ut eros aliquet vulputate.</p>
 						<a href="#" class="button-round">Детальнее</a>
 					</div>
-					<div class="overlay"><img src="{{ URL::asset('images/wave.png') }}" alt=""></div>
-				</div>
-				<div class="slide">
-					<div class="photo"><img src="{{ URL::asset('images/laptop.jpg') }}" alt=""></div>
-					<div class="text">
-						<h4>НОВАЯ КОЛЕКЦИЯ</h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut aliquam leo. Quisque ac justo ut eros aliquet vulputate.</p>
-						<a href="#" class="button-round">Детальнее</a>
-					</div>
-					<div class="overlay"><img src="{{ URL::asset('images/wave.png') }}" alt=""></div>
-				</div>
-				<div class="slide">
-					<div class="photo"><img src="{{ URL::asset('images/laptop.jpg') }}" alt=""></div>
-					<div class="text">
-						<h4>НОВАЯ КОЛЕКЦИЯ</h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut aliquam leo. Quisque ac justo ut eros aliquet vulputate.</p>
-						<a href="#" class="button-round">Детальнее</a>
-					</div>
-					<div class="overlay"><img src="{{ URL::asset('images/wave.png') }}" alt=""></div>
+					<!-- <div class="overlay"><img src="{{ URL::asset('images/wave.png') }}" alt=""></div> -->
 				</div>
 			</div>
 		</section>
@@ -78,11 +62,13 @@
 			</div>
 		</section>
 		<section class="wrap-index-desc">
-			<div class="pic"><img src="{{ URL::asset('images/desc_pic.png') }}" alt=""></div>
-			<div class="desc">
-				<h2>Lorem ipsum</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
-				<a href="about_us.html" class="button-round">Читать полностью</a>
+			<div class="desc-content">
+				<div class="pic"><img src="{{ URL::asset('images/desc_pic.png') }}" alt=""></div>
+				<div class="desc">
+					<h2>Lorem ipsum</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
+					<a href="about_us.html" class="button-round">Читать полностью</a>
+				</div>
 			</div>
 		</section>
 		<section class="wrap-popular">

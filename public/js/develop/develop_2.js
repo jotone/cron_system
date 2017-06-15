@@ -1,17 +1,5 @@
 'use strict';
 
-function topSlider(selector) {
-	$(selector).slick({
-		dots: false,
-		fade: true,
-		infinite: true,
-		autoplay: true,
-		autoplaySpeed: 5000,
-		slidesToShow: 1,
-		slidesToScroll: 1
-	});
-}
-
 function brandSlider(selector) {
 	var prev = $(selector).prev('.prev');
 	var next = $(selector).next('.next');
@@ -77,7 +65,6 @@ function busketCount(selector) {
 }
 
 $(document).ready(function () {
-	topSlider('.index-slider');
 	brandSlider('.brand-slider');
 
 	$('.js_popup').fancybox();

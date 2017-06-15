@@ -1109,6 +1109,8 @@
 
 .wrap-index-desc{
 	background: url("/images/bg.jpg");
+}
+.wrap-index-desc .desc-content{
 	font-size: 19px;
 	font-weight: 600;
 	color: #303030;
@@ -1121,6 +1123,7 @@
 	padding: 31px 30px 67px;
 	max-width: 1920px;
 	width: 100%;
+	margin: 0 auto;
 }
 
 .wrap-index-desc .desc{
@@ -1233,7 +1236,7 @@
 .wrap-news .all:hover{background: #00c7ff; transition: .3s;}
 
 .top-slider{position: relative; overflow: hidden;}
-.top-slider .index-slider .slide{position: relative; z-index: 1;}
+.top-slider .index-slider .slide{position: relative; z-index: 1; min-height: 690px; height: auto;}
 .top-slider .index-slider .slide .text{
 	position: absolute;
 	top: 26%;
