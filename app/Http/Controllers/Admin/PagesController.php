@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\AdminMenu;
 
 use App\Http\Controllers\Supply\Functions;
-use App\News;
+use App\PageContent;
 use App\Pages;
 use App\Template;
 use Illuminate\Http\Request;
@@ -23,11 +23,39 @@ class PagesController extends BaseController{
 
 			$menu = Functions::buildMenuList($request->path());
 
+			$pages = Pages::select('id','title','link','content','used_template','created_at','updated_at')->get();
+
+			$list = [];
+			foreach($pages as $page){
+				$content = json_decode($page->content);
+				$image = '';
+				foreach($content as $content_id){
+					$page_content = PageContent::select('meta_value')->find($content_id);
+					$res = preg_match('/img":".+?"/', $page_content->meta_value, $matches);
+					if($res > 0){
+						$image = str_replace('\\','',substr($matches[0], 6,-1));
+						break;
+					}
+				}
+
+				$template = Template::select('title')->find($page->used_template);
+				$list[] = [
+					'id'		=> $page->id,
+					'title'		=> $page->title,
+					'link'		=> $page->link,
+					'img_url'	=> $image,
+					'template'	=> $template->title,
+					'created_at'=> Functions::convertDate($page->created_at),
+					'updated_at'=> Functions::convertDate($page->updated_at),
+				];
+			}
+
 			return view('admin.pages', [
 				'start'		=> $start,
 				'menu'		=> $menu,
 				'page_title'=> $page_caption->title,
 				'content'	=> [],
+				'pages'		=> $list
 			]);
 		}
 	}
@@ -64,6 +92,7 @@ class PagesController extends BaseController{
 
 		$content = [];
 		foreach($temp_content as $pos => $item){
+			$content[$pos]['type'] = $item->type;
 			switch($item->type){
 				case 'block':
 					foreach($item->value as $inner_pos => $value){
@@ -81,7 +110,7 @@ class PagesController extends BaseController{
 										'alt'=>$data['image_alt'.$value->name]
 									];
 								}
-								$content[$pos][$item->name][$inner_pos][$value->name] = [
+								$content[$pos][$item->name][$value->name] = [
 									'type'	=> $value->type,
 									'value'	=> $image
 								];
@@ -89,7 +118,7 @@ class PagesController extends BaseController{
 
 							case 'string':
 							case 'text':
-								$content[$pos][$item->name][$inner_pos][$value->field] = [
+								$content[$pos][$item->name][$value->field] = [
 									'type'	=> $value->type,
 									'value'	=> $value->value
 								];
@@ -164,7 +193,7 @@ class PagesController extends BaseController{
 			$result = Pages::find($data['id']);
 			$result->title			= trim($data['title']);
 			$result->link			= trim($data['link']);
-			$result->content		= json_encode($content);
+			$result->content		= '';
 			$result->meta_title		= trim($data['meta_title']);
 			$result->meta_keywords	= trim($data['meta_keywords']);
 			$result->meta_description= trim($data['meta_description']);
@@ -174,10 +203,26 @@ class PagesController extends BaseController{
 			$result->used_template	= $data['used_template'];
 			$result->save();
 		}else{
+			$content_ids = [];
+			foreach($content as $item){
+				$page_content = [
+					'type'		=> $item['type'],
+					'meta_key'	=> '',
+					'meta_value'=> ''
+				];
+				foreach($item as $field_name => $field_value){
+					if($field_name != 'type'){
+						$page_content['meta_key'] = $field_name;
+						$page_content['meta_value']=json_encode($field_value);
+					}
+				}
+				$result = PageContent::create($page_content);
+				$content_ids[] = $result->id;
+			}
 			$result = Pages::create([
 				'title'			=> trim($data['title']),
 				'link'			=> trim($data['link']),
-				'content'		=> json_encode($content),
+				'content'		=> json_encode($content_ids),
 				'meta_title'	=> trim($data['meta_title']),
 				'meta_keywords'	=> trim($data['meta_keywords']),
 				'meta_description'=> trim($data['meta_description']),
@@ -192,5 +237,17 @@ class PagesController extends BaseController{
 		}
 	}
 
-	public function dropItem(Request $request){}
+	public function dropItem(Request $request){
+		$data = $request->all();
+
+		$result = Pages::select('content')->find($data['id']);
+		$result = json_decode($result->content);
+		foreach($result as $content_id){
+			PageContent::where('id','=',$content_id)->delete();
+		}
+		$result = Pages::where('id','=',$data['id'])->delete();
+		if($result != false){
+			return json_encode(['message'=>'success']);
+		}
+	}
 }

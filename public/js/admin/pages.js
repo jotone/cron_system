@@ -241,4 +241,32 @@ $(document).ready(function(){
 			}
 		})
 	});
+
+	$('.item-list a.drop').click(function(e){
+		e.preventDefault();
+		var result = prompt('Для того чтобы удалить страницу введите её название в поле ниже.');
+		if($(this).attr('data-title') == result){
+			var id = $(this).attr('data-id');
+			var _this = $(this);
+			$.ajax({
+				url:	'/admin/pages/drop',
+				type:	'DELETE',
+				headers:{'X-CSRF-TOKEN': $('header').attr('data-token')},
+				data:	{id:id},
+				error:		function (jqXHR, textStatus, errorThrown) {
+					showErrors(jqXHR.responseText, '/admin/pages/drop')
+				},
+				success:function(data){
+					try{
+						data = JSON.parse(data);
+						if (data.message == 'success') {
+							_this.closest('tr').remove();
+						}
+					}catch(e){
+						showErrors(e + data, '/admin/pages/drop')
+					}
+				}
+			});
+		}
+	});
 });
