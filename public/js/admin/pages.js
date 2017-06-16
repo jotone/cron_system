@@ -67,7 +67,7 @@ function getTemplateData(){
 								data = JSON.parse(data);
 								console.log(data)
 								for(var fieldsetName in data){
-                                    var _thisValue = data[fieldsetName].value;
+									var _thisValue = data[fieldsetName].value;
 									switch(data[fieldsetName].type){
 										case 'block':
 											for(var elemName in _thisValue){
@@ -90,7 +90,7 @@ function getTemplateData(){
 										break;
 
 										case 'drop_down':
-                                            $(document).find('fieldset[data-name='+fieldsetName+'] #newsContainer').empty();
+											$(document).find('fieldset[data-name='+fieldsetName+'] #newsContainer').empty();
 											for(var id in _thisValue.value){
 												var caption = $(document).find('fieldset[data-name='+fieldsetName+']').find('li[data-id='+_thisValue.value[id]+'] span').text();
 												$(document).find('fieldset[data-name='+fieldsetName+'] #newsContainer').append('<div class="row-wrap col_1_2" style="display: flex; align-items: center" data-id="'+_thisValue.value[id]+'">' +
@@ -98,7 +98,6 @@ function getTemplateData(){
 													'<span class="drop-add-field">×</span>' +
 												'</div>');
 											}
-
 										break;
 									}
 
