@@ -370,6 +370,15 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/pages/drop',[
 			'uses'=>'Admin\PagesController@dropItem'
 		]);
+		Route::get('/admin/get_template',[
+			'uses'=>'Admin\PagesController@getTemplate'
+		]);
+		Route::get('/admin/get_latest_news',[
+			'uses'=>'Admin\PagesController@getLatestNews'
+		]);
+		Route::get('/admin/get_page_content',[
+			'uses'=>'Admin\PagesController@getPageContent'
+		]);
 
 	//Шаблоны
 	Route::get('/admin/templates',[
@@ -394,12 +403,6 @@ Route::group(['middleware' => 'admin'], function(){
 	//Similar queries
 	Route::get('/admin/get_all_images',[
 		'uses'=>'Supply\Functions@getAllImagesByRequest'
-	]);
-	Route::get('/admin/get_template',[
-		'uses'=>'Supply\Functions@getTemplate'
-	]);
-	Route::get('/admin/get_latest_news',[
-		'uses'=>'Supply\Functions@getLatestNews'
 	]);
 	Route::patch('/admin/change_enabled',[
 		'uses'=>'Admin\SimilarQueriesController@changeEnabled'

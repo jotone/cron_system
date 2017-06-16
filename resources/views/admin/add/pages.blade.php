@@ -10,7 +10,7 @@
 				<strong>Выберите тип шаблона:</strong>
 				<select name="templateType" class="select-input">
 					@foreach($templates as $template)
-						<option value="{{ $template->id }}">{{ $template->title }}</option>
+						<option value="{{ $template->id }}" @if((isset($content->used_template)) && ($content->used_template == $template->id)) selected="selected" @endif>{{ $template->title }}</option>
 					@endforeach
 				</select>
 			</label>

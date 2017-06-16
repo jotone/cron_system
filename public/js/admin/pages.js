@@ -53,6 +53,62 @@ function getTemplateData(){
 						}
 					});
 				}
+
+				if($('input[name=id]').val().length > 0){
+					$.ajax({
+						url:	'/admin/get_page_content',
+						type:	'GET',
+						data:	{id:$('input[name=id]').val()},
+						error:	function (jqXHR, textStatus, errorThrown) {
+							showErrors(jqXHR.responseText, '/admin/get_page_content')
+						},
+						success:function(data){
+							try {
+								data = JSON.parse(data);
+								console.log(data)
+								for(var fieldsetName in data){
+                                    var _thisValue = data[fieldsetName].value;
+									switch(data[fieldsetName].type){
+										case 'block':
+											for(var elemName in _thisValue){
+												switch(_thisValue[elemName].type){
+													case 'single-image':
+														$(document).find('fieldset[data-name='+fieldsetName+']').find('.upload-image-preview').append('' +
+															'<img src="'+_thisValue[elemName].value.img+'" alt="'+_thisValue[elemName].value.alt+'" data-type="file">'+
+															'<input name="imageAlt" type="text" class="text-input col_1" placeholder="alt&hellip;" value="'+_thisValue[elemName].value.alt+'">');
+													break;
+
+													case 'string':
+														$(document).find('fieldset[data-name='+fieldsetName+']').find('input[name='+elemName+']').val(_thisValue[elemName].value);
+													break;
+
+													case 'text':
+														CKEDITOR.instances[elemName].setData(_thisValue[elemName].value);
+													break;
+												}
+											}
+										break;
+
+										case 'drop_down':
+                                            $(document).find('fieldset[data-name='+fieldsetName+'] #newsContainer').empty();
+											for(var id in _thisValue.value){
+												var caption = $(document).find('fieldset[data-name='+fieldsetName+']').find('li[data-id='+_thisValue.value[id]+'] span').text();
+												$(document).find('fieldset[data-name='+fieldsetName+'] #newsContainer').append('<div class="row-wrap col_1_2" style="display: flex; align-items: center" data-id="'+_thisValue.value[id]+'">' +
+													'<span style="width: 110px; padding-right: 10px;" class="tar">'+caption+'</span>' +
+													'<span class="drop-add-field">×</span>' +
+												'</div>');
+											}
+
+										break;
+									}
+
+								}
+							}catch(e){
+								showErrors(e + data, '/admin/get_page_content')
+							}
+						}
+					});
+				}
 			}catch(e){
 				showErrors(e + data, '/admin/get_template')
 			}

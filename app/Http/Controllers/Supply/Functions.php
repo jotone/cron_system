@@ -3,7 +3,6 @@ namespace App\Http\Controllers\Supply;
 use App\AdminMenu;
 use App\News;
 use App\Products;
-use App\Template;
 use App\UserRoles;
 use App\Vacancies;
 use Auth;
@@ -344,27 +343,5 @@ class Functions extends BaseController{
 
 	public function getAllImagesByRequest(){
 		return self::getAllImages();
-	}
-
-	public function getTemplate(Request $request){
-		$data = $request->all();
-		$template = Template::select('content')->find($data['id']);
-		return json_encode([
-			'message'=>'success',
-			'content'=>$template->content
-		]);
-	}
-
-	public function getLatestNews(){
-		$news = News::select('id','title','img_url')->where('enabled','=',1)->orderBy('published_at','desc')->get();
-		$news_list = [];
-		foreach($news as $new){
-			$news_list[] = [
-				'id'=> $new->id,
-				'title'=> $new->title,
-				'img_url'=>json_decode($new->img_url)
-			];
-		}
-		return json_encode($news_list);
 	}
 }
