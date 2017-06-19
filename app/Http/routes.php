@@ -400,7 +400,24 @@ Route::group(['middleware' => 'admin'], function(){
 			'uses'=>'Admin\TemplateController@dropItem'
 		]);
 	//Услуги
-	
+	Route::get('/admin/services',[
+		'as'=>'admin-services',
+		'uses'=>'Admin\ServicesController@index'
+	]);
+		Route::get('/admin/services/add',[
+			'as'=>'admin-services-add',
+			'uses'=>'Admin\ServicesController@addPage'
+		]);
+		Route::get('/admin/services/edit/{id}',[
+			'as'=>'admin-services-edit',
+			'uses'=>'Admin\ServicesController@editPage'
+		]);
+		Route::post('/admin/services/add',[
+			'uses'=>'Admin\ServicesController@addItem'
+		]);
+		Route::delete('/admin/services/drop',[
+			'uses'=>'Admin\ServicesController@dropItem'
+		]);
 
 	//Similar queries
 	Route::get('/admin/get_all_images',[

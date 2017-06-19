@@ -22,6 +22,9 @@ function getTemplateData(){
 					$('#contentData').find('.needCKE').each(function(){
 						CKEDITOR.replace($(this).attr('name'));
 					});
+					$('#contentData .needDatePicker').datepicker();
+
+
 				}
 				if($(document).find('#newsContainer').length > 0){
 					$.ajax({
@@ -86,6 +89,14 @@ function getTemplateData(){
 													break;
 												}
 											}
+										break;
+
+										case 'datepicker':
+											var hour = (_thisValue.substr(11,2).length < 2)? '0'+_thisValue.substr(11,2): _thisValue.substr(11,2);
+											var minute = (_thisValue.substr(14,2).length < 2)? '0'+_thisValue.substr(14,2): _thisValue.substr(14,2);
+											$(document).find('fieldset[data-name='+fieldsetName+'] input[name=promo_date]').val(_thisValue.substr(0,10));
+											$(document).find('fieldset[data-name='+fieldsetName+'] input[name=promo_hour]').val(hour);
+											$(document).find('fieldset[data-name='+fieldsetName+'] input[name=promo_minute]').val(minute);
 										break;
 
 										case 'drop_down':
@@ -275,6 +286,18 @@ $(document).ready(function(){
 					});
 				break;
 
+				case 'datepicker':
+					var date = $(this).find('.needDatePicker').val();
+					if(($(this).find('input[name=promo_hour]').length > 0) && ($(this).find('input[name=promo_minute]').length > 0)){
+						date += ' '+$(this).find('input[name=promo_hour]').val() + ':'+$(this).find('input[name=promo_minute]').val();
+					}
+					temp.push({
+						type: $(this).attr('data-type'),
+						name: $(this).attr('data-name'),
+						value: date
+					});
+				break;
+
 				case 'drop_down':
 					inner_temp = [];
 					$(this).find('#newsContainer .row-wrap').each(function(){
@@ -325,27 +348,38 @@ $(document).ready(function(){
 
 		formData.append('content', JSON.stringify(temp));
 
-		$.ajax({
-			url:	'/admin/pages/add',
-			type:	'POST',
-			headers:	{'X-CSRF-TOKEN': $('header').attr('data-token')},
-			processData:false,
-			contentType:false,
-			data:	formData,
-			error:	function (jqXHR, textStatus, errorThrown) {
-				showErrors(jqXHR.responseText, '/admin/pages/add')
-			},
-			success:function(data){
-				try{
-					data = JSON.parse(data);
-					if(data.message == 'success'){
-						location = '/admin/pages';
-					}
-				}catch(e){
-					showErrors(e + data, '/admin/pages/add')
-				}
+		var error = 0;
+		$(document).find('input[pattern]').each(function(){
+			var res = $(this).val().match(/^[0-9]{1,2}$/);
+			if(res == null){
+				error++;
+				goTo(this);
 			}
-		})
+		});
+
+		if(0 == error){
+			$.ajax({
+				url:	'/admin/pages/add',
+				type:	'POST',
+				headers:	{'X-CSRF-TOKEN': $('header').attr('data-token')},
+				processData:false,
+				contentType:false,
+				data:	formData,
+				error:	function (jqXHR, textStatus, errorThrown) {
+					showErrors(jqXHR.responseText, '/admin/pages/add')
+				},
+				success:function(data){
+					try{
+						data = JSON.parse(data);
+						if(data.message == 'success'){
+							location = '/admin/pages';
+						}
+					}catch(e){
+						showErrors(e + data, '/admin/pages/add')
+					}
+				}
+			})
+		}
 	});
 
 	$('.item-list a.drop').click(function(e){

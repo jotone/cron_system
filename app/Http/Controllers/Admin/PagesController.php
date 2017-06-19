@@ -168,6 +168,10 @@ class PagesController extends BaseController{
 					}
 				break;
 
+				case 'datepicker':
+					$content[$pos][$item->name] = $item->value;
+				break;
+
 				case 'drop_down':
 					$content[$pos][$item->name] = [
 						'type'	=> $item->type,
