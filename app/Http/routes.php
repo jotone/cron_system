@@ -399,6 +399,8 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/templates/drop',[
 			'uses'=>'Admin\TemplateController@dropItem'
 		]);
+	//Услуги
+	
 
 	//Similar queries
 	Route::get('/admin/get_all_images',[

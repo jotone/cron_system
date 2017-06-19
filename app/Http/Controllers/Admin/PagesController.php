@@ -24,13 +24,31 @@ class PagesController extends BaseController{
 
 			$menu = Functions::buildMenuList($request->path());
 
-			$pages = Pages::select('id','title','link','content','used_template','created_at','updated_at')->get();
+			$content = Pages::select('id','title','link','content','used_template','created_at','updated_at');
+
+			$request_data = $request->all();
+			$active_direction = ['sort'=>'title', 'dir'=>'asc'];
+
+			if(isset($request_data['sort_by'])){
+				$direction = ((isset($request_data['dir'])) && ($request_data['dir'] == 'asc'))? 'asc': 'desc';
+				$active_direction = ['sort'=>$request_data['sort_by'], 'dir'=>$direction];
+				switch($request_data['sort_by']){
+					case 'title':		$content = $content->orderBy('title',$direction); break;
+					case 'link':		$content = $content->orderBy('link',$direction); break;
+					case 'template':	$content = $content->orderBy('used_template',$direction); break;
+					case 'created':		$content = $content->orderBy('created_at',$direction); break;
+					case 'updated':		$content = $content->orderBy('updated_at',$direction); break;
+				}
+			}else{
+				$content = $content->orderBy('title','asc');
+			}
+			$content = $content->paginate(20);
 
 			$list = [];
-			foreach($pages as $page){
-				$content = json_decode($page->content);
+			foreach($content as $page){
+				$temp_content = json_decode($page->content);
 				$image = '';
-				foreach($content as $content_id){
+				foreach($temp_content as $content_id){
 					$page_content = PageContent::select('meta_value')->find($content_id);
 					$res = preg_match('/img":".+?"/', $page_content->meta_value, $matches);
 					if($res > 0){
@@ -51,12 +69,20 @@ class PagesController extends BaseController{
 				];
 			}
 
+			$paginate_options = [
+				'next_page'		=> $content->nextPageUrl().'&sort_by='.$active_direction['sort'].'&dir='.$active_direction['dir'],
+				'current_page'	=> $content->currentPage(),
+				'last_page'		=> $content->lastPage(),
+				'sort_by'		=> $active_direction['sort'],
+				'dir'			=> $active_direction['dir']
+			];
+
 			return view('admin.pages', [
 				'start'		=> $start,
 				'menu'		=> $menu,
 				'page_title'=> $page_caption->title,
-				'content'	=> [],
-				'pages'		=> $list
+				'pages'		=> $list,
+				'pagination'=> $paginate_options,
 			]);
 		}
 	}

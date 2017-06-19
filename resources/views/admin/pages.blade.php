@@ -14,12 +14,37 @@
 				<tr>
 					<th></th>
 					<th></th>
-					<th>Название</th>
-					<th>Ссылка</th>
+					<th>Название
+						<div class="direction" id="title">
+							<a href="{{ URL::asset('/admin/pages/?page='.$pagination['current_page'].'&sort_by=title&dir=asc') }}" class="asc">&#9650;</a>
+							<a href="{{ URL::asset('/admin/pages/?page='.$pagination['current_page'].'&sort_by=title&dir=desc') }}" class="desc">&#9660;</a>
+						</div>
+					</th>
+					<th>Ссылка
+						<div class="direction" id="link">
+							<a href="{{ URL::asset('/admin/pages/?page='.$pagination['current_page'].'&sort_by=link&dir=asc') }}" class="asc">&#9650;</a>
+							<a href="{{ URL::asset('/admin/pages/?page='.$pagination['current_page'].'&sort_by=link&dir=desc') }}" class="desc">&#9660;</a>
+						</div>
+					</th>
 					<th>Изображение</th>
-					<th>Шаблон</th>
-					<th>Создан</th>
-					<th>Изменен</th>
+					<th>Шаблон
+						<div class="direction" id="template">
+							<a href="{{ URL::asset('/admin/pages/?page='.$pagination['current_page'].'&sort_by=template&dir=asc') }}" class="asc">&#9650;</a>
+							<a href="{{ URL::asset('/admin/pages/?page='.$pagination['current_page'].'&sort_by=template&dir=desc') }}" class="desc">&#9660;</a>
+						</div>
+					</th>
+					<th>Создан
+						<div class="direction" id="created">
+							<a href="{{ URL::asset('/admin/pages/?page='.$pagination['current_page'].'&sort_by=created&dir=asc') }}" class="asc">&#9650;</a>
+							<a href="{{ URL::asset('/admin/pages/?page='.$pagination['current_page'].'&sort_by=created&dir=desc') }}" class="desc">&#9660;</a>
+						</div>
+					</th>
+					<th>Изменен
+						<div class="direction" id="updated">
+							<a href="{{ URL::asset('/admin/pages/?page='.$pagination['current_page'].'&sort_by=updated&dir=asc') }}" class="asc">&#9650;</a>
+							<a href="{{ URL::asset('/admin/pages/?page='.$pagination['current_page'].'&sort_by=updated&dir=desc') }}" class="desc">&#9660;</a>
+						</div>
+					</th>
 				</tr>
 			</thead>
 			<tbody>
