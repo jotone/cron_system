@@ -169,7 +169,7 @@ function caseImageInOverviewPopup(_this){
 			'<div class="element-alt"></div>' +
 			'<div class="element-drop">' +
 			'<img src="/images/drop.png" alt="Удалить" title="Удалить">' +
-			'	</div>' +
+			'</div>' +
 			'</div>');
 		point++
 	});

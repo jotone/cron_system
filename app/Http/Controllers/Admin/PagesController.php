@@ -105,7 +105,6 @@ class PagesController extends BaseController{
 			$seo_title = $seo_text = '';
 		}
 		$temp_content = json_decode($data['content']);
-
 		$content = [];
 		foreach($temp_content as $pos => $item){
 			$content[$pos]['type'] = $item->type;
@@ -205,11 +204,30 @@ class PagesController extends BaseController{
 			}
 		}
 
+		$content_ids = [];
+		foreach($content as $item){
+			$page_content = [
+				'type'		=> $item['type'],
+				'meta_key'	=> '',
+				'meta_value'=> ''
+			];
+			foreach($item as $field_name => $field_value){
+				if($field_name != 'type'){
+					$page_content['meta_key'] = $field_name;
+					$page_content['meta_value']=json_encode($field_value);
+				}
+			}
+			$result = PageContent::create($page_content);
+			$content_ids[] = $result->id;
+		}
+
 		if((isset($data['id'])) && (!empty($data['id']))){
 			$result = Pages::find($data['id']);
+
+			$old_content = json_decode($result->content);
+
 			$result->title			= trim($data['title']);
 			$result->link			= trim($data['link']);
-			$result->content		= '';
 			$result->meta_title		= trim($data['meta_title']);
 			$result->meta_keywords	= trim($data['meta_keywords']);
 			$result->meta_description= trim($data['meta_description']);
@@ -217,24 +235,14 @@ class PagesController extends BaseController{
 			$result->seo_title		= $seo_title;
 			$result->seo_text		= $seo_text;
 			$result->used_template	= $data['used_template'];
+			$result->content		= json_encode($content_ids);
 			$result->save();
-		}else{
-			$content_ids = [];
-			foreach($content as $item){
-				$page_content = [
-					'type'		=> $item['type'],
-					'meta_key'	=> '',
-					'meta_value'=> ''
-				];
-				foreach($item as $field_name => $field_value){
-					if($field_name != 'type'){
-						$page_content['meta_key'] = $field_name;
-						$page_content['meta_value']=json_encode($field_value);
-					}
+			if($result){
+				foreach($old_content as $old_content_id){
+					PageContent::where('id','=',$old_content_id)->delete();
 				}
-				$result = PageContent::create($page_content);
-				$content_ids[] = $result->id;
 			}
+		}else{
 			$result = Pages::create([
 				'title'			=> trim($data['title']),
 				'link'			=> trim($data['link']),

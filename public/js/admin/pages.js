@@ -65,7 +65,6 @@ function getTemplateData(){
 						success:function(data){
 							try {
 								data = JSON.parse(data);
-								console.log(data)
 								for(var fieldsetName in data){
 									var _thisValue = data[fieldsetName].value;
 									switch(data[fieldsetName].type){
@@ -98,6 +97,47 @@ function getTemplateData(){
 													'<span class="drop-add-field">×</span>' +
 												'</div>');
 											}
+										break;
+
+										case 'single-image':
+											$(document).find('fieldset[data-name='+fieldsetName+']').find('.upload-image-preview').append('' +
+												'<img src="'+_thisValue.value.img+'" alt="'+_thisValue.value.alt+'" data-type="file">'+
+												'<input name="imageAlt" type="text" class="text-input col_1" placeholder="alt&hellip;" value="'+_thisValue.value.alt+'">');
+										break;
+
+										case 'slider':
+											$(document).find('fieldset[data-name='+fieldsetName+'] .slider-images-wrap').empty();
+											$(document).find('fieldset[data-name='+fieldsetName+'] .slider-list-wrap').empty();
+											for(var image in _thisValue.value){
+												$(document).find('fieldset[data-name='+fieldsetName+'] .slider-images-wrap').append('' +
+													'<div class="image-wrap" data-position="'+image+'">' +
+														'<img src="'+_thisValue.value[image]['img']+'" alt="">' +
+														'<div class="attributes-wrap">' +
+															'<input name="altText" type="text" class="text-input" placeholder="Альтернативный текст&hellip;" style="width: 90%;" value="'+_thisValue.value[image]['alt']+'">' +
+															'<a href="#" class="drop-image button" title="Удалить">' +
+																'<img src="/images/drop.png" alt="">' +
+															'</a>' +
+														'</div>' +
+													'</div>');
+
+												$(document).find('fieldset[data-name='+fieldsetName+'] .slider-list-wrap').append('' +
+													'<div class="slider-content-element" data-position="'+image+'">' +
+														'<div class="element-title">'+_thisValue.value[image]['img']+'</div>' +
+														'<div class="element-size"></div>' +
+														'<div class="element-image">' +
+															'<img src="'+_thisValue.value[image]['img']+'" alt="">' +
+														'</div>' +
+														'<div class="element-alt">'+_thisValue.value[image]['alt']+'</div>' +
+														'<div class="element-drop">' +
+															'<img src="/images/drop.png" alt="Удалить" title="Удалить">' +
+														'</div>' +
+													'</div>');
+											}
+											$(document).find('fieldset[data-name='+fieldsetName+'] .slider-images-wrap .image-wrap:first').addClass('active');
+										break;
+
+										case 'text':
+											CKEDITOR.instances[fieldsetName].setData(_thisValue.value);
 										break;
 									}
 
