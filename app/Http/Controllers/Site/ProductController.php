@@ -66,14 +66,12 @@ class ProductController extends BaseController{
 		}
 
 		$path = \Route::current()->getName();
-
 		$page_content = Pages::where('link','LIKE', '%'.$path.'%')->first();
 		$meta_data = [
 			'title'		=> $page_content->meta_title,
 			'keywords'	=> $page_content->meta_keywords,
 			'description'=>$page_content->meta_description
 		];
-
 		$seo = [
 			'need_seo'	=> $page_content->need_seo,
 			'title'		=> $page_content->seo_title,
@@ -152,6 +150,19 @@ class ProductController extends BaseController{
 		$start = ($page-1) * $limit;
 		$products_count = Products::where('enabled','=',1)->count();
 
+		$path = \Route::current()->getName();
+		$page_content = Pages::where('link','LIKE', '%'.$path.'%')->first();
+		$meta_data = [
+			'title'		=> $page_content->meta_title,
+			'keywords'	=> $page_content->meta_keywords,
+			'description'=>$page_content->meta_description
+		];
+		$seo = [
+			'need_seo'	=> $page_content->need_seo,
+			'title'		=> $page_content->seo_title,
+			'text'		=> $page_content->seo_text
+		];
+
 		$categories = Category::select('slug','title')
 			->where('enabled','=',1)
 			->orderBy('position','asc')
@@ -202,6 +213,8 @@ class ProductController extends BaseController{
 			'limit'		=> $limit,
 			'products'	=> $list,
 			'paginate_options'=> $paginate_options,
+			'meta_data'		=> $meta_data,
+			'seo'			=> $seo
 		]);
 	}
 }
