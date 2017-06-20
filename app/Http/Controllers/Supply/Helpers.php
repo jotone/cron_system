@@ -3,9 +3,12 @@ namespace App\Http\Controllers\Supply;
 
 use App\Brand;
 use App\FooterMenu;
+use App\EtcData;
+use App\SocialMenu;
 use Illuminate\Http\Request;
 use App\TopMenu;
 use Auth;
+use URL;
 
 use Illuminate\Routing\Controller as BaseController;
 
@@ -39,10 +42,35 @@ class Helpers extends BaseController{
 		$top_menu = TopMenu::select('title','slug')->where('enabled','=',1)->orderBy('position','asc')->get();
 		$footer_menu = FooterMenu::select('title','slug','is_outer')->where('enabled','=',1)->orderBy('position','asc')->get();
 		$brands = self::buildBrandList();
+
+		$etc_data = EtcData::select('key','value')->where('label','=','info')->get();
+		$info = [];
+		foreach($etc_data as $item){
+			$info[$item->key] = $item->value;
+		}
+
+		$social_menu = SocialMenu::select('title','slug','link')->orderBy('position','asc')->get();
+		$social = [];
+		foreach($social_menu as $item){
+			switch($item->slug){
+				case 'facebook':	$image = URL::asset('images/fb.png'); break;
+				case 'google_plus':	$image = URL::asset('images/gg.png'); break;
+				case 'vkontakte':	$image = URL::asset('images/vk.png'); break;
+				default: $image = '';
+			}
+			$social[] = [
+				'title'	=> $item->title,
+				'link'	=> $item->link,
+				'img_url'=>$image
+			];
+		}
+
 		return [
-			'top_menu' => $top_menu,
-			'footer_menu' => $footer_menu,
-			'brands' => $brands
+			'top_menu'	=> $top_menu,
+			'footer_menu'=>$footer_menu,
+			'brands'	=> $brands,
+			'info'		=> $info,
+			'social'	=> $social
 		];
 	}
 

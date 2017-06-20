@@ -32,14 +32,16 @@
 <script type="text/javascript" src="{{ URL::asset('js/develop/develop_7.js') }}"></script>
 <!-- add you develop js here -->
 @if( (isset($allow_map)) && ($allow_map) )
+
+<?php $coordinates = json_decode($defaults['info']['marker_coordinates']);?>
 <script>
 	var removing_from_busket = "ajax.php";
 	var show_more = "ajax.php";
-	var mapMarker = "/images/marker-map.png";
-	var coordinateMarkerY = 59.9364148;
-	var coordinateMarkerX = 30.32613850000007;
-	var mapCenterY = 59.936994264526696;
-	var mapCenterX = 30.3297175429077;
+	var mapMarker = "<?= $defaults['info']['map_marker']; ?>";
+	var coordinateMarkerY = <?= $coordinates->y; ?>;
+	var coordinateMarkerX = <?= $coordinates->x; ?>;
+	var mapCenterY = <?= $coordinates->y; ?>;
+	var mapCenterX = <?= $coordinates->x; ?>;
 
 	google.maps.event.addDomListener(window, 'load', init);
 	var map, markersArray = [];
@@ -167,12 +169,144 @@
 			draggable : true,
 			clickableIcons: true,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.government","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.place_of_worship","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.school","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry.fill","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#a0abb0"},{"visibility":"on"}]}]
+			styles: [
+				{
+					"featureType":"administrative",
+					"elementType":"labels.text.fill",
+					"stylers":[
+						{"color":"#444444"}
+					]
+				},
+				{
+					"featureType":"landscape",
+					"elementType":"all",
+					"stylers":[
+						{"color":"#f2f2f2"}
+					]
+				},
+				{
+					"featureType":"poi",
+					"elementType":"all",
+					"stylers":[
+						{"visibility":"off"}
+					]
+				},
+				{
+					"featureType":"poi.government",
+					"elementType":"all",
+					"stylers":[
+						{"visibility":"off"}
+					]
+				},
+				{
+					"featureType":"poi.place_of_worship",
+					"elementType":"all",
+					"stylers":[
+						{"visibility":"off"}
+					]
+				},
+				{
+					"featureType":"poi.school",
+					"elementType":"all",
+					"stylers":[
+						{"visibility":"off"}
+					]
+				},
+				{
+					"featureType":"road",
+					"elementType":"all",
+					"stylers":[
+						{"saturation":-100},
+						{"lightness":45}
+					]
+				},
+				{
+					"featureType":"road.highway",
+					"elementType":"all",
+					"stylers":[
+						{"visibility":"simplified"}
+					]
+				},
+				{
+					"featureType":"road.arterial",
+					"elementType":"labels.icon",
+					"stylers":[
+						{"visibility":"off"}
+					]
+				},
+				{
+					"featureType":"transit",
+					"elementType":"all",
+					"stylers":[
+						{"visibility":"off"}
+					]
+				},
+				{
+					"featureType":"transit.line",
+					"elementType":"geometry.fill",
+					"stylers":[
+						{"visibility":"off"}
+					]
+				},
+				{
+					"featureType":"water",
+					"elementType":"all",
+					"stylers":[
+						{"color":"#a0abb0"},
+						{"visibility":"on"}
+					]
+				}
+			]
 		}
 		var mapElement = document.getElementById('myMap');
 		var map = new google.maps.Map(mapElement, mapOptions);
 		var locations = [
-			{"title":"наб. канала Грибоедова, 17","address":"наб. канала Грибоедова, 17, Санкт-Петербург, Россия, 191186","desc":"","tel":"","int_tel":"","email":"","web":"","web_formatted":"","open":"","time":"","lat":coordinateMarkerY,"lng":coordinateMarkerX,"vicinity":"наб. канала Грибоедова, 17, Санкт-Петербург, Россия, 191186","open_hours":"","marker":{"url":mapMarker,"scaledSize":{"width":55,"height":76,"j":"px","f":"px"},"origin":{"x":0,"y":0},"anchor":{"x":12,"y":42}},"iw":{"address":true,"desc":true,"email":true,"enable":true,"int_tel":true,"open":true,"open_hours":true,"photo":true,"tel":true,"title":true,"web":true}}
+			{
+				"title":"наб. канала Грибоедова, 17",
+				"address":"наб. канала Грибоедова, 17, Санкт-Петербург, Россия, 191186",
+				"desc":"",
+				"tel":"",
+				"int_tel":"",
+				"email":"",
+				"web":"",
+				"web_formatted":"",
+				"open":"",
+				"time":"",
+				"lat":coordinateMarkerY,
+				"lng":coordinateMarkerX,
+				"vicinity":"наб. канала Грибоедова, 17, Санкт-Петербург, Россия, 191186",
+				"open_hours":"",
+				"marker":{
+					"url":mapMarker,
+					"scaledSize":{
+						"width":55,
+						"height":76,
+						"j":"px",
+						"f":"px"
+					},
+					"origin":{
+						"x":0,
+						"y":0
+					},
+					"anchor":{
+						"x":12,
+						"y":42
+					}
+				},
+				"iw":{
+					"address":true,
+					"desc":true,
+					"email":true,
+					"enable":true,
+					"int_tel":true,
+					"open":true,
+					"open_hours":true,
+					"photo":true,
+					"tel":true,
+					"title":true,
+					"web":true
+				}
+			}
 		];
 
 		var layer = new google.maps.TransitLayer();
@@ -180,22 +314,22 @@
 
 		for (i = 0; i < locations.length; i++) {
 			marker = new google.maps.Marker({
-				icon: locations[i].marker,
-				position: new google.maps.LatLng(locations[i].lat, locations[i].lng),
-				map: map,
-				title: locations[i].title,
-				address: locations[i].address,
-				desc: locations[i].desc,
-				tel: locations[i].tel,
-				int_tel: locations[i].int_tel,
-				vicinity: locations[i].vicinity,
-				open: locations[i].open,
-				open_hours: locations[i].open_hours,
-				photo: locations[i].photo,
-				time: locations[i].time,
-				email: locations[i].email,
-				web: locations[i].web,
-				iw: locations[i].iw
+				icon:		locations[i].marker,
+				position:	new google.maps.LatLng(locations[i].lat, locations[i].lng),
+				map:		map,
+				title:		locations[i].title,
+				address:	locations[i].address,
+				desc:		locations[i].desc,
+				tel:		locations[i].tel,
+				int_tel:	locations[i].int_tel,
+				vicinity:	locations[i].vicinity,
+				open:		locations[i].open,
+				open_hours:	locations[i].open_hours,
+				photo:		locations[i].photo,
+				time:		locations[i].time,
+				email:		locations[i].email,
+				web:		locations[i].web,
+				iw:			locations[i].iw
 			});
 			markersArray.push(marker);
 

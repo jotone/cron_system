@@ -2,7 +2,16 @@
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
-	<title>CronSystem</title>
+	<title>CronSystem<?php if((isset($meta_data)) && !empty($meta_data['title'])) echo ' '.$meta_data['title'];?></title>
+
+	@if(isset($meta_data))
+		@if(!empty($meta_data['description']))
+			<meta name="description" content="{{$meta_data['description']}}" />
+		@endif
+		@if(!empty($meta_data['keywords']))
+			<meta name="keywords" content="{{$meta_data['description']}}" />
+		@endif
+	@endif
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 

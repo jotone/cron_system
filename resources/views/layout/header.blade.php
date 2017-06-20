@@ -1,16 +1,17 @@
 <?php
 $user = Auth::user();
+//dd($defaults);
 ?>
 <header class="header" id="header">
 	<div class="top-header">
 		<div class="mbox2">
 			<div class="wrapper">
 				<a href="#ask_popup" class="ask js_popup">Задать вопрос</a>
-				<a href="tel:+74957450480" class="tel">
-					<span><img src="{{ URL::asset('images/tel.png') }}" alt=""></span>+7 (495)745-04-80
+				<a href="tel:+{{str_replace([' ','(',')','-'],'',$defaults['info']['phone'])}}" class="tel">
+					<span><img src="{{ URL::asset('images/tel.png') }}" alt=""></span>+{{$defaults['info']['phone']}}
 				</a>
-				<a href="mailto:hello@gmail.com" class="tel">
-					<span><img src="{{ URL::asset('images/mail.png') }}" alt=""></span>hello@gmail.com
+				<a href="mailto:{{$defaults['info']['email']}}" class="tel">
+					<span><img src="{{ URL::asset('images/mail.png') }}" alt=""></span>{{$defaults['info']['email']}}
 				</a>
 				@if(!$user)
 				<a href="{{ route('login-page') }}" class="regist">

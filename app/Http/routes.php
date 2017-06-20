@@ -3,6 +3,9 @@ Route::get('/', [
 	'as'=>'home',
 	'uses'=>'Site\HomeController@index'
 ]);
+	Route::get('/get_more_products',[
+		'uses'=>'Site\HomeController@getMoreProducts'
+	]);
 //Логинизация
 Route::get('/login', [
 	'as'=>'login-page',

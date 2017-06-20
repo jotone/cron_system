@@ -153,17 +153,42 @@ $(document).ready(function () {
 	// show more button
 	$('.more').on("click", function (e) {
 		e.preventDefault();
-		var products = $(this).closest('.products').find('.product-item');
+		var start = $('.products').attr('data-start');
 		$.ajax({
-			url: show_more,
-			data: products,
-			method: 'POST',
-			success: function success(data) {
-				if (data) {
-					products.empty();
-					products.append(data);
-					$(this).remove();
-				}
+			url:	'/get_more_products',
+			type:	'GET',
+			data:	{start:start},
+			success: function(data){
+				try{
+					data = JSON.parse(data);
+					if(data.message == 'success'){
+						if(data.has_more < 1) $('.mbox a.more').hide();
+						$('.products').attr('data-start',data.start);
+						for(var i in data.items){
+							var product = data.items[i];
+
+							var classHot = (product['is_hot'].length > 0)? ' hot-item': '';
+							var itemTag = '<div class="product-item'+classHot+'"><div class="pic">';
+							if(product['img_url']['img'].length > 0){
+								itemTag += '<img src="'+product['img_url']['img']+'" alt="'+product['img_url']['alt']+'">';
+							}
+							if(product['is_hot'].length > 0){
+								itemTag += '<div class="'+product['is_hot']+'">'+product['is_hot']+'</div>';
+							}
+							itemTag += '</div><div class="name" style="height: 159px;"><span class="prod-name">'+product['title']+'</span>'+product['text']+'</div><div class="price">';
+
+							if(product['price'] > 0){
+								itemTag += '<div class="prod-price"><span class="old">';
+								if(product['old_price'] > 0) itemTag += '$ '+product['formated_old_price'];
+								itemTag += '</span><span class="new">$ '+product['formated_price']+'</span></div><a href="#" class="button-invers" data-gii="'+product['id']+'">В корзину</a>';
+							}else{
+								itemTag += '<a href="#" class="button" data-gii="'+product['id']+'">Уточнить цену</a>';
+							}
+							itemTag += '</div></div>';
+							$('.products').append(itemTag);
+						}
+					}
+				}catch(e){}
 			}
 		});
 	});

@@ -4,9 +4,15 @@
 		<div class="footer-row">
 			<div class="logo"><a href="{{ route('home') }}"><img src="{{ URL::asset('images/logo-bk.png') }}" alt=""></a></div>
 			<div class="socials">
-				<a href="#"><img src="{{ URL::asset('images/vk.png') }}" alt=""></a>
-				<a href="#"><img src="{{ URL::asset('images/fb.png') }}" alt=""></a>
-				<a href="#"><img src="{{ URL::asset('images/gg.png') }}" alt=""></a>
+				@foreach($defaults['social'] as $social)
+					<a href="{{ $social['link'] }}">
+						@if(!empty($social['img_url']))
+							<img src="{{ $social['img_url'] }}" alt="{{$social['title']}}">
+						@else
+							{{$social['title']}}
+						@endif
+					</a>
+				@endforeach
 			</div>
 		</div>
 		<div class="footer-row">
@@ -19,11 +25,11 @@
 			</div>
 			<div class="footer-col">
 				<h6>Адрес:</h6>
-				<p>Санкт-Петербург, Набережная канала Грибоедова, дом 17</p>
+				<p>{{ strip_tags($defaults['info']['address']) }}</p>
 			</div>
 			<div class="footer-col">
 				<h6>Время работы:</h6>
-				<p>Понедельник-четверг:  с 09:30 до 19:00</p>
+				{!!$defaults['info']['work_time'] !!}
 			</div>
 			<div class="footer-sheep-fish">
 				<a href="http://sheep.fish/">

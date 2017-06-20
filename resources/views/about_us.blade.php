@@ -19,9 +19,9 @@
 				</div>
 
 				<div class="wrap-text">
-					<img src="{{ URL::asset('images/about-us-image.png') }}" alt="image">
+					<img src="{{ URL::asset($content['page']->value->img) }}" alt="image">
 					<h2 style="font-size: 36px;font-weight: 700;">О Компании</h2>
-					<p style="font-size: 24px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus ac</p>
+					{!! $content['text']->value !!}
 				</div>
 			</div>
 
@@ -34,7 +34,7 @@
 								<img src="{{ URL::asset('images/icon-tel-map.png') }}" alt="images">
 							</div>
 							<div class="contact-text">
-								<a href="tel:+74957450480">+7 (495)745-04-80</a>
+								<a href="tel:+{{str_replace([' ','(',')','-'],'',$defaults['info']['phone'])}}">+{{ $defaults['info']['phone'] }}</a>
 							</div>
 						</li>
 						<li>
@@ -42,7 +42,7 @@
 								<img src="{{ URL::asset('images/icon-mail-map.png') }}" alt="images">
 							</div>
 							<div class="contact-text">
-								<a href="mailto:hello@gmail.com">hello@gmail.com</a>
+								<a href="mailto:{{$defaults['info']['email']}}">{{$defaults['info']['email']}}</a>
 							</div>
 						</li>
 						<li>
@@ -51,9 +51,7 @@
 							</div>
 							<div class="contact-text">
 								<h5>Время работы:</h5>
-								<p>Понедельник-четверг:  с 09:30 до 19:00</p>
-								<p>Пятница: с 9:30 до 18:00</p>
-								<p>Суббота, воскресенье - выходные дни</p>
+								{!!$defaults['info']['work_time'] !!}
 							</div>
 						</li>
 						<li>
@@ -62,8 +60,7 @@
 							</div>
 							<div class="contact-text">
 								<h5>Адрес: </h5>
-								<p>Санкт-Петербург, </p>
-								<p>Набережная канала Грибоедова, дом 17</p>
+								{!! $defaults['info']['address'] !!}
 							</div>
 						</li>
 					</ul>
