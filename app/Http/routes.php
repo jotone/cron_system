@@ -144,6 +144,9 @@ Route::get('/shopping_cart',[
 		'as'=>'thanks',
 		'uses'=>'Site\HomeController@thanks'
 	]);
+	Route::post('/add_to_card',[
+		'uses'=>'Site\ShoppingCartController@addItem'
+	]);
 
 Route::patch('/change_per_page',[
 	'uses'=>'Supply\Helpers@changePerPage'

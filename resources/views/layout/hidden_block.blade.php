@@ -1,7 +1,7 @@
 <div class="hidden-block">
 	<div id="call-message" @if(isset($err->message)) data-active="1" @endif>
 		<div class="call-success-wrap">
-			<!--<div class="call-success-title"></div>s-->
+			<!--<div class="call-success-title"></div>-->
 			<div class="call-success-subtitle">
 				@if(isset($err->message)) {{ $err->message }} @endif
 			</div>

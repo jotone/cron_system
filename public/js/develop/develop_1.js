@@ -38,12 +38,34 @@ $(document).ready(function () {
 				}
 			})
 		}
-	})
-});
+	});
 
-jQuery(document).click(function (event) {
-  if ($(event.target).closest(".advertising-sidebar").length) return;
-  jQuery(".autocomplite-dropdown").slideUp("active");
+	$(document).find('.products').on('click','a.button-invers', function(e){
+		e.preventDefault();
+		if(typeof $(this).attr('data-giib') != 'undefined'){
+			$.ajax({
+				url:	'/add_to_card',
+				type:	'POST',
+				data:	{gii: $(this).attr('data-giib').trim()},
+				success:function(data){
+					console.log(data);
+				}
+			});
+		}else if(typeof $(this).attr('data-giia') != 'undefined'){
 
-  event.stopPropagation();
+		}
+	});
+
+	$(document).find('.brand-items').on('click','a.button-invers',function(e){
+        e.preventDefault();
+        if(typeof $(this).attr('data-giib') != 'undefined'){
+            alert($(this).attr('data-giib'));
+        }
+	});
+
+	$(document).click(function(event){
+		if ($(event.target).closest('.advertising-sidebar').length) return;
+		$(".autocomplite-dropdown").slideUp('active');
+		event.stopPropagation();
+	});
 });

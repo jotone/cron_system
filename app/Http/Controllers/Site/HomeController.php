@@ -10,13 +10,14 @@ use App\Products;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Auth;
-use Crypt;
+use Illuminate\Support\Facades\Crypt;
 use Validator;
 
 class HomeController extends BaseController{
 
 	public function index(Request $request){
 		$defaults = Helpers::getDefaults();
+		//dd($_COOKIE);
 
 		$page = Pages::where('link','=',$request->path())->first();
 		$content = [];
@@ -72,7 +73,7 @@ class HomeController extends BaseController{
 				default:	$is_hot = '';
 			}
 			$product_list[] = [
-				'id'		=> $product->id,
+				'id'		=> Crypt::encrypt($product->id),
 				'title'		=> $product->title,
 				'slug'		=> $product->slug,
 				'img_url'	=> json_decode($product->img_url),

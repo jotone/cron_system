@@ -8,9 +8,8 @@ use App\Products;
 
 use App\Http\Controllers\Supply\Helpers;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Http\Request;
 use Auth;
-use Crypt;
+use Illuminate\Support\Facades\Crypt;
 use Validator;
 
 class ProductController extends BaseController{
@@ -96,6 +95,7 @@ class ProductController extends BaseController{
 						default:	$is_hot = '';
 					}
 					$products[$item->id] = [
+						'id'		=> Crypt::encrypt($item->id),
 						'title'		=> $item->title,
 						'slug'		=> $item->slug,
 						'img_url'	=> json_decode($item->img_url),
@@ -174,7 +174,7 @@ class ProductController extends BaseController{
 			->orderBy('position','asc')
 			->get();
 
-		$products = Products::select('title','slug','text','img_url','old_price','price','is_hot')
+		$products = Products::select('id','title','slug','text','img_url','old_price','price','is_hot')
 			->where('enabled','=',1)
 			->orderBy('title','asc')
 			->skip($start)
@@ -189,6 +189,7 @@ class ProductController extends BaseController{
 				default:	$is_hot = '';
 			}
 			$list[] = [
+				'id'		=> Crypt::encrypt($product->id),
 				'title'		=> $product->title,
 				'slug'		=> $product->slug,
 				'text'		=> $product->text,
