@@ -2,9 +2,11 @@
 namespace App\Http\Controllers\Site;
 
 use App\News;
+use App\Pages;
 
 use App\Http\Controllers\Supply\Helpers;
 use Illuminate\Routing\Controller as BaseController;
+
 use Auth;
 use Crypt;
 use Validator;
@@ -47,10 +49,36 @@ class NewsController extends BaseController{
 			'current'	=> $page,
 			'total'		=> ceil($news_count/$limit)
 		];
+
+		$path = \Route::current()->getName();
+		$page = Pages::where('link','LIKE', '%'.$path.'%')->first();
+		$content = [];
+		if(!empty($page)){
+			$page_content = json_decode($page->content);
+			foreach ($page_content as $item) {
+				$temp = PageContent::select('meta_key','meta_value')->find($item);
+				$content[$temp->meta_key] = json_decode($temp->meta_value);
+			}
+		}
+
+		$meta_data = [
+			'title'		=> $page->meta_title,
+			'keywords'	=> $page->meta_keywords,
+			'description' => $page->meta_description
+		];
+
+		$seo = [
+			'need_seo'	=> $page->need_seo,
+			'title'		=> $page->seo_title,
+			'text'		=> $page->seo_text
+		];
 		return view('news', [
 			'defaults'	=> $defaults,
 			'news'		=> $list,
-			'paginate_options' => $paginate_options
+			'paginate_options' => $paginate_options,
+			'content'	=> $content,
+			'meta_data'	=> $meta_data,
+			'seo'		=> $seo
 		]);
 	}
 
