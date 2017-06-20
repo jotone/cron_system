@@ -121,7 +121,7 @@ Route::get('/request',[
 //Услуги
 Route::get('/services',[
 	'as'=>'services',
-	'uses'=>'Site\HomeController@services'
+	'uses'=>'Site\ServicesController@services'
 ]);
 //Вакансии
 Route::get('/vacancies',[

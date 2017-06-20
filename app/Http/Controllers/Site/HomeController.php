@@ -59,7 +59,7 @@ class HomeController extends BaseController{
 		$products = Products::select('id','title','slug','text','img_url','old_price','price','is_hot')
 			->where('enabled','=',1)
 			->where('show_on_main','=',1)
-			->orderBy('published_at','asc')
+			->orderBy('published_at','desc')
 			->skip(0)
 			->take(8)
 			->get();
@@ -199,13 +199,6 @@ class HomeController extends BaseController{
 		]);
 	}
 
-	public function services(){
-		$defaults = Helpers::getDefaults();
-		return view('services', [
-			'defaults' => $defaults,
-		]);
-	}
-
 	public function thanks(){
 		$defaults = Helpers::getDefaults();
 		return view('thanks', [
@@ -220,7 +213,7 @@ class HomeController extends BaseController{
 			$products = Products::select('id','title','slug','text','img_url','old_price','price','is_hot')
 				->where('enabled','=',1)
 				->where('show_on_main','=',1)
-				->orderBy('published_at','asc')
+				->orderBy('published_at','desc')
 				->skip($start)
 				->take(4)
 				->get();

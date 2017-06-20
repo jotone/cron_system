@@ -106,7 +106,7 @@
 
 .services .text-box .text-right img{float: left; margin-right: 10px;}
 
-.services .text-block {
+.services .text-block{
 	width: 100%;
 	padding: 70px 0 0;
 	overflow: hidden;
@@ -116,7 +116,7 @@
 
 .services .text-block h2{padding-top: 106px; margin-bottom: 48px;}
 
-.services .text-block p{margin-bottom: 60px;}
+.services .text-block p{margin-bottom: 60px; font-size: 24px;}
 
 .services .text-block a{
 	padding: 12px 30px;

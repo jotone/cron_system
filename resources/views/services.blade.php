@@ -22,22 +22,22 @@
 							<div id="close-timer1">
 								<div class="convert-timer cfix">
 									<div class="timer-item item-days">
-										<span class="days"></span>
+										<span class="days">{{ $interval->d }}</span>
 										<p>дней</p>
 									</div>
 
 									<div class="timer-item item-hours">
-										<span class="hours"></span>
+										<span class="hours">{{ $interval->h }}</span>
 										<p>часов</p>
 									</div>
 
 									<div class="timer-item item-minutes">
-										<span class="minutes"></span>
+										<span class="minutes">{{ $interval->i }}</span>
 										<p>минуты</p>
 									</div>
 
 									<div class="timer-item item-seconds">
-										<span class="seconds"></span>
+										<span class="seconds">{{ $interval->s }}</span>
 										<p>секунд</p>
 									</div>
 								</div>
@@ -48,47 +48,31 @@
 			</div>
 
 			<div class="text-box">
+				@for($i=0; $i<count($services); $i++)
 				<div class="text-block-wrap">
 					<div class="mbox4">
-						<div class="text-block text-left">
-							<img src="{{ URL::asset('images/services-info1.png') }}" alt="image">
-							<h2 style="font-size: 36px;font-weight: 600;">Услуга и решение</h2>
-							<p style="font-size: 24px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. </p>
+						<div class="text-block @if($i%2 == 0) text-left @else text-right @endif">
+							@if(!empty($services[$i]['img_url']->img))
+							<img src="{{ URL::asset($services[$i]['img_url']->img) }}" alt="{{ $services[$i]['img_url']->alt }}">
+							@endif
+							<h2 style="font-size: 36px;font-weight: 600;">{{ $services[$i]['title'] }}</h2>
+							{!! $services[$i]['text'] !!}
 							<a href="#call_back_popup" class="js_popup">Заказать звонок</a>
 						</div>
 					</div>
 				</div>
-
-				<div class="text-block-wrap">
-					<div class="mbox4">
-						<div class="text-block text-right">
-							<img src="{{ URL::asset('images/services-info2.png') }}" alt="image">
-							<h2 style="font-size: 36px;font-weight: 600;">Услуга и решение</h2>
-							<p style="font-size: 24px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. </p>
-							<a href="#call_back_popup" class="js_popup">Заказать звонок</a>
-						</div>
-					</div>
-				</div>
-
-				<div class="text-block-wrap">
-					<div class="mbox4">
-						<div class="text-block text-left">
-							<img src="{{ URL::asset('images/services-info3.png') }}" alt="image">
-							<h2 style="font-size: 36px;font-weight: 600;">Услуга и решение</h2>
-							<p style="font-size: 24px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. </p>
-							<a href="#call_back_popup" class="js_popup">Заказать звонок</a>
-						</div>
-					</div>
-				</div>
+				@endfor
 			</div>
 
+			@if( (isset($seo)) && ($seo['need_seo'] > 0) )
 			<div class="text-box-SEO">
 				<div class="title-box">
-					<h2 style="font-size: 36px;font-weight: 600;">СЕО Блок</h2>
+					<h2 style="font-size: 36px;font-weight: 600;">{{ $seo['title'] }}</h2>
 				</div>
-				<p style="font-size: 25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.</p>
+				{!! $seo['text'] !!}
 				<a href="#ask_popup" class="js_popup">Задать вопрос</a>
 			</div>
+			@endif
 		</section>
 	</div>
 	<!-- /MAIN -->
