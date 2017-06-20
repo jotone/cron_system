@@ -3,10 +3,12 @@ namespace App\Http\Controllers\Site;
 
 use App\Brand;
 use App\Category;
+use App\Pages;
 use App\Products;
 
 use App\Http\Controllers\Supply\Helpers;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\Request;
 use Auth;
 use Crypt;
 use Validator;
@@ -62,6 +64,21 @@ class ProductController extends BaseController{
 			$brand_slug = (empty($slug))? $brand: $slug;
 			$link = $brand.'/'.$slug;
 		}
+
+		$path = \Route::current()->getName();
+
+		$page_content = Pages::where('link','LIKE', '%'.$path.'%')->first();
+		$meta_data = [
+			'title'		=> $page_content->meta_title,
+			'keywords'	=> $page_content->meta_keywords,
+			'description'=>$page_content->meta_description
+		];
+
+		$seo = [
+			'need_seo'	=> $page_content->need_seo,
+			'title'		=> $page_content->seo_title,
+			'text'		=> $page_content->seo_text
+		];
 
 		$brand_data = Brand::select('id','title','slug','is_last')->where('slug','=',$brand_slug)->first();
 		$inner_brands = explode(',', self::findLastBrand($brand_data));
@@ -122,6 +139,8 @@ class ProductController extends BaseController{
 			'products_list'	=> $products_list,
 			'parent_brand'	=> $brand,
 			'limit'			=> $limit,
+			'meta_data'		=> $meta_data,
+			'seo'			=> $seo
 		]);
 	}
 

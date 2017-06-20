@@ -104,10 +104,24 @@ class HomeController extends BaseController{
 			}
 		}
 
+		$meta_data = [
+			'title'		=> $page->meta_title,
+			'keywords'	=> $page->meta_keywords,
+			'description' => $page->meta_description
+		];
+
+		$seo = [
+			'need_seo'	=> $page->need_seo,
+			'title'		=> $page->seo_title,
+			'text'		=> $page->seo_text
+		];
+
 		return view('about_us', [
 			'defaults'	=> $defaults,
 			'allow_map'	=> true,
-			'content'	=> $content
+			'content'	=> $content,
+			'meta_data'	=> $meta_data,
+			'seo'		=> $seo
 		]);
 	}
 
