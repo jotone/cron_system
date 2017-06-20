@@ -17,7 +17,6 @@ class HomeController extends BaseController{
 
 	public function index(Request $request){
 		$defaults = Helpers::getDefaults();
-		//dd($_COOKIE);
 
 		$page = Pages::where('link','=',$request->path())->first();
 		$content = [];

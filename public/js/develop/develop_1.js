@@ -40,7 +40,8 @@ $(document).ready(function () {
 		}
 	});
 
-	$(document).find('.products').on('click','a.button-invers', function(e){
+	//Добавление в корзину
+	/*$(document).find('.products').on('click','a.button-invers', function(e){
 		e.preventDefault();
 		if(typeof $(this).attr('data-giib') != 'undefined'){
 			$.ajax({
@@ -54,7 +55,7 @@ $(document).ready(function () {
 		}else if(typeof $(this).attr('data-giia') != 'undefined'){
 
 		}
-	});
+	});*/
 
 	$(document).find('.brand-items').on('click','a.button-invers',function(e){
         e.preventDefault();

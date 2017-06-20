@@ -22,14 +22,16 @@ class ShoppingCartController extends BaseController{
 			try{
 				$id = Crypt::decrypt($data['gii']);
 
-				if(isset($_COOKIE['shopping_cart'])){
-					$_COOKIE['shopping_cart'] = $_COOKIE['shopping_cart'].','.$id;
-					$shopping_cart = explode(',',$_COOKIE['shopping_cart']);
-					$shopping_cart = array_values(array_unique($shopping_cart));
-					$shopping_cart = implode(',',$shopping_cart);
-					setcookie('shopping_cart',$shopping_cart, time()+36000, '/');
+				if( (isset($_COOKIE['shopping_cart'])) && (!empty($_COOKIE['shopping_cart'])) ){
+					$shopping_cart = json_decode($_COOKIE['shopping_cart']);
+					if(isset($shopping_cart->$id)){
+						$shopping_cart->$id++;
+					}else{
+						$shopping_cart->$id = 1;
+					}
+					setcookie('shopping_cart',json_encode($shopping_cart), time()+36000, '/');
 				}else{
-					setcookie('shopping_cart',$id, time()+36000, '/');
+					setcookie('shopping_cart',json_encode([$id=>1]), time()+36000, '/');
 				}
 				return json_encode(['message'=>'success']);
 			}catch(\Exception $e){
