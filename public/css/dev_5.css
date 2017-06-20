@@ -348,6 +348,7 @@
 	font-weight: 400;
 	display: flex;
 }
+.contacts .map-box li{display: block}
 .about-us .map-box li .contact-icon, .contacts .map-box li.contact-icon{
 	margin-right: 10px;
 }

@@ -28,21 +28,18 @@
 				<div class="contact-box">
 					<ul>
 						<li>
-							<a href="tel:+74957450480">+7 (495)745-04-80</a>
+							<a href="tel:+{{str_replace([' ','(',')','-'],'',$defaults['info']['phone'])}}">+{{ $defaults['info']['phone'] }}</a>
 						</li>
 						<li>
-							<a href="mailto:hello@gmail.com">hello@gmail.com</a>
+							<a href="mailto:{{$defaults['info']['email']}}">{{$defaults['info']['email']}}</a>
 						</li>
 						<li>
 							<h5>Время работы:</h5>
-							<p>Понедельник-четверг:  с 09:30 до 19:00</p>
-							<p>Пятница: с 9:30 до 18:00</p>
-							<p>Суббота, воскресенье - выходные дни</p>
+							{!!$defaults['info']['work_time'] !!}
 						</li>
 						<li>
 							<h5>Адрес: </h5>
-							<p>Санкт-Петербург, </p>
-							<p>Набережная канала Грибоедова, дом 17</p>
+							{!! $defaults['info']['address'] !!}
 						</li>
 					</ul>
 				</div>

@@ -125,11 +125,36 @@ class HomeController extends BaseController{
 		]);
 	}
 
-	public function contacts(){
+	public function contacts(Request $request){
 		$defaults = Helpers::getDefaults();
+
+		$page = Pages::where('link','LIKE', '%'.$request->path().'%')->first();
+		$content = [];
+		if(!empty($page)){
+			$page_content = json_decode($page->content);
+			foreach ($page_content as $item) {
+				$temp = PageContent::select('meta_key','meta_value')->find($item);
+				$content[$temp->meta_key] = json_decode($temp->meta_value);
+			}
+		}
+
+		$meta_data = [
+			'title'		=> $page->meta_title,
+			'keywords'	=> $page->meta_keywords,
+			'description' => $page->meta_description
+		];
+
+		$seo = [
+			'need_seo'	=> $page->need_seo,
+			'title'		=> $page->seo_title,
+			'text'		=> $page->seo_text
+		];
+
 		return view('contacts', [
-			'defaults' => $defaults,
-			'allow_map'		=>true
+			'defaults'	=> $defaults,
+			'allow_map'	=> true,
+			'meta_data'	=> $meta_data,
+			'seo'		=> $seo
 		]);
 	}
 
