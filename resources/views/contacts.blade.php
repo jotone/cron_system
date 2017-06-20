@@ -44,6 +44,16 @@
 					</ul>
 				</div>
 			</div>
+
+			@if( (isset($seo)) && ($seo['need_seo'] > 0) )
+				<div class="catalog-seo">
+					<h2>{{ $seo['title'] }}</h2>
+					<div class="catalog-text">
+						{!! $seo['text'] !!}
+					</div>
+					<a href="#ask_popup" class="button-round js_popup">Задать вопрос</a>
+				</div>
+			@endif
 		</section>
 
 	</div>
