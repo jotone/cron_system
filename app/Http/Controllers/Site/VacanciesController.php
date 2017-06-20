@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Site;
 
+use App\Pages;
 use App\Vacancies;
 
 use App\Http\Controllers\Supply\Helpers;
@@ -47,10 +48,37 @@ class VacanciesController extends BaseController{
 			'current'	=> $page,
 			'total'		=> ceil($vacancies_count/$limit)
 		];
+
+		$path = \Route::current()->getName();
+		$page = Pages::where('link','LIKE', '%'.$path.'%')->first();
+		$content = [];
+		if(!empty($page)){
+			$page_content = json_decode($page->content);
+			foreach ($page_content as $item) {
+				$temp = PageContent::select('meta_key','meta_value')->find($item);
+				$content[$temp->meta_key] = json_decode($temp->meta_value);
+			}
+		}
+
+		$meta_data = [
+			'title'		=> $page->meta_title,
+			'keywords'	=> $page->meta_keywords,
+			'description' => $page->meta_description
+		];
+
+		$seo = [
+			'need_seo'	=> $page->need_seo,
+			'title'		=> $page->seo_title,
+			'text'		=> $page->seo_text
+		];
+
 		return view('vacancies', [
 			'defaults'	=> $defaults,
 			'vacancies'	=> $list,
-			'paginate_options' => $paginate_options
+			'paginate_options' => $paginate_options,
+			'content'	=> $content,
+			'meta_data'	=> $meta_data,
+			'seo'		=> $seo
 		]);
 	}
 

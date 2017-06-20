@@ -16,6 +16,7 @@
 				</ul>
 			</div>
 		</div>
+
 		<section class="vacancies">
 			<div class="vacancies-wrap">
 				<div class="title">
@@ -40,6 +41,7 @@
 				@endforeach
 				</ul>
 			</div>
+
 			@if($paginate_options['total'] > 1)
 				<div class="pagination">
 					@if($paginate_options['prev'] > 0)
@@ -61,6 +63,14 @@
 					@if($paginate_options['next'] <= $paginate_options['total'])
 						<a href="{{ route('vacancies') }}/page/{{ $paginate_options['next'] }}" class="next">&gt;</a>
 					@endif
+				</div>
+			@endif
+
+			@if( (isset($seo)) && ($seo['need_seo'] > 0) )
+				<div class="catalog-seo">
+					<h2>{{ $seo['title'] }}</h2>
+					<div class="catalog-text">{!! $seo['text'] !!}</div>
+					<a href="#ask_popup" class="button-round js_popup">Задать вопрос</a>
 				</div>
 			@endif
 		</section>
