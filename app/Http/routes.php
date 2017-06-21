@@ -147,6 +147,12 @@ Route::get('/shopping_cart',[
 	Route::post('/add_to_card',[
 		'uses'=>'Site\ShoppingCartController@addItem'
 	]);
+	Route::delete('/drop_from_cart',[
+		'uses'=>'Site\ShoppingCartController@dropItem'
+	]);
+	Route::get('/get_cart_items',[
+		'uses'=>'Supply\Helpers@getShoppingCartByRequest'
+	]);
 
 Route::patch('/change_per_page',[
 	'uses'=>'Supply\Helpers@changePerPage'

@@ -1,5 +1,24 @@
 'use strict';
 
+function normalWordForm(val, word){
+	val = val+'';
+	var valLastChar = parseInt(val[val.length -1]);
+	val = parseInt(val);
+	if(val <= 20){
+		switch(true){
+			case val == 1: return word; break;
+			case (val >= 2 && val <= 4): return word+'а'; break;
+			default: return word+'ов';
+		}
+	}else{
+		switch(true){
+			case valLastChar == 1: return word; break;
+			case (valLastChar >= 2 && valLastChar <= 4): return word+'а'; break;
+			default: return word+'ов';
+		}
+	}
+}
+
 function brandSlider(selector) {
 	var prev = $(selector).prev('.prev');
 	var next = $(selector).next('.next');
@@ -38,13 +57,23 @@ function brandSlider(selector) {
 	});
 }
 
+function recalculateBasket(){
+	var total = 0;
+	$(document).find('.busket-table .table-row').each(function(){
+		if ($(this).find('.js-number').length) {
+			var i = $(this).find('.product-summ span').text().replace(/\s+/g, '');
+			total += parseInt(i);
+		}
+	});
+	return total;
+}
+
 function busketCount(selector) {
-	$(selector).val(1);
 	var count = 1;
 	var price = 0;
 
 	$(selector).find('input').on('change', function () {
-		if ($(this).val() <= 0) {
+		if ($(this).val() < 2) {
 			$(this).val(1);
 		} else if ($(this).val() > 1000) {
 			$(this).val(1000);
@@ -52,19 +81,32 @@ function busketCount(selector) {
 		price = $(this).closest('.table-row').find('.price span').text().replace(/\s+/g, '');
 		count = $(this).val();
 		$(this).closest('.table-row').find('.product-summ span').text(price * count);
+		var total = recalculateBasket();
 
-		var total = 0;
-		$(this).closest('.busket-table').find('.table-row').each(function () {
-			if ($(this).find('.js-number').length) {
-				var i = $(this).find('.product-summ span').text().replace(/\s+/g, '');
-				total += parseInt(i);
-			}
-		});
 		$(this).closest('.busket-table').find('.table-footer .summ').text(total + " руб");
 	});
 }
 
 $(document).ready(function () {
+	//get shopping cart items count
+	$.ajax({
+		url: '/get_cart_items',
+		type: 'GET',
+		success: function (data) {
+			try {
+				data = JSON.parse(data);
+				if (data.message == 'success') {
+					if(data.items.length > 0){
+						$('.bottom-header .busket .busket-count').show().text(data.items.length);
+					}else{
+						$('.bottom-header .busket .busket-count').hide();
+					}
+				}
+			}catch(e){}
+		}
+	});
+	// /get shopping cart items count
+
 	brandSlider('.brand-slider');
 
 	$('.js_popup').fancybox();
@@ -86,7 +128,44 @@ $(document).ready(function () {
 
 	$('.header .busket').click(function (e) {
 		e.preventDefault();
-		$(this).next('.busket-popup').slideToggle();
+		var _this = $(this);
+		$.ajax({
+			url:	'/get_cart_items',
+			type:	'GET',
+			success:function(data){
+				try{
+					data = JSON.parse(data);
+					if(data.message == 'success'){
+						var totalCount = data.items.length;
+						totalCount = totalCount+' '+normalWordForm(totalCount, 'товар');
+						var totalSum = 0;
+						var itemsTag = '';
+
+						for(var i in data.items){
+							var item = data.items[i];
+							itemsTag += '' +
+							'<div class="busket-item">'+
+								'<div class="pic"><img src="'+item['img_url']['img']+'" alt=""></div>'+
+								'<div class="item-name">'+
+									'<a href="#">'+item['title']+'</a>'+
+									'<span>'+item['price']+' руб</span>'+
+								'</div>'+
+								'<div class="delete"></div>'+
+							'</div>';
+							totalSum += parseInt(item['price']);
+						}
+
+						$('.bottom-header .busket-popup .txt>h5>span').text(totalCount);
+						$('.bottom-header .busket-popup .txt>p>span').text(totalSum);
+						$('.bottom-header .busket-popup .cart-wrap').empty();
+						$('.bottom-header .busket-popup .cart-wrap').append(itemsTag);
+
+						_this.next('.busket-popup').slideToggle();
+					}
+				}catch(e){}
+			}
+		});
+
 		return false;
 	});
 
@@ -128,67 +207,20 @@ $(document).ready(function () {
 		$('.header-huge-menu').removeClass('active');
 	});
 
-	// removing product from busket
-
-	if ($('.first-busket').length) {
-		$('.busket-table .delete').click(function (e) {
-			e.preventDefault();
-			var id = $(this).attr('data-id');
-			var product = $(this).closest('.table-row');
-			$.ajax({
-				url: removing_from_busket,
-				data: { 'remove_id': id },
-				method: 'POST',
-				success: function success(data) {
-					if (data) {
-						product.remove();
-					}
-				}
-			});
-		});
-	};
-
-	// /removing product from busket
-
 	// show more button
 	$('.more').on("click", function (e) {
 		e.preventDefault();
-		var start = $('.products').attr('data-start');
+		var products = $(this).closest('.products').find('.product-item');
 		$.ajax({
-			url:	'/get_more_products',
-			type:	'GET',
-			data:	{start:start},
-			success: function(data){
-				try{
-					data = JSON.parse(data);
-					if(data.message == 'success'){
-						if(data.has_more < 1) $('.mbox a.more').hide();
-						$('.products').attr('data-start',data.start);
-						for(var i in data.items){
-							var product = data.items[i];
-
-							var classHot = (product['is_hot'].length > 0)? ' hot-item': '';
-							var itemTag = '<div class="product-item'+classHot+'"><div class="pic">';
-							if(product['img_url']['img'].length > 0){
-								itemTag += '<img src="'+product['img_url']['img']+'" alt="'+product['img_url']['alt']+'">';
-							}
-							if(product['is_hot'].length > 0){
-								itemTag += '<div class="'+product['is_hot']+'">'+product['is_hot']+'</div>';
-							}
-							itemTag += '</div><div class="name" style="height: 159px;"><span class="prod-name">'+product['title']+'</span>'+product['text']+'</div><div class="price">';
-
-							if(product['price'] > 0){
-								itemTag += '<div class="prod-price"><span class="old">';
-								if(product['old_price'] > 0) itemTag += '$ '+product['formated_old_price'];
-								itemTag += '</span><span class="new">$ '+product['formated_price']+'</span></div><a href="#" class="button-invers" data-gii="'+product['id']+'">В корзину</a>';
-							}else{
-								itemTag += '<a href="#" class="button" data-gii="'+product['id']+'">Уточнить цену</a>';
-							}
-							itemTag += '</div></div>';
-							$('.products').append(itemTag);
-						}
-					}
-				}catch(e){}
+			url: show_more,
+			data: products,
+			method: 'POST',
+			success: function success(data) {
+				if (data) {
+					products.empty();
+					products.append(data);
+					$(this).remove();
+				}
 			}
 		});
 	});
@@ -205,6 +237,32 @@ $(document).ready(function () {
 		$(this).closest('.header-menu').toggleClass('active');
 	});
 	// /burger
+
+	//basket manipulations
+	//drop
+	$('.busket .table-row .delete').click(function(e){
+		e.preventDefault();
+		var item = $(this).attr('data-gii');
+		var _this = $(this)
+		$.ajax({
+			url:	'/drop_from_cart',
+			type:	'DELETE',
+			data:	{gii: item},
+			success:function(data){
+				try{
+					data = JSON.parse(data);
+					if(data.message == 'success'){
+						_this.closest('.table-row').remove();
+						var total = recalculateBasket();
+						$('.busket-table').find('.table-footer .summ').text(total + " руб");
+					}
+				}catch(e){
+					console.log(data)
+				}
+			}
+		});
+	});
+	// /basket manipulations
 });
 
 jQuery(document).click(function (event) {

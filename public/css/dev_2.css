@@ -44,6 +44,35 @@
 }
 .sale{background: #2ca02c;}
 
+.busket_popup {overflow: visible;}
+.busket_popup .pic { text-align: center; padding-bottom: 20px;}
+.busket_popup .title {    
+	font-weight: 600;
+	font-size: 22px;
+	color: #303030;
+	letter-spacing: -.7px;
+	padding-bottom: 20px;
+}
+.busket_popup .buttons .continue {
+	margin-right: 15px;
+}
+.busket_popup .product-desc {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.busket_popup .product-desc .table-col {width: 50%;}
+.busket_popup .product-desc .price {  
+	padding-top: 8px;
+	font-weight: 700;
+	font-size: 40px;
+	color: #ee6111;
+	display: block;
+	letter-spacing: .4px;
+	text-align: center;
+	width: 50%;
+}
+
 .product-item{
 	width: 24%;
 	background: #fff;
@@ -768,8 +797,8 @@
 	text-align: left;
 }
 .header .bottom-header .wrapper .busket-popup .busket-item:nth-child(2){border-top: 1px solid #f9f9f9;}
-.header .bottom-header .wrapper .busket-popup .busket-item .pic{width: 110px;}
-.header .bottom-header .wrapper .busket-popup .busket-item .pic img{-o-object-fit: contain;  object-fit: contain;}
+.header .bottom-header .wrapper .busket-popup .busket-item .pic{width: 110px; text-align: center}
+.header .bottom-header .wrapper .busket-popup .busket-item .pic img{-o-object-fit: contain;  object-fit: contain; max-height: 95px;}
 .header .bottom-header .wrapper .busket-popup .busket-item .item-name{
 	padding-left: 10px;
 	width: 50%;

@@ -1,6 +1,5 @@
 <?php
 $user = Auth::user();
-//dd($defaults);
 ?>
 <header class="header" id="header">
 	<div class="top-header">
@@ -48,38 +47,25 @@ $user = Auth::user();
 							</button>
 						</form>
 					</div>
+					@if(!isset($deny_basket))
 					<div class="busket">
 						<a href="#">
 							<img src="{{ URL::asset('images/busket.png') }}" alt="">
-							<span class="busket-count">1</span>
+							<span class="busket-count" style="display: none"></span>
 						</a>
 					</div>
 					<div class="busket-popup">
 						<div class="busket-title">
 							<div class="txt">
-								<h5>В корзине 2 товар</h5>
-								<p>на сумму 996 руб</p>
+								<h5>В корзине <span></span></h5>
+								<p>на сумму <span></span> руб</p>
 							</div>
 							<a href="#" class="close"></a>
 						</div>
-						<div class="busket-item">
-							<div class="pic"><img src="images/indesign.png" alt=""></div>
-							<div class="item-name">
-								<a href="#">Our Legacy Splash Jacquard</a>
-								<span>498 руб</span>
-							</div>
-							<div class="delete"></div>
-						</div>
-						<div class="busket-item">
-							<div class="pic"><img src="images/indesign.png" alt=""></div>
-							<div class="item-name">
-								<a href="#">Our Legacy Splash Jacquard</a>
-								<span>498 руб</span>
-							</div>
-							<div class="delete"></div>
-						</div>
-						<a href="#" class="button-invers">ОФОРМИТЬ ЗАКАЗ</a>
+						<div class="cart-wrap"></div>
+						<a href="{{ route('shopping_cart') }}" class="button-invers">ОФОРМИТЬ ЗАКАЗ</a>
 					</div>
+					@endif
 				</div>
 			</div>
 		</div>

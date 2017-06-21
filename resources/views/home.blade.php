@@ -66,15 +66,15 @@
 								<span class="prod-name">{{ $product['title'] }}</span>
 								{!! $product['text'] !!}
 							</div>
-							<div class="price">
+							<div class="price" data-product="{{ $product['id'] }}">
 								@if(!empty($product['price']))
 									<div class="prod-price">
 										<span class="old">@if(!empty($product['old_price'])) $ {{ $product['old_price'] }}@endif</span>
 										<span class="new">$ {{ $product['price'] }}</span>
 									</div>
-									<a href="#" class="button-invers" data-giib="{{ $product['id'] }}">В корзину</a>
+									<a href="#busket_popup" class="button-invers to_busket">В корзину</a>
 								@else
-									<a href="#" class="button" data-giia="{{ $product['id'] }}">Уточнить цену</a>
+									<a href="#" class="button ask_price">Уточнить цену</a>
 								@endif
 							</div>
 						</div>

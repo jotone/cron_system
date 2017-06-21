@@ -103,5 +103,20 @@
 			<input type="submit" class="submit" value="Отправить">
 		</form>
 	</div>
+
+	<div id="busket_popup" class="busket_popup">
+		<div class="pic"></div>
+		<div class="title"></div>
+		<div class="product-desc">
+			<div class="price"></div>
+			<div class="table-col">
+				<input type="number" name="count" class="js-number" value="1">
+			</div>
+		</div>
+		<div class="buttons">
+			<a href="#" class="continue">Продолжить покупки</a>
+			<a href="#" class="submit">Оформить заказ</a>
+		</div>
+	</div>
 	{{ csrf_field() }}
 </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Supply;
 use App\Brand;
 use App\FooterMenu;
 use App\EtcData;
+use App\Products;
 use App\SocialMenu;
 use Illuminate\Http\Request;
 use App\TopMenu;
@@ -154,5 +155,32 @@ class Helpers extends BaseController{
 				'items' => []
 			]);
 		}
+	}
+
+	public function getShoppingCartByRequest(){
+		return json_encode([
+			'message' => 'success',
+			'items' => self::getShoppingCart()
+		]);
+	}
+
+	public static function getShoppingCart(){
+		$items = ( (isset($_COOKIE['shopping_cart'])) && (!empty($_COOKIE['shopping_cart'])) )
+			? get_object_vars(json_decode($_COOKIE['shopping_cart']))
+			: [];
+
+		$product_list = [];
+		foreach($items as $item_id => $quantity){
+			$product = Products::find($item_id);
+
+			$product_list[] = [
+				'id' => $product->id,
+				'title' => $product->title,
+				'img_url' => json_decode($product->img_url),
+				'price' => $product->price,
+				'quantity' => $quantity
+			];
+		}
+		return $product_list;
 	}
 }

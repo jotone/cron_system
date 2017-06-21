@@ -2,7 +2,7 @@
 @section('content')
 <div class="global-wrapper">
 		<!-- HEADER -->
-	@include('layout.header')
+	@include('layout.header', ['deny_basket'=>'1'])
 	<!-- /HEADER -->
 
 	<!-- MAIN -->
@@ -11,7 +11,7 @@
 		<div class="breadcrumbs">
 			<div class="mbox2">
 				<ul class="breadcrumbs-list">
-					<li><a href="index.html">Главная</a></li>
+					<li><a href="{{ route('home') }}">Главная</a></li>
 					<li>This Page</li>
 				</ul>
 			</div>
@@ -27,7 +27,7 @@
 		</div>
 		<section class="first-busket">
 			<div class="busket-content">
-				<form action="ajax.php" class="busket">
+				<form class="busket">
 					<div class="busket-table">
 						<div class="table-row table-header">
 							<div class="table-col">НАЗВАНИЕ</div>
@@ -35,57 +35,47 @@
 							<div class="table-col">КОЛИЧЕСТВО</div>
 							<div class="table-col">ВСЕГО</div>
 						</div>
-						<div class="table-row">
-							<div class="table-col">
-								<a href="#" class="delete" data-id="indesign"></a>
-								<a href="#" class="product">
-									<span class="pic"><img src="images/indesign.png" alt=""></span>
-									<span class="prod-name">Our Legacy Splash  Jacquard</span>
-								</a>
+						<?php $total = 0; ?>
+						@foreach($items as $item)
+							<?php
+							$total += $item['price'] * $item['quantity'];
+							?>
+							<div class="table-row">
+								<div class="table-col">
+									<a href="#" class="delete" data-gii="{{ \Crypt::encrypt($item['id']) }}"></a>
+									<a href="#" class="product">
+										<span class="pic">
+										@if(!empty($item['img_url']->img))
+											<img src="{{ URL::asset($item['img_url']->img) }}" alt="">
+										@endif
+										</span>
+										<span class="prod-name">{{ $item['title'] }}</span>
+									</a>
+								</div>
+								<div class="table-col price" data-price="{{ $item['price'] }}">
+									<span>{{ number_format($item['price'],0, '',' ') }}</span> руб
+								</div>
+								<div class="table-col">
+									<input type="number" name="count" class="js-number" value="{{ $item['quantity'] }}">
+								</div>
+								<div class="table-col product-summ">
+									<span>{{ number_format(($item['price'] * $item['quantity']),0, '',' ') }}</span> руб
+								</div>
 							</div>
-							<div class="table-col price"><span>1 000</span> руб</div>
-							<div class="table-col">
-								<input type="number" name="count" class="js-number" value="10">
-							</div>
-							<div class="table-col product-summ"><span>10 000</span> руб</div>
-						</div>
-						<div class="table-row">
-							<div class="table-col">
-								<a href="#" class="delete" data-id="illustrator"></a>
-								<a href="#" class="product">
-									<span class="pic"><img src="images/illustrator.png" alt=""></span>
-									<span class="prod-name">Our Legacy Splash  Jacquard</span>
-								</a>
-							</div>
-							<div class="table-col price"><span>1 000</span> руб</div>
-							<div class="table-col">
-								<input type="number" name="count" class="js-number" value="10">
-							</div>
-							<div class="table-col product-summ"><span>10 000</span> руб</div>
-						</div>
-						<div class="table-row">
-							<div class="table-col">
-								<a href="#" class="delete" data-id="adobe"></a>
-								<a href="#" class="product">
-									<span class="pic"><img src="images/adobe.png" alt=""></span>
-									<span class="prod-name">Our Legacy Splash  Jacquard</span>
-								</a>
-							</div>
-							<div class="table-col price"><span>1 000</span> руб</div>
-							<div class="table-col">
-								<input type="number" name="count" class="js-number" value="10">
-							</div>
-							<div class="table-col product-summ"><span>10 000</span> руб</div>
-						</div>
+						@endforeach
 						<div class="table-row table-footer">
 							<div class="table-col">ИТОГ</div>
-							<div class="table-col summ">30 000 руб</div>
+							<div class="table-col summ">{{ number_format($total,0, '',' ') }} руб</div>
 						</div>
 					</div>
+
 					<div class="buttons">
-						<a href="#" class="continue"><span></span>Продолжить покупки</a>
+						<a href="{{ route('catalog') }}" class="continue"><span></span>Продолжить покупки</a>
+						@if(!empty($items))
 						<button type="submit" class="submit">Доставка<span></span></button>
+						@endif
 					</div>
+
 				</form>
 			</div>
 		</section>
