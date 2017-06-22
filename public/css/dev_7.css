@@ -1189,7 +1189,7 @@ ul{margin: 0; padding: 0; list-style: none;}
 	width: 339px;
 	background: url("/images/message.png") no-repeat;
 }
-
+.catalog .catalog-right{width: 100%;}
 .catalog .breadcrumbs{
 	z-index: 2;
 	padding: 8px 0;

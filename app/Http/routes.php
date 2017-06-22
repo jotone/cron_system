@@ -160,6 +160,9 @@ Route::patch('/change_per_page',[
 Route::get('/filter_brand',[
 	'uses'=>'Supply\Helpers@filterBrand'
 ]);
+Route::patch('/change_filter',[
+	'uses'=>'Supply\Helpers@changeFilter'
+]);
 
 //Authorisation
 Route::get('/admin/login', [

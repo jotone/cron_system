@@ -13,6 +13,8 @@ class VerifyCsrfToken extends BaseVerifier
 	 */
 	protected $except = [
 		'/add_to_card',
+		'/change_filter',
+		'/change_per_page',
 		'/drop_from_cart'
 	];
 }

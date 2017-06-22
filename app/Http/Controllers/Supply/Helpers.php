@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Supply;
 
 use App\Brand;
+use App\Category;
 use App\FooterMenu;
 use App\EtcData;
 use App\Products;
@@ -9,6 +10,7 @@ use App\SocialMenu;
 use Illuminate\Http\Request;
 use App\TopMenu;
 use Auth;
+use Illuminate\Support\Facades\Crypt;
 use URL;
 
 use Illuminate\Routing\Controller as BaseController;
@@ -125,6 +127,92 @@ class Helpers extends BaseController{
 			$data['per_page'] = intval($data['per_page']);
 			setcookie('per_page',$data['per_page'], time()+36000, '/');
 			return 'success';
+		}
+	}
+
+	public function changeFilter(Request $request){
+		$data = $request->all();
+
+		if(isset($data['filter'])){
+			if(isset($_COOKIE['catalog_filter'])){
+				$catalog_filter = get_object_vars(json_decode($_COOKIE['catalog_filter']));
+				$catalog_filter[$data['filter'][0]] = $data['filter'][1];
+			}else{
+				$catalog_filter[$data['filter'][0]] = $data['filter'][1];
+			}
+			setcookie('catalog_filter', json_encode($catalog_filter), time()+36000, '/');
+
+			$limit = (isset($_COOKIE['per_page']))? $_COOKIE['per_page']: 8;
+
+			$products = Products::select('id','title','img_url','text','old_price','price','is_hot')->where('enabled','=',1);
+			foreach($catalog_filter as $key => $value){
+				switch($key){
+					case 'category':
+						$category = Category::select('id')->where('slug','=',$value)->first();
+						$products = $products->where('refer_to_category','=',$category->id);
+					break;
+
+					case 'brand':
+						$brand = Brand::select('id')->where('slug','=',$value)->first();
+						$products = $products->where('refer_to_brand','=',$brand->id);
+					break;
+
+					case 'price':
+						$prices = json_decode($value);
+						if( (empty($prices->min)) || ($prices->min < 1) ){
+							$prices->min = 1;
+						}
+						$products = $products->where('price','>=',$prices->min);
+
+						if( (!empty($prices->max)) && ($prices->max >= 1) ){
+							$products = $products->where('price','<=',$prices->max);
+						}
+					break;
+
+					case 'rating':
+						$products = $products->where('rating','=',$value);
+					break;
+				}
+			}
+			$products_count = $products->count();
+			$products = $products->take($limit)->get();
+
+			$product_list = [];
+			foreach($products as $product){
+				switch($product->is_hot){
+					case '1':	$is_hot = 'hot'; break;
+					case '2':	$is_hot = 'sale'; break;
+					default:	$is_hot = '';
+				}
+				$product_list[] = [
+					'id'		=> Crypt::encrypt($product->id),
+					'title'		=> $product->title,
+					'img_url'	=> json_decode($product->img_url),
+					'text'		=> $product->text,
+					'price'		=> $product->price,
+					'old_price'	=> $product->old_price,
+					'formatted_price' => number_format($product->price, 0, '', ' '),
+					'formatted_old_price' => number_format($product->old_price, 0, '', ' '),
+					'is_hot'	=> $is_hot
+				];
+			}
+
+			$paginate_options = [
+				'prev'		=> $data['page']-1,
+				'next'		=> $data['page']+1,
+				'current'	=> $data['page'],
+				'total'		=> ceil($products_count/$limit)
+			];
+
+			return json_encode([
+				'message'	=> 'success',
+				'products'	=> $product_list,
+				'pagination'=> $paginate_options
+			]);
+
+		}elseif(isset($data['reset'])){
+			setcookie('catalog_filter', '', time()+36000, '/');
+			return json_encode(['message'=>'reset']);
 		}
 	}
 

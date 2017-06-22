@@ -90,9 +90,9 @@ function busketCount(selector) {
 $(document).ready(function () {
 	//get shopping cart items count
 	$.ajax({
-		url: '/get_cart_items',
-		type: 'GET',
-		success: function (data) {
+		url:	'/get_cart_items',
+		type:	'GET',
+		success:function (data) {
 			try {
 				data = JSON.parse(data);
 				if (data.message == 'success') {
@@ -208,19 +208,30 @@ $(document).ready(function () {
 	});
 
 	// show more button
-	$('.more').on("click", function (e) {
+	$('.more').on("click", function(e){
 		e.preventDefault();
-		var products = $(this).closest('.products').find('.product-item');
+		var start = $(this).closest('.mbox').find('.products').attr('data-start');
+		var _this = $(this);
 		$.ajax({
-			url: show_more,
-			data: products,
-			method: 'POST',
-			success: function success(data) {
-				if (data) {
-					products.empty();
-					products.append(data);
-					$(this).remove();
-				}
+			url:	'/get_more_products',
+			data:	{start: start},
+			type:	'GET',
+			success:function(data){
+				try{
+					data = JSON.parse(data);
+					if(data.message == 'success'){
+						for(var i in data.items){
+							var product = data.items[i];
+							var item = builProductView(product);
+							_this.closest('.mbox').find('.products').append(item);
+						}
+
+						if(data.has_more < 1){
+							_this.hide();
+						}
+						_this.closest('.mbox').find('.products').attr('data-start',data.start);
+					}
+				}catch(e){}
 			}
 		});
 	});
@@ -243,7 +254,7 @@ $(document).ready(function () {
 	$('.busket .table-row .delete').click(function(e){
 		e.preventDefault();
 		var item = $(this).attr('data-gii');
-		var _this = $(this)
+		var _this = $(this);
 		$.ajax({
 			url:	'/drop_from_cart',
 			type:	'DELETE',

@@ -44,7 +44,7 @@
 								</ul>
 							</div>
 						</div>
-						<form action="ajax.php" name="catalog-filter">
+						<form name="catalog-filter">
 							<div class="filter-item">
 								<a href="#" class="filter-title js-title">
 									<h3>Бренд</h3>
@@ -87,7 +87,7 @@
 											<input type="text" id="max" name="max">
 										</div>
 									</div>
-									<button type="submit" class="button-invers">ПРИМЕНИТЬ</button>
+									<button type="button" name="acceptPrice" class="button-invers">ПРИМЕНИТЬ</button>
 								</div>
 							</div>
 							<div class="filter-item filter-rating">
@@ -96,22 +96,22 @@
 									<span class="filter-arrow"></span>
 								</a>
 								<div class="filter-stars">
-									<input name="eval" type="radio" id="five-star" value="1">
+									<input name="eval" type="radio" id="five-star" value="5">
 									<label for="five-star" class="stars-label"></label>
-									<input name="eval" type="radio" id="four-star" value="2">
+									<input name="eval" type="radio" id="four-star" value="4">
 									<label for="four-star" class="stars-label"></label>
 									<input name="eval" type="radio" id="three-star" value="3">
 									<label for="three-star" class="stars-label"></label>
-									<input name="eval" type="radio" id="two-star" value="4">
+									<input name="eval" type="radio" id="two-star" value="2">
 									<label for="two-star" class="stars-label"></label>
-									<input name="eval" type="radio" id="one-star" value="5">
+									<input name="eval" type="radio" id="one-star" value="1">
 									<label for="one-star" class="stars-label"></label>
 								</div>
 							</div>
 						</form>
 						<div class="filter-reset">
-					       <a href="#" class="button-invers">СБРОСИТЬ ФИЛЬТРЫ</a>
-					    </div>
+							<a href="#" class="button-invers">СБРОСИТЬ ФИЛЬТР</a>
+						</div>
 					</aside>
 					<section class="catalog-right">
 						<h1>Каталог</h1>

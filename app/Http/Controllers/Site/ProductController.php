@@ -206,13 +206,12 @@ class ProductController extends BaseController{
 			'total'		=> ceil($products_count/$limit)
 		];
 
-
 		return view('catalog', [
-			'defaults'	=> $defaults,
-			'categories'=> $categories,
-			'brands'	=> $brands,
-			'limit'		=> $limit,
-			'products'	=> $list,
+			'defaults'		=> $defaults,
+			'categories'	=> $categories,
+			'brands'		=> $brands,
+			'limit'			=> $limit,
+			'products'		=> $list,
 			'paginate_options'=> $paginate_options,
 			'meta_data'		=> $meta_data,
 			'seo'			=> $seo
