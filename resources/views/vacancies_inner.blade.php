@@ -32,21 +32,23 @@
 						{!! $content['text'] !!}
 					</div>
 					<div class="vacancy-right">
-						<form action="ajax.php" name="vacancy" class="vacancy-form">
+						<form action="{{ route('vacancies-send-resume') }}" name="vacancy" class="vacancy-form" method="POST">
+							{{ csrf_field() }}
+							<input name="vacancy" type="hidden" value="{{ $content['slug'] }}">
 							<h6>Оставить резюме</h6>
 							<div class="fields-wrap">
 								<div class="form-field">
-									<input type="text" name="name" placeholder="Имя" required />
+									<input type="text" name="name" placeholder="Имя" required="required" />
 								</div>
 								<div class="form-field">
-									<input type="text" name="tel" placeholder="Телефон" required />
+									<input type="text" name="tel" placeholder="Телефон" required="required" />
 								</div>
 								<div class="form-field">
-									<input type="text" name="email" placeholder="Почта" required />
+									<input type="text" name="email" placeholder="Почта" required="required" />
 								</div>
 							</div>
 							<div class="file-field">
-								<input type="file" class="js-file" data-placeholder="Загрузить резюме" data-browse="">
+								<input type="file" name="file" class="js-file" data-placeholder="Загрузить резюме" data-browse="" required="required">
 								<a href="#" class="button-round js-remove">Удалить</a>
 							</div>
 							<button type="submit" class="button-round">Отправить</button>

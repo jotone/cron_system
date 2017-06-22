@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 use App\Pages;
 use App\Vacancies;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Supply\Helpers;
 use Illuminate\Routing\Controller as BaseController;
 use Auth;
@@ -85,7 +86,7 @@ class VacanciesController extends BaseController{
 	public function vacanciesInner($slug){
 		$defaults = Helpers::getDefaults();
 
-		$content = Vacancies::select('title','text','img_url','meta_title','meta_description','meta_keywords','views')
+		$content = Vacancies::select('title','slug','text','img_url','meta_title','meta_description','meta_keywords','views')
 			->where('slug','=',$slug)
 			->where('enabled','=',1)
 			->first();
@@ -100,10 +101,46 @@ class VacanciesController extends BaseController{
 				'meta_keywords' => $content->meta_keywords,
 				'content'	=> [
 					'title'		=> $content->title,
+					'slug'		=> $content->slug,
 					'text'		=> $content->text,
 					'img_url'	=> json_decode($content->img_url),
 				],
 			]);
+		}
+	}
+
+	public function sendResume(Request $request){
+		$data = $request->all();
+
+		if( ('undefined' != $data['file']) && (!empty($data['file'][0])) ){
+			$destinationPath = base_path().'/public/documents/';
+			dd($data);
+			try{
+				$file = pathinfo(self::str2url($data['file'][0]->getClientOriginalName()));
+			}catch(\Exception $e){
+				return redirect()->route('vacancies-inner', $data['vacancy'])->withErrors(['Неверный формат файла.']);
+			}
+			var_dump(mime_content_type($data['file'][0]));die();
+			$file['extension'] = strtolower($file['extension']);
+			switch($file['extension']){
+				case 'doc':
+				case 'docx':
+				case 'ods':
+				case 'odt':
+				case 'pdf':
+				case 'sxc':
+				case 'sxw':
+				case 'rtf':
+				case 'xls':
+				case 'xlsx':
+				case 'xml':
+					//$file->move($destinationPath, $file);
+				break;
+				default:
+					return redirect()->route('vacancies-inner', $data['vacancy'])->withErrors(['Неверный формат файла.']);
+			}
+		}else{
+			return redirect()->route('vacancies-inner', $data['vacancy'])->withErrors(['Прикрепите файл резюме.']);
 		}
 	}
 }

@@ -226,6 +226,9 @@ function validationCallDocuments(form) {
 		processData: false,
 		cache: false,
 		success: function success(response){
+			if(response != 'success'){
+				$('.copyright').append(response);
+			}
 			thisForm.trigger("reset");
 			popNext("#call_success", "call-popup");
 		}
@@ -266,7 +269,7 @@ $(document).ready(function () {
 	validate('#call-popup .contact-form', { submitFunction: validationCall });
 	validate('.ask-form', { submitFunction: validationCall });
 	validate('.call-back-form', { submitFunction: validationCall });
-	validate('.vacancy-form', { submitFunction: validationCall });
+	validate('.vacancy-form', { submitFunction: validationCallDocuments });
 	//validate('.reg-form', { submitFunction: validationCall });
 	validate('.login-form', { submitFunction: validationCall });
 	validate('.recovery-form', { submitFunction: validationCall });

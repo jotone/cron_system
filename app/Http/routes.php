@@ -135,6 +135,10 @@ Route::get('/vacancies/page/{page}',[
 		'as'=>'vacancies-inner',
 		'uses'=>'Site\VacanciesController@vacanciesInner'
 	]);
+	Route::post('/send_resume',[
+		'as'=>'vacancies-send-resume',
+		'uses'=>'Site\VacanciesController@sendResume'
+	]);
 //Корзина
 Route::get('/shopping_cart',[
 	'as'=>'shopping_cart',

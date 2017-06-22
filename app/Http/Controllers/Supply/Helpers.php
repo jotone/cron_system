@@ -170,7 +170,7 @@ class Helpers extends BaseController{
 					break;
 
 					case 'rating':
-						$products = $products->where('rating','=',$value);
+						$products = $products->where('rating','=',str_replace(['"'],'',$value));
 					break;
 				}
 			}

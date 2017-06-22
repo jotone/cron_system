@@ -151,30 +151,27 @@
 							</div>
 						@endforeach
 						</div>
+						<div class="pagination" @if($paginate_options['total'] < 2) style="display: none" @endif>
+							@if($paginate_options['prev'] > 0)
+								<a href="{{ route('catalog') }}/page/{{ $paginate_options['prev'] }}" class="prev">&lt;</a>
+							@endif
 
-						@if($paginate_options['total'] > 1)
-							<div class="pagination">
-								@if($paginate_options['prev'] > 0)
-									<a href="{{ route('catalog') }}/page/{{ $paginate_options['prev'] }}" class="prev">&lt;</a>
-								@endif
+							<ul>
+								@for($i = 1; $i<=$paginate_options['total']; $i++)
+									<li @if($i == $paginate_options['current']) class="active" @endif>
+										@if($i == $paginate_options['current'])
+											{{ $i }}
+										@else
+											<a href="{{ route('catalog') }}/page/{{ $i }}">{{$i}}</a>
+										@endif
+									</li>
+								@endfor
+							</ul>
 
-								<ul>
-									@for($i = 1; $i<=$paginate_options['total']; $i++)
-										<li @if($i == $paginate_options['current']) class="active" @endif>
-											@if($i == $paginate_options['current'])
-												{{ $i }}
-											@else
-												<a href="{{ route('catalog') }}/page/{{ $i }}">{{$i}}</a>
-											@endif
-										</li>
-									@endfor
-								</ul>
-
-								@if($paginate_options['next'] <= $paginate_options['total'])
-									<a href="{{ route('catalog') }}/page/{{ $paginate_options['next'] }}" class="next">&gt;</a>
-								@endif
-							</div>
-						@endif
+							@if($paginate_options['next'] <= $paginate_options['total'])
+								<a href="{{ route('catalog') }}/page/{{ $paginate_options['next'] }}" class="next">&gt;</a>
+							@endif
+						</div>
 
 						@if( (isset($seo)) && ($seo['need_seo'] > 0) )
 						<div class="catalog-seo">

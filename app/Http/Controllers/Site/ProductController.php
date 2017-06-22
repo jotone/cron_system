@@ -147,8 +147,8 @@ class ProductController extends BaseController{
 
 		$limit = (isset($_COOKIE['per_page']))? $_COOKIE['per_page']: 8;
 		if($limit < 8) $limit = 8;
+
 		$start = ($page-1) * $limit;
-		$products_count = Products::where('enabled','=',1)->count();
 
 		$path = \Route::current()->getName();
 		$page_content = Pages::where('link','LIKE', '%'.$path.'%')->first();
@@ -175,11 +175,41 @@ class ProductController extends BaseController{
 			->get();
 
 		$products = Products::select('id','title','slug','text','img_url','old_price','price','is_hot')
-			->where('enabled','=',1)
-			->orderBy('title','asc')
-			->skip($start)
-			->take($limit)
-			->get();
+			->where('enabled','=',1);
+		if( (isset($_COOKIE['catalog_filter'])) && (!empty($_COOKIE['catalog_filter'])) ){
+			$catalog_filter = get_object_vars(json_decode($_COOKIE['catalog_filter']));
+			foreach($catalog_filter as $key => $value){
+				switch($key){
+					case 'category':
+						$category = Category::select('id')->where('slug','=',$value)->first();
+						$products = $products->where('refer_to_category','=',$category->id);
+					break;
+
+					case 'brand':
+						$brand = Brand::select('id')->where('slug','=',$value)->first();
+						$products = $products->where('refer_to_brand','=',$brand->id);
+					break;
+
+					case 'price':
+						$prices = json_decode($value);
+						if( (empty($prices->min)) || ($prices->min < 1) ){
+							$prices->min = 1;
+						}
+						$products = $products->where('price','>=',$prices->min);
+
+						if( (!empty($prices->max)) && ($prices->max >= 1) ){
+							$products = $products->where('price','<=',$prices->max);
+						}
+					break;
+
+					case 'rating':
+						$products = $products->where('rating','=',str_replace(['"'],'',$value));
+					break;
+				}
+			}
+		}
+		$products_count = $products->count();
+		$products = $products->orderBy('title','asc')->skip($start)->take($limit)->get();
 
 		$list = [];
 		foreach($products as $product){
@@ -199,6 +229,7 @@ class ProductController extends BaseController{
 				'is_hot'	=> $is_hot
 			];
 		}
+
 		$paginate_options = [
 			'prev'		=> $page-1,
 			'next'		=> $page+1,
