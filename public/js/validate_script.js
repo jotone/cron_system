@@ -134,7 +134,7 @@ function validationCallPatchMethod(form){
 	$.ajax({
 		url:	thisForm.attr('action'),
 		data:	formSur,
-        headers:{'X-CSRF-TOKEN':$(form).find('input[name=_token]').val()},
+		headers:{'X-CSRF-TOKEN':$(form).find('input[name=_token]').val()},
 		type:	'PATCH',
 		success:function(data){
 			data = JSON.parse(data);
@@ -199,8 +199,15 @@ function validationCallDocument(form) {
 		processData: false,
 		cache: false,
 		success: function success(response) {
-			thisForm.trigger("reset");
-			popNext("#call_success", "call-popup");
+			try{
+				response = JSON.parse(response);
+				if(response.message == 'success'){
+					thisForm.trigger("reset");
+					popNext("#call_success", "call-popup");
+				}else if(response.message == 'error'){
+					alert(response.text);
+				}
+			}catch(e){}
 		}
 	});
 }
@@ -225,6 +232,9 @@ function validationCallDocuments(form) {
 		contentType: false,
 		processData: false,
 		cache: false,
+		error:	function(err){
+			$('.copyright').append(err);
+		},
 		success: function success(response){
 			if(response != 'success'){
 				$('.copyright').append(response);

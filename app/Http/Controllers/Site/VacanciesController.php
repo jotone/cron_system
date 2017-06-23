@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Controllers\Site;
 
+use App\Http\Controllers\Supply\Functions;
 use App\Pages;
+use App\UserVacancy;
 use App\Vacancies;
 
 use Illuminate\Http\Request;
@@ -86,7 +88,7 @@ class VacanciesController extends BaseController{
 	public function vacanciesInner($slug){
 		$defaults = Helpers::getDefaults();
 
-		$content = Vacancies::select('title','slug','text','img_url','meta_title','meta_description','meta_keywords','views')
+		$content = Vacancies::select('id','title','text','img_url','meta_title','meta_description','meta_keywords','views')
 			->where('slug','=',$slug)
 			->where('enabled','=',1)
 			->first();
@@ -101,7 +103,7 @@ class VacanciesController extends BaseController{
 				'meta_keywords' => $content->meta_keywords,
 				'content'	=> [
 					'title'		=> $content->title,
-					'slug'		=> $content->slug,
+					'id'		=> Crypt::encrypt($content->id),
 					'text'		=> $content->text,
 					'img_url'	=> json_decode($content->img_url),
 				],
@@ -114,13 +116,13 @@ class VacanciesController extends BaseController{
 
 		if( ('undefined' != $data['file']) && (!empty($data['file'][0])) ){
 			$destinationPath = base_path().'/public/documents/';
-			dd($data);
 			try{
-				$file = pathinfo(self::str2url($data['file'][0]->getClientOriginalName()));
+				$file = pathinfo(Functions::str2url($data['file'][0]->getClientOriginalName()));
 			}catch(\Exception $e){
 				return redirect()->route('vacancies-inner', $data['vacancy'])->withErrors(['Неверный формат файла.']);
 			}
-			var_dump(mime_content_type($data['file'][0]));die();
+			$mime_type = mime_content_type($data['file'][0]->getRealPath());
+
 			$file['extension'] = strtolower($file['extension']);
 			switch($file['extension']){
 				case 'doc':
@@ -134,13 +136,45 @@ class VacanciesController extends BaseController{
 				case 'xls':
 				case 'xlsx':
 				case 'xml':
-					//$file->move($destinationPath, $file);
+					$allow_by_extension = true;
 				break;
 				default:
-					return redirect()->route('vacancies-inner', $data['vacancy'])->withErrors(['Неверный формат файла.']);
+					return json_encode(['message'=>'error','text'=>'Неверный формат файла.']);
+			}
+
+			switch($mime_type){
+				case 'application/msword':
+				case 'application/pdf':
+				case 'application/rtf':
+				case 'application/xml':
+				case 'application/vnd.ms-excel':
+				case 'application/application/vnd.oasis.opendocument.spreadsheet':
+				case 'application/vnd.oasis.opendocument.text':
+				case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+				case 'application/octet-stream':
+					$allow_by_mime = true;
+				break;
+				default:
+					return json_encode(['message'=>'error','text'=>'Неверный формат файла.']);
+			}
+
+			if(($allow_by_extension) && ($allow_by_mime)){
+				$file->move($destinationPath, $file['basename']);
+
+				$result = UserVacancy::create([
+					'name'=> trim($data['name']),
+					'phone'=> trim($data['tel']),
+					'email'=> trim($data['email']),
+					'file'=> $destinationPath.$file['basename'],
+					'refer_to_vacancy'=> $data['vacancy'],
+					'status'=> 0
+				]);
+				if($result != false){
+					return json_encode(['message'=>'success']);
+				}
 			}
 		}else{
-			return redirect()->route('vacancies-inner', $data['vacancy'])->withErrors(['Прикрепите файл резюме.']);
+			return json_encode(['message'=>'error','text'=>'Прикрепите файл резюме.']);
 		}
 	}
 }

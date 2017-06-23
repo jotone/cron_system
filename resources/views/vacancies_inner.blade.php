@@ -1,5 +1,6 @@
 @extends('layout.default')
 @section('content')
+<?php $user = Auth::user(); ?>
 <div class="global-wrapper">
 	<!-- HEADER -->
 	@include('layout.header')
@@ -34,17 +35,17 @@
 					<div class="vacancy-right">
 						<form action="{{ route('vacancies-send-resume') }}" name="vacancy" class="vacancy-form" method="POST">
 							{{ csrf_field() }}
-							<input name="vacancy" type="hidden" value="{{ $content['slug'] }}">
+							<input name="vacancy" type="hidden" value="{{ $content['id'] }}">
 							<h6>Оставить резюме</h6>
 							<div class="fields-wrap">
 								<div class="form-field">
-									<input type="text" name="name" placeholder="Имя" required="required" />
+									<input type="text" name="name" placeholder="Имя" required="required" @if($user) value="{{ $user['name'] }}" @endif/>
 								</div>
 								<div class="form-field">
-									<input type="text" name="tel" placeholder="Телефон" required="required" />
+									<input type="text" name="tel" placeholder="Телефон" required="required" @if($user) value="{{ $user['phone'] }}" @endif/>
 								</div>
 								<div class="form-field">
-									<input type="text" name="email" placeholder="Почта" required="required" />
+									<input type="text" name="email" placeholder="Почта" required="required" @if($user) value="{{ $user['email'] }}" @endif/>
 								</div>
 							</div>
 							<div class="file-field">
