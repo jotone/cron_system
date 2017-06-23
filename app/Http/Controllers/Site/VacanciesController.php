@@ -159,15 +159,15 @@ class VacanciesController extends BaseController{
 			}
 
 			if(($allow_by_extension) && ($allow_by_mime)){
-				$file->move($destinationPath, $file['basename']);
+				$data['file'][0]->move($destinationPath, $file['basename']);
 
 				$result = UserVacancy::create([
-					'name'=> trim($data['name']),
-					'phone'=> trim($data['tel']),
-					'email'=> trim($data['email']),
-					'file'=> $destinationPath.$file['basename'],
-					'refer_to_vacancy'=> $data['vacancy'],
-					'status'=> 0
+					'name'		=> trim($data['name']),
+					'phone'		=> trim($data['tel']),
+					'email'		=> trim($data['email']),
+					'file'		=> '/public/documents/'.$file['basename'],
+					'status'	=> 0,
+					'refer_to_vacancy' => $data['vacancy'],
 				]);
 				if($result != false){
 					return json_encode(['message'=>'success']);
