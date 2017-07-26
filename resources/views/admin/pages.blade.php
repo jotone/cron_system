@@ -1,6 +1,6 @@
 @extends('admin.layout.default')
 @section('scripts')
-    <script type="text/javascript" src="{{ URL::asset('js/admin/pages.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/admin/pages.js') }}"></script>
 @stop
 @section('content')
 <div class="main-block">

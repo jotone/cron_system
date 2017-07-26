@@ -187,6 +187,9 @@ Route::group(['middleware' => 'admin'], function(){
 		'as'	=> 'admin-index',
 		'uses'	=> 'Admin\HomeController@index'
 	]);
+		Route::patch('/admin/orders/change_status',[
+			'uses'=>'Admin\HomeController@changeStatus'
+		]);
 	//Пользователи
 	Route::get('/admin/users',[
 		'as'=>'admin-users',

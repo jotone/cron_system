@@ -68,7 +68,7 @@ class HomeController extends BaseController{
 					'created'	=> Functions::convertDate($order->created_at),
 					'updated'	=> Functions::convertDate($order->updated_at),
 				];
-			}//dd($order_list);
+			}
 
 			return view('admin.home', [
 				'start'		=> $start,
@@ -76,6 +76,14 @@ class HomeController extends BaseController{
 				'page_title'=> $page_caption->title,
 				'order_list'=> $order_list
 			]);
+		}
+	}
+
+	public function changeStatus(Request $request){
+		$data = $request->all();
+		$result = OrderStatus::where('id','=',$data['id'])->update(['status'=> $data['status']]);
+		if($result != false){
+			return json_encode(['message'=>'success']);
 		}
 	}
 }

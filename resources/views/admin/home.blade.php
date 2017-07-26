@@ -1,4 +1,7 @@
 @extends('admin.layout.default')
+@section('scripts')
+	<script type="text/javascript" src="{{ URL::asset('js/admin/home.js') }}"></script>
+@stop
 @section('content')
 <div class="main-block">
 	<div class="center-wrap col_1">
@@ -12,15 +15,18 @@
 			</ul>
 		</div>
 
+		<div class="orders-wrap">
 		@foreach($order_list as $type => $items)
-			<div id="{{ $type }}">
-				<table class="item-list col_1" @if($type != 'progress') style="display: none;" @endif>
+			<div id="{{ $type }}" class="order-inner" @if($type != 'progress') style="display: none;" @endif>
+				<table class="item-list col_1">
 					<thead>
 					<tr>
 						<th></th>
 						<th>Контактные данные</th>
 						<th>Заказаные товары</th>
+						@if($type == 'progress')
 						<th>Статус</th>
+						@endif
 						<th>Создан</th>
 						<th>Изменен</th>
 					</tr>
@@ -85,14 +91,16 @@
 									<div class="col_1_5">{{ number_format($item['delivery_price'] + $total, 2, '.', ' ') }} руб.</div>
 								</div>
 							</td>
-							<td>
+							@if($type == 'progress')
+							<td style="width: 10%;">
 								<div class="row-wrap">
-									<input name="done" type="button" class="control-button" value="Завершить">
+									<input name="done" type="button" class="control-button" value="Оформлено">
 								</div>
 								<div class="row-wrap">
-									<input name="cancel" type="button" class="control-button" value="Отменить">
+									<input name="cancel" type="button" class="control-button" value="Отклонить">
 								</div>
 							</td>
+							@endif
 							<td style="width: 10%;">{{ $item['created'] }}</td>
 							<td style="width: 10%;">{{ $item['updated'] }}</td>
 						</tr>
@@ -101,6 +109,7 @@
 				</table>
 			</div>
 		@endforeach
+		</div>
 	</div>
 </div>
 @stop
