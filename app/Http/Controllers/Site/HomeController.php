@@ -199,13 +199,6 @@ class HomeController extends BaseController{
 		]);
 	}
 
-	public function thanks(){
-		$defaults = Helpers::getDefaults();
-		return view('thanks', [
-			'defaults' => $defaults,
-		]);
-	}
-
 	public function getMoreProducts(Request $request){
 		$data = $request->all();
 		if( (isset($data['start'])) && (ctype_digit($data['start'])) ){

@@ -404,4 +404,10 @@ $(document).ready(function(){
 	});
 	//add images from uploaded
 
+	//tab list
+	$('.tab-list li').click(function(){
+		$(this).closest('ul').find('li').removeClass('active');
+		$(this).addClass('active');
+	});
+	// /tab list
 });

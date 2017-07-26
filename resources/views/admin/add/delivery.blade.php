@@ -30,6 +30,13 @@
 							<span>Цена</span>
 						</label>
 					</div>
+
+					<div class="row-wrap">
+						<label class="fieldset-label-wrap">
+							<input name="terms" type="text" class="text-input col_1_2" placeholder="Термин доставки&hellip;" @if(isset($content->price)) value="{{ $content->terms }}" @endif>
+							<span>Термин доставки</span>
+						</label>
+					</div>
 				</fieldset>
 			</div>
 			<div class="button-wrap tac">

@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready(function () {
+$(document).ready(function(){
 	//Form Styler
 	$('.js-file').styler();
 	$('.js-select').styler();
@@ -12,7 +12,7 @@ $(document).ready(function () {
 	});
 
 	//Input File Remove Button
-	$('.js-remove').on('click', function (e) {
+	$('.js-remove').on('click', function(e){
 		e.preventDefault();
 		$('.jq-file input').val('');
 		$('.jq-file__name').text('Загрузить резюме');
@@ -22,14 +22,14 @@ $(document).ready(function () {
 	var enterHeight = $(window).outerHeight() - $('.enter-top').outerHeight();
 	$('.enter-content').css('min-height', enterHeight);
 
-	$('.js-title').on('click', function (e) {
+	$('.js-title').on('click', function(e){
 		e.preventDefault();
 		$(this).next('ul, div').slideToggle();
 		$(this).find('.filter-arrow').toggleClass('active');
 	});
 
 	//Catalog Filter
-	$('.burger').on('click', function (e) {
+	$('.burger').on('click',function(e){
 		e.preventDefault();
 		$(this).toggleClass('open');
 		var filter = $('.catalog-filter-wrap');
@@ -46,15 +46,16 @@ $(document).ready(function () {
 });
 
 //Catalog Filter Hide
-$(document).click(function (e) {
-	if ($(e.target).closest('.catalog-filter-wrap').length) return;
+$(document).click(function(e){
+	if($(e.target).closest('.catalog-filter-wrap').length)
+		return;
 	$('.catalog-filter-wrap').removeClass('active');
 	$('.burger').removeClass('active open');
 
 	e.stopPropagation();
 });
 
-$(window).load(function () {});
+$(window).load(function(){});
 
-$(window).resize(function () {});
+$(window).resize(function(){});
 //# sourceMappingURL=develop_7.js.map

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Supply;
 use App\AdminMenu;
+use App\Brand;
 use App\News;
 use App\Products;
 use App\UserRoles;
@@ -343,5 +344,17 @@ class Functions extends BaseController{
 
 	public function getAllImagesByRequest(){
 		return self::getAllImages();
+	}
+
+	public static function getParentBrand($id){
+		$brand = Brand::select('title','slug','refer_to')->find($id);
+		if($brand->refer_to == 0){
+			return [
+				'title'=> $brand->title,
+				'slug' => $brand->slug
+			];
+		}else{
+			return self::getParentBrand($brand->refer_to);
+		}
 	}
 }

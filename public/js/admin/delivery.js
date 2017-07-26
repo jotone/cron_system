@@ -32,6 +32,7 @@ $(document).ready(function(){
 		formData.append('id', $('input[name=id]').val());
 		formData.append('title', $('input[name=title]').val());
 		formData.append('price', $('input[name=price]').val());
+		formData.append('terms', $('input[name=terms]').val());
 		$.ajax({
 			url:		'/admin/delivery_type/add',
 			type:		'POST',

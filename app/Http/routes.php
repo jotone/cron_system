@@ -144,10 +144,6 @@ Route::get('/shopping_cart',[
 	'as'=>'shopping_cart',
 	'uses'=>'Site\ShoppingCartController@index'
 ]);
-	Route::get('/thanks',[
-		'as'=>'thanks',
-		'uses'=>'Site\HomeController@thanks'
-	]);
 	Route::post('/add_to_card',[
 		'uses'=>'Site\ShoppingCartController@addItem'
 	]);
@@ -156,6 +152,13 @@ Route::get('/shopping_cart',[
 	]);
 	Route::get('/get_cart_items',[
 		'uses'=>'Supply\Helpers@getShoppingCartByRequest'
+	]);
+	Route::post('/thanks',[
+		'as'=>'shopping-card-checkout',
+		'uses'=>'Site\ShoppingCartController@checkout'
+	]);
+	Route::put('/update_cart',[
+		'uses'=>'Site\ShoppingCartController@updateCart'
 	]);
 
 Route::patch('/change_per_page',[

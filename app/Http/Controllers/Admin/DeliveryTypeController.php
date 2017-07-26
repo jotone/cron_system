@@ -2,9 +2,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\AdminMenu;
-use App\Category;
-
 use App\DeliveryType;
+
 use App\Http\Controllers\Supply\Functions;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -68,6 +67,7 @@ class DeliveryTypeController extends BaseController{
 			$result = DeliveryType::find($data['id']);
 			$result->title	= trim($data['title']);
 			$result->slug	= $slug;
+			$result->terms	= trim($data['terms']);
 			$result->price	= str_replace(',','.',trim($data['price']));
 			$result->save();
 		}else{
@@ -79,6 +79,7 @@ class DeliveryTypeController extends BaseController{
 				'title'		=> trim($data['title']),
 				'slug'		=> $slug,
 				'position'	=> $position,
+				'terms'		=> trim($data['terms']),
 				'price'		=> str_replace(',','.',trim($data['price'])),
 			]);
 		}

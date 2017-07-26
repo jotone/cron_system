@@ -804,3 +804,35 @@ fieldset legend{
 	border-radius: 50%;
 }
 .sale{background-color: #2ca02c;}
+
+.tab-list{
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-end;
+}
+.tab-list li{
+	cursor: pointer;
+	position: relative;
+	padding: 10px 15px;
+	border: 1px solid #dadadb;
+	background-color: #eee;
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-top-right-radius: 15px;
+	-moz-border-radius-topleft: 15px;
+	-moz-border-radius-topright: 15px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+.tab-list li.active{
+	padding: 15px;
+	font-weight: bold;
+	border: 2px solid #252839;
+}
+
+.goods-list, .goods-etc{
+	display: flex;
+	justify-content: flex-end;
+	border-bottom: 1px solid #0c1025;
+	padding: 5px 0;
+}
+.goods-etc{border-bottom: none}

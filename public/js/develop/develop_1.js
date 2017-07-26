@@ -29,7 +29,6 @@ function builProductView(product){
 	return item;
 }
 
-
 function sendFilterData(type, data){
 	var pageIsset = window.location.pathname.split('/').indexOf('page')
 	var page = (pageIsset > 0)? window.location.pathname.split('/')[pageIsset+1]: 1;
@@ -167,6 +166,53 @@ $(document).ready(function(){
 		});
 	});
 
+	//drop
+	$('.busket .table-row .delete').click(function(e){
+		e.preventDefault();
+		var item = $(this).attr('data-gii');
+		var _this = $(this);
+		$.ajax({
+			url:	'/drop_from_cart',
+			type:	'DELETE',
+			data:	{gii: item},
+			success:function(data){
+				try{
+					data = JSON.parse(data);
+					if(data.message == 'success'){
+						_this.closest('.table-row').remove();
+						var total = recalculateBasket();
+						$('.busket-table').find('.table-footer .summ').text(total + " руб");
+					}
+				}catch(e){
+					console.log(data)
+				}
+			}
+		});
+	});
+	//change quantity
+
+	function sendGoodsQuantities(){
+		var values = [];
+		$('.busket-table .delete').each(function(){
+			values.push({
+				gii:$(this).attr('data-gii'),
+				q:	$(this).closest('.table-row').find('.jq-number__field input[name=count]').val()
+			});
+		});
+		$.ajax({
+			url:	'/update_cart',
+			type:	'PUT',
+			data:	{values:values},
+			success:function(data){
+				try{
+					data = JSON.parse(data);
+					if(data.message != 'success'){console.log(data)}
+				}catch(e){console.log(data)}
+			}
+		});
+		$('#step2').show();
+	}
+
 	//shopping cart controls
 	$('.main #step2, .main #step3').hide();
 	$('.busket-steps .mbox li').click(function(){
@@ -175,12 +221,21 @@ $(document).ready(function(){
 		$(this).find('a').addClass('active');
 		$('.main section').hide();
 		$('.main section#'+step).show();
+		sendGoodsQuantities();
 	});
 	$('#step1 form.busket button.submit').click(function(){
 		$('.busket-steps .mbox li a').removeClass('active');
 		$('.busket-steps .mbox li:eq(1) a').addClass('active');
 		$('.main section').hide();
-		$('#step2').show();
+		sendGoodsQuantities()
+	});
+
+	$('#step2 .buttons .continue').click(function(e){
+		e.preventDefault();
+		$('.busket-steps .mbox li a').removeClass('active');
+		$('.busket-steps .mbox li:eq(0) a').addClass('active');
+		$('.main section').hide();
+		$('#step1').show();
 	});
 	// /shopping cart controls
 

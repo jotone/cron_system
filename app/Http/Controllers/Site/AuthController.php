@@ -83,6 +83,10 @@ class AuthController extends BaseController{
 
 	public function logout(){
 		Auth::logout();
+		if(isset($_COOKIE['shopping_cart'])){
+			unset($_COOKIE['shopping_cart']);
+			setcookie('shopping_cart', null, -3600);
+		}
 		return redirect(route('home'));
 	}
 

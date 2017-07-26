@@ -1,5 +1,6 @@
 @extends('layout.default')
 @section('content')
+<?php $user = Auth::user();?>
 <div class="global-wrapper">
 		<!-- HEADER -->
 	@include('layout.header', ['deny_basket'=>'1'])
@@ -81,7 +82,7 @@
 		</section>
 
 		<section class="second-busket" id="step2">
-			<form action="ajax.php" class="busket2">
+			<form action="{{ route('shopping-card-checkout') }}" class="busket2" method="POST">
 				<div class="form-table">
 					<div class="form-col">
 						<div class="form-header"><h4>АДРЕС ДОСТАВКИ</h4></div>
@@ -113,33 +114,34 @@
 						<div class="form-content">
 							<div class="form-field">
 								<p>Ваше имя<sup style="color:#00b3ad;">*</sup></p>
-								<input type="text" class="el-input" name="country" required="required">
-							</div>
-							<div class="form-field">
-								<p>Телефон<sup style="color:#00b3ad;">*</sup></p>
-								<input type="text" class="el-input" name="region" required="required">
+								<input type="text" class="el-input" name="firstname" required="required">
 							</div>
 							<div class="form-field">
 								<p>Ваша фамилия<sup style="color:#00b3ad;">*</sup></p>
-								<input type="text" class="el-input" name="city" required="required">
+								<input type="text" class="el-input" name="lastname" required="required">
+							</div>
+							<div class="form-field">
+								<p>Телефон<sup style="color:#00b3ad;">*</sup></p>
+								<input type="text" class="el-input" name="phone" required="required">
 							</div>
 							<div class="form-field">
 								<p>E-mail</p>
-								<input type="email" class="el-input" name="address">
+								<input type="email" class="el-input" name="email">
 							</div>
 						</div>
 					</div>
 					<div class="form-col delivery">
 						<div class="form-header">
 							<h4>способ доставки</h4>
-							<div class="form-field">
-								<input type="radio" class="el-radio" name="delivery" id="standart">
-								<label for="standart">90.00 руб Стандарт <span>1-2 Недели</span></label>
-							</div>
-							<div class="form-field">
-								<input type="radio" class="el-radio" name="delivery" id="ultra-speed">
-								<label for="ultra-speed"> 200.00 руб Ultra Speed <span>1 День</span></label>
-							</div>
+							@for($i = 0; $i < count($delivery); $i++)
+								<div class="form-field">
+									<input type="radio" class="el-radio" name="delivery" id="{{ $delivery[$i]->slug }}" value="{{ $delivery[$i]->slug }}" @if($i == 0) checked="checked" @endif>
+									<label for="{{ $delivery[$i]->slug }}">
+										{{ $delivery[$i]->price }} руб {{ $delivery[$i]->title }}
+										<span>{{ $delivery[$i]->terms }}</span>
+									</label>
+								</div>
+							@endfor
 						</div>
 					</div>
 				</div>

@@ -36,17 +36,17 @@ function brandSlider(selector) {
 			settings: {
 				slidesToShow: 4
 			}
-		}, {
+		},{
 			breakpoint: 1024,
 			settings: {
 				slidesToShow: 3
 			}
-		}, {
+		},{
 			breakpoint: 667,
 			settings: {
 				slidesToShow: 2
 			}
-		}, {
+		},{
 			breakpoint: 440,
 			settings: {
 				slidesToShow: 2,
@@ -60,7 +60,7 @@ function brandSlider(selector) {
 function recalculateBasket(){
 	var total = 0;
 	$(document).find('.busket-table .table-row').each(function(){
-		if ($(this).find('.js-number').length) {
+		if($(this).find('.js-number').length){
 			var i = $(this).find('.product-summ span').text().replace(/\s+/g, '');
 			total += parseInt(i);
 		}
@@ -68,14 +68,14 @@ function recalculateBasket(){
 	return total;
 }
 
-function busketCount(selector) {
+function busketCount(selector){
 	var count = 1;
 	var price = 0;
 
-	$(selector).find('input').on('change', function () {
-		if ($(this).val() < 2) {
+	$(selector).find('input').on('change', function(){
+		if($(this).val() < 2){
 			$(this).val(1);
-		} else if ($(this).val() > 1000) {
+		}else if ($(this).val() > 1000){
 			$(this).val(1000);
 		}
 		price = $(this).closest('.table-row').find('.price span').text().replace(/\s+/g, '');
@@ -87,15 +87,15 @@ function busketCount(selector) {
 	});
 }
 
-$(document).ready(function () {
+$(document).ready(function(){
 	//get shopping cart items count
 	$.ajax({
 		url:	'/get_cart_items',
 		type:	'GET',
-		success:function (data) {
-			try {
+		success:function(data){
+			try{
 				data = JSON.parse(data);
-				if (data.message == 'success') {
+				if(data.message == 'success'){
 					if(data.items.length > 0){
 						$('.bottom-header .busket .busket-count').show().text(data.items.length);
 					}else{
@@ -116,17 +116,17 @@ $(document).ready(function () {
 
 	busketCount('.js-number');
 
-	if ($('.product-item').length) {
+	if($('.product-item').length){
 		var test = 0;
-		$('.product-item').each(function() {
-			if ($(this).find('.name').outerHeight() > test) {
+		$('.product-item').each(function(){
+			if($(this).find('.name').outerHeight() > test){
 				test = $(this).find('.name').outerHeight();
 			}
 		});
 		$('.product-item .name').css('height', test);
 	}
 
-	$('.header .busket').click(function (e) {
+	$('.header .busket').click(function(e){
 		e.preventDefault();
 		var _this = $(this);
 		$.ajax({
@@ -169,7 +169,7 @@ $(document).ready(function () {
 		return false;
 	});
 
-	$('.busket-popup .close').click(function (e) {
+	$('.busket-popup .close').click(function(e){
 		e.preventDefault();
 		$(this).closest('.busket-popup').slideUp();
 		return false;
@@ -177,32 +177,32 @@ $(document).ready(function () {
 
 	$('<a href="javascript:void(0)" class="slide-up"><span></span></a>').insertAfter('.menu-list li:has("ul") > a');
 
-	$('.menu-list > li ul li .slide-up').click(function () {
+	$('.menu-list > li ul li .slide-up').click(function(){
 		var parent_ul = $(this).parents('ul');
 		$(this).closest('.menu-list').find('ul li ul').not(parent_ul).slideUp();
 
-		if ($(this).next('ul').css('display') == "none") {
+		if($(this).next('ul').css('display') == "none"){
 			$(this).next('ul').slideDown();
-		} else {
+		}else{
 			$(this).next('ul').slideUp();
 		}
 	});
 
 	$('.menu-list > li > .slide-up').click(function () {
-		if ($(this).next('ul').css('display') == "none") {
+		if($(this).next('ul').css('display') == "none"){
 			$(this).next('ul').slideDown();
-		} else {
+		}else{
 			$(this).next('ul').slideUp();
 		}
 	});
 
-	$('.header a[href="#catalog"], .footer-menu a[href="#catalog"]').click(function (e) {
+	$('.header a[href="#catalog"], .footer-menu a[href="#catalog"]').click(function(e){
 		e.preventDefault();
 		$('body,html').animate({ scrollTop: 0}, 500);
 		$('.header-huge-menu').addClass('active');
 	});
 
-	$('.header .header-huge-menu .close').click(function (e) {
+	$('.header .header-huge-menu .close').click(function(e){
 		e.preventDefault();
 		$('.header-huge-menu').removeClass('active');
 	});
@@ -238,52 +238,28 @@ $(document).ready(function () {
 	// /show more button
 
 	// burger
-	$('.header-burger').click(function (e) {
+	$('.header-burger').click(function(e){
 		e.preventDefault();
 		$(this).next('.header-menu').toggleClass('active');
 	});
 
-	$('.header-menu .close').click(function (e) {
+	$('.header-menu .close').click(function(e){
 		e.preventDefault();
 		$(this).closest('.header-menu').toggleClass('active');
 	});
 	// /burger
 
-	//basket manipulations
-	//drop
-	$('.busket .table-row .delete').click(function(e){
-		e.preventDefault();
-		var item = $(this).attr('data-gii');
-		var _this = $(this);
-		$.ajax({
-			url:	'/drop_from_cart',
-			type:	'DELETE',
-			data:	{gii: item},
-			success:function(data){
-				try{
-					data = JSON.parse(data);
-					if(data.message == 'success'){
-						_this.closest('.table-row').remove();
-						var total = recalculateBasket();
-						$('.busket-table').find('.table-footer .summ').text(total + " руб");
-					}
-				}catch(e){
-					console.log(data)
-				}
-			}
-		});
-	});
-	// /basket manipulations
 });
 
-jQuery(document).click(function (event) {
-	if ($(event.target).closest(".busket-popup").length) return;
-	jQuery(".busket-popup").slideUp();
+$(document).click(function(event){
+	if($(event.target).closest('.busket-popup').length)
+		return;
+	$('.busket-popup').slideUp();
 
 	event.stopPropagation();
 });
 
-$(window).load(function () {});
+$(window).load(function(){});
 
-$(window).resize(function () {});
+$(window).resize(function(){});
 //# sourceMappingURL=develop_2.js.map
