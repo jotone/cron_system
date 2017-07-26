@@ -46,9 +46,9 @@ $(document).ready(function(){
 		var social = [];
 		$('#socList input[name=socLink]').each(function(){
 			social.push({
-				type: $(this).attr('data-soc'),
-				val: $(this).val(),
-				pos: $(this).closest('.row-wrap').index()
+				type:	$(this).attr('data-soc'),
+				val:	$(this).val(),
+				pos:	$(this).closest('.row-wrap').index()
 			});
 		});
 		formData.append('phone', $('input[name=phone]').val());

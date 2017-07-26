@@ -56,8 +56,8 @@ $(document).ready(function(){
 			headers:	{'X-CSRF-TOKEN': $('header').attr('data-token')},
 			processData:false,
 			contentType:false,
-			data:	formData,
-			error:	function (jqXHR, textStatus, errorThrown) {
+			data:		formData,
+			error:		function (jqXHR, textStatus, errorThrown) {
 				showErrors(jqXHR.responseText, '/admin/products/add')
 			},
 			success:function(data){
@@ -84,7 +84,7 @@ $(document).ready(function(){
 				type:	'DELETE',
 				headers:{'X-CSRF-TOKEN': $('header').attr('data-token')},
 				data:	{id:id},
-				error:		function (jqXHR, textStatus, errorThrown) {
+				error:	function (jqXHR, textStatus, errorThrown) {
 					showErrors(jqXHR.responseText, '/admin/products/drop')
 				},
 				success:function(data){

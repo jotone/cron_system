@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Brand;
 use App\Category;
+use App\DeliveryType;
 use App\FooterMenu;
 use App\News;
 use App\Products;
@@ -96,6 +97,11 @@ class SimilarQueriesController extends BaseController{
 			case 'categories':
 				foreach($data['positions'] as $position){
 					Category::where('id','=',$position['id'])->update(['position'=>$position['pos']]);
+				}
+			break;
+			case 'delivery':
+				foreach($data['positions'] as $position){
+					DeliveryType::where('id','=',$position['id'])->update(['position'=>$position['pos']]);
 				}
 			break;
 		}

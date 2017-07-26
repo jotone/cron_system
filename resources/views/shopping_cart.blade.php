@@ -12,20 +12,20 @@
 			<div class="mbox2">
 				<ul class="breadcrumbs-list">
 					<li><a href="{{ route('home') }}">Главная</a></li>
-					<li>This Page</li>
+					<li>Корзина</li>
 				</ul>
 			</div>
 		</div>
 		<div class="busket-steps">
 			<div class="mbox">
 				<ul>
-					<li><a href="#" class="active"><span>1</span>КОРЗИНА</a></li>
-					<li><a href="#"><span>2</span>ДОСТАВКА</a></li>
-					<li><a href="#"><span>3</span>ОПЛАТА</a></li>
+					<li><a href="#" class="active" data-index="step1"><span>1</span>КОРЗИНА</a></li>
+					<li><a href="#" data-index="step2"><span>2</span>ДОСТАВКА</a></li>
+					<!--<li><a href="#" data-index="step3"><span>3</span>ОПЛАТА</a></li>-->
 				</ul>
 			</div>
 		</div>
-		<section class="first-busket">
+		<section class="first-busket" id="step1">
 			<div class="busket-content">
 				<form class="busket">
 					<div class="busket-table">
@@ -72,15 +72,15 @@
 					<div class="buttons">
 						<a href="{{ route('catalog') }}" class="continue"><span></span>Продолжить покупки</a>
 						@if(!empty($items))
-						<button type="submit" class="submit">Доставка<span></span></button>
+						<button type="button" class="submit">Доставка<span></span></button>
 						@endif
 					</div>
 
 				</form>
 			</div>
 		</section>
-<hr/>
-		<section class="second-busket">
+
+		<section class="second-busket" id="step2">
 			<form action="ajax.php" class="busket2">
 				<div class="form-table">
 					<div class="form-col">
@@ -125,7 +125,7 @@
 							</div>
 							<div class="form-field">
 								<p>E-mail</p>
-								<input type="text" class="el-input" name="address">
+								<input type="email" class="el-input" name="address">
 							</div>
 						</div>
 					</div>
@@ -149,8 +149,8 @@
 				</div>
 			</form>
 		</section>
-<hr/>
-		<section class="second-busket third-busket">
+
+		<section class="second-busket third-busket" id="step3">
 			<form action="ajax.php" class="busket3">
 				<div class="card-busket">
 					<div class="back">

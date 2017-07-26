@@ -160,7 +160,7 @@ $(document).ready(function () {
 						$('.bottom-header .busket-popup .cart-wrap').empty();
 						$('.bottom-header .busket-popup .cart-wrap').append(itemsTag);
 
-						_this.next('.busket-popup').slideToggle();
+						_this.next('.busket-popup').slideDown();
 					}
 				}catch(e){}
 			}

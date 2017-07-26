@@ -351,6 +351,25 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::delete('/admin/categories/drop',[
 			'uses'=>'Admin\CategoryController@dropItem'
 		]);
+	//Способы доставки
+	Route::get('/admin/delivery_type',[
+		'as'=> 'admin-delivery',
+		'uses'=> 'Admin\DeliveryTypeController@index'
+	]);
+		Route::get('/admin/delivery_type/add',[
+			'as'=>'admin-delivery-add',
+			'uses'=>'Admin\DeliveryTypeController@addPage'
+		]);
+		Route::get('/admin/delivery_type/edit/{id}',[
+			'as'=>'admin-delivery-edit',
+			'uses'=>'Admin\DeliveryTypeController@editPage'
+		]);
+		Route::post('/admin/delivery_type/add',[
+			'uses'=>'Admin\DeliveryTypeController@addItem'
+		]);
+		Route::delete('/admin/delivery_type/drop',[
+			'uses'=>'Admin\DeliveryTypeController@dropItem'
+		]);
 	//Товары
 	Route::get('/admin/products',[
 		'as'=>'admin-products',

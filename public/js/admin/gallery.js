@@ -25,8 +25,8 @@ $(document).ready(function(){
 			headers:	{'X-CSRF-TOKEN': $('header').attr('data-token')},
 			processData:false,
 			contentType:false,
-			data:	formData,
-			error:	function (jqXHR, textStatus, errorThrown) {
+			data:		formData,
+			error:		function (jqXHR, textStatus, errorThrown) {
 				showErrors(jqXHR.responseText, '/admin/gallery/add')
 			},
 			success:function(data){

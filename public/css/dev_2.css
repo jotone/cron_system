@@ -1264,7 +1264,7 @@
 
 .wrap-news .all:hover{background: #00c7ff; transition: .3s;}
 
-.top-slider{position: relative; overflow: hidden;}
+.top-slider{position: relative; overflow: hidden; z-index: 0;}
 .top-slider .index-slider .slide{position: relative; z-index: 1; min-height: 690px; height: auto;}
 .top-slider .index-slider .slide .text{
 	position: absolute;

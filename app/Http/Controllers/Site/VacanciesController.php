@@ -121,6 +121,7 @@ class VacanciesController extends BaseController{
 			}catch(\Exception $e){
 				return redirect()->route('vacancies-inner', $data['vacancy'])->withErrors(['Неверный формат файла.']);
 			}
+			$file_name = Functions::str2url($data['name']).'_'.$file['filename'].'_'.uniqid().'.'.$file['extension'];
 			$mime_type = mime_content_type($data['file'][0]->getRealPath());
 
 			$file['extension'] = strtolower($file['extension']);
@@ -133,6 +134,7 @@ class VacanciesController extends BaseController{
 				case 'sxc':
 				case 'sxw':
 				case 'rtf':
+				case 'txt':
 				case 'xls':
 				case 'xlsx':
 				case 'xml':
@@ -152,6 +154,7 @@ class VacanciesController extends BaseController{
 				case 'application/vnd.oasis.opendocument.text':
 				case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
 				case 'application/octet-stream':
+				case 'text/plain':
 					$allow_by_mime = true;
 				break;
 				default:
@@ -159,15 +162,15 @@ class VacanciesController extends BaseController{
 			}
 
 			if(($allow_by_extension) && ($allow_by_mime)){
-				$data['file'][0]->move($destinationPath, $file['basename']);
+				$data['file'][0]->move($destinationPath, $file_name);
 
 				$result = UserVacancy::create([
 					'name'		=> trim($data['name']),
 					'phone'		=> trim($data['tel']),
 					'email'		=> trim($data['email']),
-					'file'		=> '/public/documents/'.$file['basename'],
+					'file'		=> '/public/documents/'.$file_name,
 					'status'	=> 0,
-					'refer_to_vacancy' => $data['vacancy'],
+					'refer_to_vacancy' => Crypt::decrypt($data['vacancy']),
 				]);
 				if($result != false){
 					return json_encode(['message'=>'success']);

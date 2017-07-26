@@ -153,6 +153,7 @@ class NewsController extends BaseController{
 			return json_encode(['message'=>'success']);
 		}
 	}
+
 	public function dropItem(Request $request){
 		$data = $request->all();
 		$result = News::where('id','=',$data['id'])->delete();

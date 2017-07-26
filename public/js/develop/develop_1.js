@@ -29,6 +29,7 @@ function builProductView(product){
 	return item;
 }
 
+
 function sendFilterData(type, data){
 	var pageIsset = window.location.pathname.split('/').indexOf('page')
 	var page = (pageIsset > 0)? window.location.pathname.split('/')[pageIsset+1]: 1;
@@ -70,7 +71,7 @@ function sendFilterData(type, data){
 	});
 }
 
-$(document).ready(function () {
+$(document).ready(function(){
 	if($('#number-select').length > 0){
 		$('#number-select').change(function(){
 			$.ajax({
@@ -112,29 +113,22 @@ $(document).ready(function () {
 		}
 	});
 
-	// to basket
+	//to shopping cart
 	$(document).on('click','.to_busket', function(e) {
 		e.preventDefault();
 		var picture = $(this).closest('.product-item').find('.pic').html();
 		var title = $(this).closest('.product-item').find('.name .prod-name').text();
 		var price = $(this).closest('.product-item').find('.price .prod-price .new').text();
 		var product = $(this).closest('.price').attr('data-product');
-		$(this).fancybox({
-			openEffect  : 'fade',
-			closeEffect : 'fade',
-			autoSize:true,
-			maxWidth : '100%',
-			wrapCSS:'busket-wrap',
-			'closeBtn' : true,
-			fitToView:false,
-			padding:'0',
-			'afterLoad': function() {
-				$('.fancybox-slide .busket_popup .pic').html(picture);
-				$('.fancybox-slide .busket_popup .title').html(title);
-				$('.fancybox-slide .busket_popup .product-desc .price').html(price);
-				$('.fancybox-slide .busket_popup .product-desc .price').attr('data-price',price);
-				$('.fancybox-slide .busket_popup').attr('data-product',product);
-			}
+
+		$('.busket_popup .pic').html(picture);
+		$('.busket_popup .title').html(title);
+		$('.busket_popup .product-desc .price').html(price);
+		$('.busket_popup .product-desc .price').attr('data-price',price);
+		$('.busket_popup').attr('data-product',product);
+		
+		$.fancybox.open({
+			src: '#busket_popup',
 		});
 	});
 
@@ -172,7 +166,25 @@ $(document).ready(function () {
 			}
 		});
 	});
-	// /to basket
+
+	//shopping cart controls
+	$('.main #step2, .main #step3').hide();
+	$('.busket-steps .mbox li').click(function(){
+		var step = $(this).find('a').attr('data-index');
+		$('.busket-steps .mbox li a').removeClass('active');
+		$(this).find('a').addClass('active');
+		$('.main section').hide();
+		$('.main section#'+step).show();
+	});
+	$('#step1 form.busket button.submit').click(function(){
+		$('.busket-steps .mbox li a').removeClass('active');
+		$('.busket-steps .mbox li:eq(1) a').addClass('active');
+		$('.main section').hide();
+		$('#step2').show();
+	});
+	// /shopping cart controls
+
+	// /to shopping cart
 
 	$(document).click(function(event){
 		if ($(event.target).closest('.advertising-sidebar').length) return;

@@ -71,7 +71,7 @@ $(document).ready(function(){
 				type:	'DELETE',
 				headers:{'X-CSRF-TOKEN': $('header').attr('data-token')},
 				data:	{id:id},
-				error:		function (jqXHR, textStatus, errorThrown) {
+				error:	function (jqXHR, textStatus, errorThrown) {
 					showErrors(jqXHR.responseText, '/admin/footer_menu/drop')
 				},
 				success:function(data){

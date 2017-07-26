@@ -23,8 +23,6 @@ function getTemplateData(){
 						CKEDITOR.replace($(this).attr('name'));
 					});
 					$('#contentData .needDatePicker').datepicker();
-
-
 				}
 				if($(document).find('#newsContainer').length > 0){
 					$.ajax({
@@ -359,13 +357,13 @@ $(document).ready(function(){
 
 		if(0 == error){
 			$.ajax({
-				url:	'/admin/pages/add',
-				type:	'POST',
+				url:		'/admin/pages/add',
+				type:		'POST',
 				headers:	{'X-CSRF-TOKEN': $('header').attr('data-token')},
 				processData:false,
 				contentType:false,
-				data:	formData,
-				error:	function (jqXHR, textStatus, errorThrown) {
+				data:		formData,
+				error:		function (jqXHR, textStatus, errorThrown) {
 					showErrors(jqXHR.responseText, '/admin/pages/add')
 				},
 				success:function(data){
@@ -393,7 +391,7 @@ $(document).ready(function(){
 				type:	'DELETE',
 				headers:{'X-CSRF-TOKEN': $('header').attr('data-token')},
 				data:	{id:id},
-				error:		function (jqXHR, textStatus, errorThrown) {
+				error:	function (jqXHR, textStatus, errorThrown) {
 					showErrors(jqXHR.responseText, '/admin/pages/drop')
 				},
 				success:function(data){
