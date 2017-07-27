@@ -86,4 +86,12 @@ class HomeController extends BaseController{
 			return json_encode(['message'=>'success']);
 		}
 	}
+
+	public function orderDrop(Request $request){
+		$data = $request->all();
+		$result = OrderStatus::where('id','=',$data['id'])->delete();
+		if($result != false){
+			return json_encode(['message'=>'success']);
+		}
+	}
 }

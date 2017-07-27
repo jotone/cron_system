@@ -31,11 +31,17 @@ class GalleryController extends BaseController{
 
 	public function addImage(Request $request){
 		$data = $request->all();
-		if( (!empty($data['image'])) && (!is_string($data['image'])) ){
-			$image = Functions::createImg($data['image'], true);
-			if(is_string($image)){
-				return json_encode(['message' => 'success']);
+		$error = '';
+		foreach($data as $key => $value){
+			if(!empty($value)){
+				$image = Functions::createImg($value, true);
+				if(!is_string($image)){
+					$error = 'something going wrong';
+				}
 			}
+		}
+		if(empty($error)){
+			return json_encode(['message' => 'success']);
 		}
 	}
 

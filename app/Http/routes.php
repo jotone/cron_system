@@ -190,6 +190,9 @@ Route::group(['middleware' => 'admin'], function(){
 		Route::patch('/admin/orders/change_status',[
 			'uses'=>'Admin\HomeController@changeStatus'
 		]);
+		Route::delete('/admin/orders/drop',[
+			'uses'=>'Admin\HomeController@orderDrop'
+		]);
 	//Пользователи
 	Route::get('/admin/users',[
 		'as'=>'admin-users',

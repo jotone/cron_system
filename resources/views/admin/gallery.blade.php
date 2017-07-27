@@ -15,7 +15,7 @@
 			<fieldset>
 				<div class="row-wrap cfix">
 					<div class="fl col_1_8">
-						<input style="display: none" name="galleryImageLoader" placeholder="Обзор&hellip;" type="file">
+						<input style="display: none" name="galleryImageLoader" multiple="multiple" type="file">
 						<div class="row-wrap">
 							<input class="control-button" name="galleryLoad" type="button" value="Обзор&hellip;">
 						</div>
@@ -23,7 +23,7 @@
 							<input style="display: none;" class="control-button" name="addThisImage" type="button" value="Загрузить&hellip;">
 						</div>
 					</div>
-					<div class="upload-image-preview tac fl col_3_4"></div>
+					<div class="upload-image-preview tac fl col_3_4 cfix"></div>
 				</div>
 			</fieldset>
 		</div>
@@ -42,8 +42,9 @@
 								switch($type){
 									case 'brand':		$descript .= 'Брэнды:</p>'; break;
 									case 'news':		$descript .= 'Новости:</p>'; break;
+									case 'pages':		$descript .= 'Страницы:</p>'; break;
 									case 'products':	$descript .= 'Товары:</p>'; break;
-									case 'social':		$descript .= 'Соц.Сети:</p>'; break;
+									case 'services':	$descript .= 'Услуги:</p>'; break;
 									case 'vacancies':	$descript .= 'Вакансии:</p>'; break;
 								}
 								?>

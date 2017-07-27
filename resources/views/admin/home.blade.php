@@ -22,6 +22,7 @@
 					<thead>
 					<tr>
 						<th></th>
+						<th>№ заказа</th>
 						<th>Контактные данные</th>
 						<th>Заказаные товары</th>
 						@if($type == 'progress')
@@ -39,6 +40,7 @@
 									<img src="{{ URL::asset('images/drop.png') }}" alt="Удалить">
 								</a>
 							</td>
+							<td style="width: 6%;">{{ str_pad($item['id'], 10, '0', STR_PAD_LEFT) }}</td>
 							<td style="padding-left: 5%; text-align: left">
 								<div class="row-wrap">
 									<ins>Имя:</ins> @if(!empty($item['link'])) <a href="{{ $item['link'] }}"> @endif{{ $item['user_name'] }}@if(!empty($item['link'])) </a> @endif

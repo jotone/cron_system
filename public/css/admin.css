@@ -376,7 +376,7 @@ a.control-button img, a.button img{max-height: 20px !important;}
 .row-wrap p{line-height: 20px;}
 .page-caption{text-align: center; font-size: 24px; font-weight: bold;}
 .upload-image-preview{padding: 10px;}
-.upload-image-preview img{max-height: 450px; padding: 10px;}
+.upload-image-preview img{max-height: 150px; padding: 10px;}
 
 .work-place-wrap{
 	width: 100%;

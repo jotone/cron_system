@@ -3,7 +3,10 @@ namespace App\Http\Controllers\Supply;
 use App\AdminMenu;
 use App\Brand;
 use App\News;
+use App\PageContent;
+use App\Pages;
 use App\Products;
+use App\Services;
 use App\UserRoles;
 use App\Vacancies;
 use Auth;
@@ -326,6 +329,24 @@ class Functions extends BaseController{
 				->orWhere('text','LIKE','%'.$temp.'%')
 				->get();
 			foreach($images as $item) $used_in['vacancies'][] = $item->title;
+
+			$images = PageContent::select('id')
+				->where('meta_value','LIKE','%'.$temp.'%')
+				->get();
+			foreach($images as $item){
+				$pages = Pages::select('title')
+					->where('content','LIKE','%'.$item->id.'%')
+					->get();
+				foreach($pages as $page){
+					$used_in['pages'][] = $page->title;
+				}
+			}
+
+			$images = Services::select('title')
+				->where('img_url','LIKE','%'.$temp.'%')
+				->orWhere('text','LIKE','%'.$temp.'%')
+				->get();
+			foreach($images as $item) $used_in['services'][] = $item->title;
 
 			$list[] = [
 				'img'=> (substr($image,0,1) == '/')? $image: '/'.$image,

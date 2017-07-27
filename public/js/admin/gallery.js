@@ -7,15 +7,25 @@ $(document).ready(function(){
 		$('input[name=galleryImageLoader]').trigger('click');
 	});
 
+	var point = 0;
 	$(document).on('change','input[name=galleryImageLoader]',function(){
-		var reader = new FileReader();
+		point = 0;
 		var _this = $(this);
-		reader.onload = function(e){
-			_this.closest('fieldset').find('.upload-image-preview').empty().append('<img src="'+e.target.result+'" alt="">');
-			formData.append('image', _this.prop('files')[0]);
-		};
-		reader.readAsDataURL(_this.prop('files')[0]);
-		$('input[name=addThisImage]').show();
+		var count = $(this).prop('files').length;
+		for(var i = 0; i<count; i++){
+			var reader = new FileReader();
+			reader.onload = function(e){
+				_this.closest('fieldset').find('.upload-image-preview').append('' +
+				'<div class="fl">' +
+					'<img src="'+e.target.result+'" alt="">' +
+					'<p>'+_this.prop('files')[point]['name']+'</p>' +
+				'</div>');
+				formData.append('image_'+point, _this.prop('files')[point]);
+				point++;
+			}
+			reader.readAsDataURL($(this).prop('files')[i]);
+			$('input[name=addThisImage]').show();
+		}
 	});
 
 	$('input[name=addThisImage]').click(function(){
