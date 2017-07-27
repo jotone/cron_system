@@ -10,8 +10,8 @@
 
 	<div id="call_success">
 		<div class="call-success-wrap">
-			<div class="call-success-title"><!-- Спасибо за заявку!--></div>
-			<div class="call-success-subtitle"><!-- Мы свяжемся с Вами в ближайшее время --></div>
+			<div class="call-success-title">Спасибо за заявку</div>
+			<div class="call-success-subtitle">Мы свяжемся с Вами в ближайшее время</div>
 		</div>
 	</div>
 
@@ -47,7 +47,7 @@
 	</div>
 
 	<div id="ask_popup" class="ask_popup">
-		<form action="ajax.php" class="ask-form">
+		<form action="{{ route('ask-question') }}" class="ask-form" method="POST">
 			<div class="popup-title">Задать вопрос</div>
 			<div class="form-field">
 				<span class="field-name">ФИО<sup style="color: #1abbb5;">*</sup></span>
@@ -66,20 +66,20 @@
 				<input type="text" class="el-input" name="tel" required="required">
 			</div>
 			<div class="form-field radio">
-				<input type="radio" class="el-radio" id="email" name="callback-type">
-				<label for="email">Хочу, чтобы менеджер ответил мне по E-mail </label>
+				<input type="radio" class="el-radio" id="email" name="callback-type" value="Хочу, чтобы менеджер ответил мне по E-mail">
+				<label for="email">Хочу, чтобы менеджер ответил мне по E-mail</label>
 			</div>
 			<div class="form-field radio">
-				<input type="radio" class="el-radio" id="call" name="callback-type">
-				<label for="call">Хочу, чтобы менеджер мне перезвонил </label>
+				<input type="radio" class="el-radio" id="call" name="callback-type" value="Хочу, чтобы менеджер мне перезвонил">
+				<label for="call">Хочу, чтобы менеджер мне перезвонил</label>
 			</div>
 			<div class="form-field radio">
-				<input type="radio" class="el-radio" id="meet" name="callback-type">
-				<label for="meet">Хочу, чтобы менеджер приехал на встречу </label>
+				<input type="radio" class="el-radio" id="meet" name="callback-type" value="Хочу, чтобы менеджер приехал на встречу">
+				<label for="meet">Хочу, чтобы менеджер приехал на встречу</label>
 			</div>
 			<div class="form-field">
 				<span class="field-name">E-mail<sup style="color: #1abbb5;">*</sup></span>
-				<input type="text" class="el-input" name="mail" required="required">
+				<input type="text" class="el-input" name="email" required="required">
 			</div>
 			<div class="form-field">
 				<span class="field-name">Вопрос<sup style="color: #1abbb5;">*</sup></span>
@@ -90,7 +90,8 @@
 	</div>
 
 	<div id="call_back_popup" class="ask_popup">
-		<form action="ajax.php" class="call-back-form">
+		<form action="{{ route('order-phone-call') }}" class="call-back-form" method="POST">
+			<input name="service" type="hidden" value="">
 			<div class="popup-title">Заказать звонок</div>
 			<div class="form-field">
 				<span class="field-name">Имя<sup style="color: #1abbb5;">*</sup></span>

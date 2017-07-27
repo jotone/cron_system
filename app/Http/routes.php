@@ -170,22 +170,30 @@ Route::get('/filter_brand',[
 Route::patch('/change_filter',[
 	'uses'=>'Supply\Helpers@changeFilter'
 ]);
+Route::post('/ask_question',[
+	'as'=>'ask-question',
+	'uses'=>'Site\HomeController@askQuestion'
+]);
+Route::post('/order_phone_call',[
+	'as'=>'order-phone-call',
+	'uses'=>'Site\ServicesController@orderPhoneCall'
+]);
 
 //Authorisation
 Route::get('/admin/login', [
-	'as'	=> 'admin-login',
-	'uses'	=> 'Admin\AuthController@loginPage'
+	'as'=>'admin-login',
+	'uses'=>'Admin\AuthController@loginPage'
 ]);
 Route::post('/admin/login', [
-	'as'	=> 'login-as-admin',
-	'uses'	=> 'Admin\AuthController@login'
+	'as'=>'login-as-admin',
+	'uses'=>'Admin\AuthController@login'
 ]);
 
 Route::group(['middleware' => 'admin'], function(){
 	//Админ Главная
 	Route::get('/admin', [
-		'as'	=> 'admin-index',
-		'uses'	=> 'Admin\HomeController@index'
+		'as'=>'admin-index',
+		'uses'=>'Admin\HomeController@index'
 	]);
 		Route::patch('/admin/orders/change_status',[
 			'uses'=>'Admin\HomeController@changeStatus'

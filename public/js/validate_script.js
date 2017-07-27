@@ -108,7 +108,6 @@ function validate(form, options) {
 * @param {form} string - Form
 */
 function validationCall(form) {
-
 	var thisForm = $(form);
 	var formSur = thisForm.serialize();
 
@@ -117,12 +116,28 @@ function validationCall(form) {
 		data: formSur,
 		method: 'POST',
 		success: function success(data) {
-			if (data.trim() == 'true') {
-				thisForm.trigger("reset");
-				$.fancybox.close();
-				popNext("#call_success", "call-popup");
-			} else {
-				thisForm.trigger('reset');
+			try{
+				data = JSON.parse(data);
+				if(data.message == 'success'){
+					if(data.request.length){
+						switch(data.request){
+							case 'ask_question':
+							case 'order_phone_call':
+								thisForm.trigger('reset');
+								$.fancybox.close();
+								popNext("#call_success");
+							break;
+						}
+					}
+				}
+			}catch(e){
+				if(data.trim() == 'true'){
+					thisForm.trigger("reset");
+					$.fancybox.close();
+					popNext("#call_success", "call-popup");
+				}else{
+					thisForm.trigger('reset');
+				}
 			}
 		}
 	});

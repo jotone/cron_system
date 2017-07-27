@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Site;
 
+use App\PhoneCall;
 use App\Services;
 use App\Pages;
 use App\PageContent;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Auth;
 use Crypt;
+use League\Flysystem\Exception;
 use Validator;
 
 class ServicesController extends BaseController{
@@ -42,13 +44,14 @@ class ServicesController extends BaseController{
 			'text'		=> $page->seo_text
 		];
 
-		$services = Services::select('title','img_url','text')
+		$services = Services::select('id','title','img_url','text')
 			->where('enabled','=',1)
 			->orderBy('published_at','desc')
 			->get();
 		$list = [];
 		foreach($services as $service){
 			$list[] = [
+				'id'		=> Crypt::encrypt($service->id),
 				'title'		=> $service->title,
 				'img_url'	=> json_decode($service->img_url),
 				'text'		=> $service->text
@@ -62,5 +65,28 @@ class ServicesController extends BaseController{
 			'meta_data'	=> $meta_data,
 			'seo'		=> $seo
 		]);
+	}
+
+	public function orderPhoneCall(Request $request){
+		$data = $request->all();
+
+		try{
+			$service_id = Crypt::decrypt($data['service']);
+		}catch(Exception $e){
+			return json_encode($e);
+		}
+
+		$result = PhoneCall::create([
+			'user_name'	=> trim($data['name']),
+			'phone'		=> trim($data['tel']),
+			'info'		=> $service_id
+		]);
+
+		if($result != false){
+			return json_encode([
+				'message'=>'success',
+				'request'=>'order_phone_call'
+			]);
+		}
 	}
 }

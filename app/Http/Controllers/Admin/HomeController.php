@@ -5,7 +5,10 @@ use App\AdminMenu;
 use App\Brand;
 use App\DeliveryType;
 use App\OrderStatus;
+use App\PhoneCall;
 use App\Products;
+use App\Questions;
+use App\Services;
 use App\User;
 
 use App\Http\Controllers\Supply\Functions;
@@ -70,18 +73,75 @@ class HomeController extends BaseController{
 				];
 			}
 
+			$phone_calls = PhoneCall::orderBy('status','asc')->orderBy('created_at','desc')->get();
+			$call_list = [];
+			foreach($phone_calls as $call){
+				$service = Services::select('id','title')->find($call->info);
+				switch($call->status){
+					case '1':	$class = 'finished'; break;
+					case '2':	$class = 'canceled'; break;
+					default:	$class = '';
+				}
+				$call_list[] = [
+					'id'		=> $call->id,
+					'user_name'	=> $call->user_name,
+					'phone'		=> $call->phone,
+					'service'	=> [
+							'id'	=>$service->id,
+							'title'	=>$service->title
+						],
+					'class'		=> $class,
+					'status'	=> $call->status,
+					'created'	=> Functions::convertDate($call->created_at),
+					'updated'	=> Functions::convertDate($call->updated_at),
+				];
+			}
+
+			$questions = Questions::orderBy('status','asc')->orderBy('created_at','desc')->get();
+			$question_list = [];
+			foreach($questions as $question){
+				switch($question->status){
+					case '1':	$class = 'finished'; break;
+					case '2':	$class = 'canceled'; break;
+					default:	$class = '';
+				}
+				$question_list[] = [
+					'id'		=> $question->id,
+					'name'		=> $question->user_name,
+					'organisation'=> $question->organisation,
+					'city'		=> $question->city,
+					'phone'		=> $question->phone,
+					'type'		=> $question->callback_type,
+					'email'		=> $question->email,
+					'question'	=> $question->question,
+					'class'		=> $class,
+					'status'	=> $call->status,
+					'created'	=> Functions::convertDate($call->created_at),
+					'updated'	=> Functions::convertDate($call->updated_at),
+				];
+			}
+
 			return view('admin.home', [
 				'start'		=> $start,
 				'menu'		=> $menu,
 				'page_title'=> $page_caption->title,
-				'order_list'=> $order_list
+				'order_list'=> $order_list,
+				'call_list'	=> $call_list,
+				'question_list'=> $question_list
 			]);
 		}
 	}
 
 	public function changeStatus(Request $request){
 		$data = $request->all();
-		$result = OrderStatus::where('id','=',$data['id'])->update(['status'=> $data['status']]);
+
+		switch($data['type']){
+			case 'call':	$result = PhoneCall::where('id','=',$data['id']); break;
+			case 'question':$result = Questions::where('id','=',$data['id']); break;
+			case 'order':	$result = OrderStatus::where('id','=',$data['id']); break;
+		}
+		$result = $result->update(['status'=> $data['status']]);
+
 		if($result != false){
 			return json_encode(['message'=>'success']);
 		}
@@ -89,7 +149,12 @@ class HomeController extends BaseController{
 
 	public function orderDrop(Request $request){
 		$data = $request->all();
-		$result = OrderStatus::where('id','=',$data['id'])->delete();
+		switch($data['type']){
+			case 'call':	$result = PhoneCall::where('id','=',$data['id']); break;
+			case 'question':$result = Questions::where('id','=',$data['id']); break;
+			case 'order':	$result = OrderStatus::where('id','=',$data['id']); break;
+		}
+		$result = $result->delete();
 		if($result != false){
 			return json_encode(['message'=>'success']);
 		}

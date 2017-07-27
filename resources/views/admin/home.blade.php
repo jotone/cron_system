@@ -9,16 +9,18 @@
 
 		<div class="work-place-wrap">
 			<ul class="tab-list col_1">
-				<li data-type="progress" class="active">Поступившие</li>
-				<li data-type="done">Оформленые</li>
-				<li data-type="canceled">Отмененные</li>
+				<li data-type="progress" class="active">Поступившие Заказы</li>
+				<li data-type="done">Оформленые Заказы</li>
+				<li data-type="canceled">Отмененные Заказы</li>
+				<li data-type="calls">Звонки</li>
+				<li data-type="questions">Вопросы</li>
 			</ul>
 		</div>
 
 		<div class="orders-wrap">
 		@foreach($order_list as $type => $items)
 			<div id="{{ $type }}" class="order-inner" @if($type != 'progress') style="display: none;" @endif>
-				<table class="item-list col_1">
+				<table class="item-list orders col_1">
 					<thead>
 					<tr>
 						<th></th>
@@ -111,6 +113,91 @@
 				</table>
 			</div>
 		@endforeach
+			<div id="calls" class="order-inner" style="display: none;">
+				<table class="item-list calls col_1">
+					<thead>
+					<tr>
+						<th></th>
+						<th>Имя</th>
+						<th>Телефон</th>
+						<th>Услуга</th>
+						<th>Статус</th>
+						<th>Создан</th>
+						<th>Изменен</th>
+					</tr>
+					</thead>
+					<tbody>
+					@foreach($call_list as $item)
+						<tr @if(!empty($item['class'])) class="{{ $item['class'] }}" @endif>
+							<td>
+								<a class="block-button drop" data-id="{{ $item['id'] }}" href="#" title="Удалить">
+									<img src="{{ URL::asset('images/drop.png') }}" alt="Удалить">
+								</a>
+							</td>
+							<td>{{ $item['user_name'] }}</td>
+							<td>{{ $item['phone'] }}</td>
+							<td><a href="{{ URL::asset('/admin/services/edit/'.$item['service']['id']) }}">{{ $item['service']['title'] }}</a></td>
+							<td style="width: 10%;">
+								<div class="row-wrap">
+									<input name="done" type="button" class="control-button" value="Обработано">
+								</div>
+								<div class="row-wrap">
+									<input name="cancel" type="button" class="control-button" value="Отклонить">
+								</div>
+							</td>
+							<td style="width: 10%;">{{ $item['created'] }}</td>
+							<td style="width: 10%;">{{ $item['updated'] }}</td>
+						</tr>
+					@endforeach
+					</tbody>
+				</table>
+			</div>
+
+			<div id="questions" class="order-inner" style="display: none;">
+				<table class="item-list questions col_1">
+					<thead>
+					<tr>
+						<th></th>
+						<th>Контактная информация</th>
+						<th>Ожидаемый тип ответа</th>
+						<th>Вопрос</th>
+						<th>Статус</th>
+						<th>Создан</th>
+						<th>Изменен</th>
+					</tr>
+					</thead>
+					<tbody>
+					@foreach($question_list as $item)
+						<tr @if(!empty($item['class'])) class="{{ $item['class'] }}" @endif>
+							<td>
+								<a class="block-button drop" data-id="{{ $item['id'] }}" href="#" title="Удалить">
+									<img src="{{ URL::asset('images/drop.png') }}" alt="Удалить">
+								</a>
+							</td>
+							<td style="padding-left: 5%; text-align: left">
+								<div class="row-wrap"><ins>Имя:</ins> {{ $item['name'] }}</div>
+								<div class="row-wrap"><ins>Организация:</ins> {{ $item['organisation'] }}</div>
+								<div class="row-wrap"><ins>Город:</ins> {{ $item['city'] }}</div>
+								<div class="row-wrap"><ins>Телефон:</ins> {{ $item['phone'] }}</div>
+								<div class="row-wrap"><ins>Email:</ins> {{ $item['email'] }}</div>
+							</td>
+							<td>{{ $item['type'] }}</td>
+							<td>{{ $item['question'] }}</td>
+							<td style="width: 10%;">
+								<div class="row-wrap">
+									<input name="done" type="button" class="control-button" value="Обработано">
+								</div>
+								<div class="row-wrap">
+									<input name="cancel" type="button" class="control-button" value="Отклонить">
+								</div>
+							</td>
+							<td style="width: 10%;">{{ $item['created'] }}</td>
+							<td style="width: 10%;">{{ $item['updated'] }}</td>
+						</tr>
+					@endforeach
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>

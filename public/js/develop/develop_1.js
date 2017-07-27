@@ -308,4 +308,10 @@ $(document).ready(function(){
 		});
 	});
 	// /catalog filter
+
+	//services
+	$('.main .text-block a.js_popup').click(function(){
+		$('#call_back_popup input[name=service]').val($(this).attr('data-service'));
+	});
+	// /services
 });

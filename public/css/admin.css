@@ -390,6 +390,8 @@ a.control-button img, a.button img{max-height: 20px !important;}
 .item-list tbody tr:nth-child(odd){color: #252839; background-color: #dadadb;}
 .item-list tbody tr:nth-child(even){color: #252839; background-color: #fff;}
 .item-list tbody tr:last-child{border-bottom: 1px solid #73799c;}
+.item-list tbody tr.canceled{border: 1px solid #e00;}
+.item-list tbody tr.finished{border: 1px solid #2ca02c;}
 .item-list tbody tr td{
 	vertical-align: middle;
 	text-align: center;
@@ -397,6 +399,18 @@ a.control-button img, a.button img{max-height: 20px !important;}
 	box-sizing: border-box;
 	border-left: 1px solid #73799c;
 	border-right: 1px solid #73799c;
+}
+.item-list tbody tr.canceled td{
+	border-left: 1px solid #e00;
+	border-right: 1px solid #e00;
+	-webkit-box-shadow:inset 0 0 1px 0 #e00;
+	box-shadow:inset 0 0 1px 0 #e00;
+}
+.item-list tbody tr.finished td{
+	border-left: 1px solid #2ca02c;
+	border-right: 1px solid #2ca02c;
+	-webkit-box-shadow:inset 0 0 1px 0 #2ca02c;
+	box-shadow:inset 0 0 1px 0 #2ca02c;
 }
 .item-list tbody tr td p{line-height: 20px;}
 .item-list .direction{float: right;}

@@ -57,7 +57,7 @@
 							@endif
 							<h2 style="font-size: 36px;font-weight: 600;">{{ $services[$i]['title'] }}</h2>
 							{!! $services[$i]['text'] !!}
-							<a href="#call_back_popup" class="js_popup">Заказать звонок</a>
+							<a href="#call_back_popup" data-service="{{ $services[$i]['id'] }}" class="js_popup">Заказать звонок</a>
 						</div>
 					</div>
 				</div>

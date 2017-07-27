@@ -18,5 +18,7 @@ class VerifyCsrfToken extends BaseVerifier
 		'/drop_from_cart',
 		'/thanks',
 		'/update_cart',
+		'/ask_question',
+		'/order_phone_call',
 	];
 }

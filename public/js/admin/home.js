@@ -10,11 +10,16 @@ $(document).ready(function(){
 		if(res){
 			var id = $(this).closest('tr').find('a.drop').attr('data-id');
 			var status = ($(this).attr('name') == 'done')? '1': '2';
+			switch($(this).closest('.order-inner').attr('id')){
+				case 'calls':		var type = 'call'; break;
+				case 'questions':	var type = 'question'; break;
+				default:			var type = 'order'
+			}
 			$.ajax({
 				url:	'/admin/orders/change_status',
 				type:	'PATCH',
 				headers:{'X-CSRF-TOKEN': $('header').attr('data-token')},
-				data:	{id:id, status:status},
+				data:	{id:id, status:status, type:type},
 				error:	function (jqXHR, textStatus, errorThrown) {
 					showErrors(jqXHR.responseText, '/admin/orders/change_status')
 				},
@@ -32,17 +37,22 @@ $(document).ready(function(){
 		}
 	});
 
-	$('.item-list a.drop').click(function(e){
+	$('.orders-wrap a.drop').click(function(e){
 		e.preventDefault();
-		var result = confirm('Вы действительно хотите удалить данный заказ?');
-		if(result){
+		var res = confirm('Потвердите действие');
+		if(res){
 			var id = $(this).attr('data-id');
 			var _this = $(this);
+			switch($(this).closest('.order-inner').attr('id')){
+				case 'calls':		var type = 'call'; break;
+				case 'questions':	var type = 'question'; break;
+				default:			var type = 'order'
+			}
 			$.ajax({
 				url:	'/admin/orders/drop',
 				type:	'DELETE',
 				headers:{'X-CSRF-TOKEN': $('header').attr('data-token')},
-				data:	{id:id},
+				data:	{id:id, type:type},
 				error:	function (jqXHR, textStatus, errorThrown) {
 					showErrors(jqXHR.responseText, '/admin/orders/drop')
 				},

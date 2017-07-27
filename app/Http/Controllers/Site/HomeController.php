@@ -7,6 +7,7 @@ use App\PageContent;
 
 use App\Http\Controllers\Supply\Helpers;
 use App\Products;
+use App\Questions;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Auth;
@@ -250,6 +251,27 @@ class HomeController extends BaseController{
 					'message'	=> 'empty_data'
 				]);
 			}
+		}
+	}
+
+	public function askQuestion(Request $request){
+		$data = $request->all();
+
+		$result = Questions::create([
+			'user_name'		=> trim($data['name']),
+			'organisation'	=> trim($data['organisation']),
+			'city'			=> trim($data['city']),
+			'phone'			=> trim($data['tel']),
+			'callback_type'	=> trim($data['callback-type']),
+			'email'			=> trim($data['email']),
+			'question'		=> trim($data['question'])
+		]);
+
+		if($result != false){
+			return json_encode([
+				'message'=>'success',
+				'request'=>'ask_question'
+			]);
 		}
 	}
 }
