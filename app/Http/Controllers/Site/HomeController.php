@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Site;
 
+use App\EtcData;
 use App\News;
 use App\Pages;
 use App\PageContent;
@@ -268,6 +269,64 @@ class HomeController extends BaseController{
 		]);
 
 		if($result != false){
+			$our_email = EtcData::select('value')->where('label','=','info')->where('key','=','email')->first();
+			$our_phone = EtcData::select('value')->where('label','=','info')->where('key','=','phone')->first();
+			//to user
+			$message ='
+			<html>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<head><title>Cron System - Ваш вопрос принят</title></head>
+				<body>
+					<table>
+						<tr>
+							<td>Уважаемый '.trim($data['name']).', Ваш вопрос "'.trim($data['question']).'" получен, и в скором времени мы с Вами свяжемся.</td>
+						</tr>
+						<tr>
+							<td>
+								<p>С уважинием, администрация Cron System.</p>
+								<p>e: '.$our_email->value.'</p>
+								<p>t: '.$our_phone->value.'</p>
+							</td>
+						</tr>
+					</table>
+				</body>
+			</html>';
+			$headers  = "Content-type: text/html; charset=utf-8 \r\n";
+			$headers .= 'From: <'.$our_email->value.">\r\n";
+
+			mail(trim($data['email']), 'Cron System - Ваш вопрос получен', $message, $headers);
+			// /to user
+
+			//to admin
+			$message ='
+			<html>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<head><title>Cron System - Поступил вопрос</title></head>
+				<body>
+					<table>
+						<tr>
+							<td>
+								<p>От: '.trim($data['name']).'</p>
+								<p>Организация: '.trim($data['organisation']).'</p>
+								<p>Город: '.trim($data['city']).'</p>
+								<p>Телефон: '.trim($data['tel']).'</p>
+								<p>email: '.trim($data['email']).'</p>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<p>Суть вопроса: '.trim($data['question']).'</p><br>
+								<p>Примечание: '.trim($data['callback-type']).'</p>
+							</td>
+						</tr>
+						<tr>
+							<td><a href="http://www.cron.lar/admin">Подробнее</a></td>
+						</tr>
+					</table>
+				</body>
+			</html>';
+			mail($our_email->value, 'Cron System - Ваш заказ принят', $message, $headers);
+			// /to admin
 			return json_encode([
 				'message'=>'success',
 				'request'=>'ask_question'

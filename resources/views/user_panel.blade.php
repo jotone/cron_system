@@ -28,24 +28,12 @@ $user = Auth::user();
 						</div>
 
 						<ul class="office-tab-links">
-							<li>
-								<a href="#">Личная информация</a>
-							</li>
-							<li>
-								<a href="#">История покупок</a>
-							</li>
-							<!--<li>
-								<a href="#">Статус заказов</a>
-							</li>-->
-							<li>
-								<a href="#">Сменить почту</a>
-							</li>
-							<li>
-								<a href="#">Сменить пароль</a>
-							</li>
-							<li>
-								<a href="#" class="escape">Выход</a>
-							</li>
+							<li><a href="#">Личная информация</a></li>
+							<li><a href="#">История покупок</a></li>
+							<!--<li><a href="#">Статус заказов</a></li>-->
+							<li><a href="#">Сменить почту</a></li>
+							<li><a href="#">Сменить пароль</a></li>
+							<li><a href="{{ route('logout') }}" class="escape">Выход</a></li>
 						</ul>
 					</div>
 
@@ -71,7 +59,7 @@ $user = Auth::user();
 								<span class="pic"><img src="{{ URL::asset('images/change-password.png') }}" alt=""></span>
 								<p>Сменить пароль</p>
 							</a>
-							<!--<a href="#" class="office-link escape">
+							<!--<a href="{{ route('logout') }}" class="office-link escape">
 								<span class="pic"><img src="{{ URL::asset('images/office-exit.png') }}" alt=""></span>
 								<p>Выход</p>
 							</a>-->

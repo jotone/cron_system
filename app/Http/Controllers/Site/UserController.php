@@ -29,8 +29,10 @@ class UserController extends BaseController{
 			$total_sum = $delivery->price;
 			foreach($products as $product_id => $quantity){
 				$product = Products::select('title','price')->find($product_id);
-				$product_list[] = $product->title;
-				$total_sum += $product->price * $quantity;
+				if(!empty($product)){
+					$product_list[] = $product->title;
+					$total_sum += $product->price * $quantity;
+				}
 			}
 
 			switch($item->status){
