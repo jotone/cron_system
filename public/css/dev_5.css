@@ -53,14 +53,14 @@
 	display: flex;
 	-webkit-box-orient: vertical;
 	-webkit-box-direction: normal;
-		-ms-flex-direction: column;
-		flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
 	-webkit-box-align: center;
-		-ms-flex-align: center;
-		align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
 	-webkit-box-pack: center;
-		-ms-flex-pack: center;
-		justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
 	background-size: cover;
 	transition: all 300ms ease;
 }
@@ -501,33 +501,33 @@
 	display: flex;
 	-webkit-box-orient: horizontal;
 	-webkit-box-direction: normal;
-		-ms-flex-direction: row;
-		flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
 	-webkit-box-pack: justify;
-		-ms-flex-pack: justify;
-		justify-content: space-between;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
 	-ms-flex-wrap: wrap;
-		flex-wrap: wrap;
+	flex-wrap: wrap;
 	margin-left: 175px;
 }
 
 .private-office .office-box .office-tab.active:first-child a{
-	width: 347px;
-	height: 289px;
+	width: 500px;
+	height: 320px;
 	background: rgba(255, 255, 255, 0.66);
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
 	-webkit-box-orient: vertical;
 	-webkit-box-direction: normal;
-		-ms-flex-direction: column;
-		flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
 	-webkit-box-pack: center;
-		-ms-flex-pack: center;
-		justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
 	-webkit-box-align: center;
-		-ms-flex-align: center;
-		align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
 	border: 1px solid white;
 	border-radius: 15px;
 	color: #444;
@@ -574,7 +574,7 @@
 	display: -ms-flexbox;
 	display: flex;
 	-webkit-box-pack: justify;
-		-ms-flex-pack: justify;
+	-ms-flex-pack: justify;
 	justify-content: space-between;
 	margin-bottom: 73px;
 }
@@ -587,8 +587,8 @@
 	display: flex;
 	width: 100%;
 	-webkit-box-align: end;
-		-ms-flex-align: end;
-		align-items: flex-end;
+	-ms-flex-align: end;
+	align-items: flex-end;
 }
 
 .private-office .office-box .element-input{
@@ -644,11 +644,11 @@
 	display: flex;
 	-webkit-box-orient: horizontal;
 	-webkit-box-direction: normal;
-		-ms-flex-direction: row;
-		flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
 	-webkit-box-pack: justify;
-		-ms-flex-pack: justify;
-		justify-content: space-between;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
 	padding: 25px 20px 20px 85px;
 	position: relative;
 	z-index: 5;

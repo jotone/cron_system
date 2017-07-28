@@ -14,6 +14,7 @@
 				<li data-type="canceled">Отмененные Заказы</li>
 				<li data-type="calls">Звонки</li>
 				<li data-type="questions">Вопросы</li>
+				<li data-type="vacancy">Вакансии</li>
 			</ul>
 		</div>
 
@@ -42,7 +43,7 @@
 									<img src="{{ URL::asset('images/drop.png') }}" alt="Удалить">
 								</a>
 							</td>
-							<td style="width: 6%;">{{ str_pad($item['id'], 10, '0', STR_PAD_LEFT) }}</td>
+							<td style="width: 6%;">{{ str_pad($item['id'], 6, '0', STR_PAD_LEFT) }}</td>
 							<td style="padding-left: 5%; text-align: left">
 								<div class="row-wrap">
 									<ins>Имя:</ins> @if(!empty($item['link'])) <a href="{{ $item['link'] }}"> @endif{{ $item['user_name'] }}@if(!empty($item['link'])) </a> @endif
@@ -183,6 +184,54 @@
 							</td>
 							<td>{{ $item['type'] }}</td>
 							<td>{{ $item['question'] }}</td>
+							<td style="width: 10%;">
+								<div class="row-wrap">
+									<input name="done" type="button" class="control-button" value="Обработано">
+								</div>
+								<div class="row-wrap">
+									<input name="cancel" type="button" class="control-button" value="Отклонить">
+								</div>
+							</td>
+							<td style="width: 10%;">{{ $item['created'] }}</td>
+							<td style="width: 10%;">{{ $item['updated'] }}</td>
+						</tr>
+					@endforeach
+					</tbody>
+				</table>
+			</div>
+
+			<div id="vacancy" class="order-inner" style="display: none;">
+				<table class="item-list questions col_1">
+					<thead>
+					<tr>
+						<th></th>
+						<th>Контактная информация</th>
+						<th>Вакансия</th>
+						<th>Резюме</th>
+						<th>Статус</th>
+						<th>Создан</th>
+						<th>Изменен</th>
+					</tr>
+					</thead>
+					<tbody>
+					@foreach($vacancy_list as $item)
+						<tr @if(!empty($item['class'])) class="{{ $item['class'] }}" @endif>
+							<td>
+								<a class="block-button drop" data-id="{{ $item['id'] }}" href="#" title="Удалить">
+									<img src="{{ URL::asset('images/drop.png') }}" alt="Удалить">
+								</a>
+							</td>
+							<td style="padding-left: 5%; text-align: left">
+								<div class="row-wrap"><ins>Имя:</ins> {{ $item['name'] }}</div>
+								<div class="row-wrap"><ins>Телефон:</ins> {{ $item['phone'] }}</div>
+								<div class="row-wrap"><ins>Email:</ins> {{ $item['email'] }}</div>
+							</td>
+							<td>
+								<a href="{{ URL::asset('/admin/vacancies/edit/'.$item['vacancy']['id']) }}">{{ $item['vacancy']['title'] }}</a>
+							</td>
+							<td>
+								<a href="{{ URL::asset($item['file']) }}" download>{{ $item['file'] }}</a>
+							</td>
 							<td style="width: 10%;">
 								<div class="row-wrap">
 									<input name="done" type="button" class="control-button" value="Обработано">

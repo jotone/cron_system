@@ -13,6 +13,7 @@ $(document).ready(function(){
 			switch($(this).closest('.order-inner').attr('id')){
 				case 'calls':		var type = 'call'; break;
 				case 'questions':	var type = 'question'; break;
+				case 'vacancy':		var type = 'vacancy'; break;
 				default:			var type = 'order'
 			}
 			$.ajax({
@@ -46,6 +47,7 @@ $(document).ready(function(){
 			switch($(this).closest('.order-inner').attr('id')){
 				case 'calls':		var type = 'call'; break;
 				case 'questions':	var type = 'question'; break;
+				case 'vacancy':		var type = 'vacancy'; break;
 				default:			var type = 'order'
 			}
 			$.ajax({

@@ -34,9 +34,9 @@ $user = Auth::user();
 							<li>
 								<a href="#">История покупок</a>
 							</li>
-							<li>
+							<!--<li>
 								<a href="#">Статус заказов</a>
-							</li>
+							</li>-->
 							<li>
 								<a href="#">Сменить почту</a>
 							</li>
@@ -59,10 +59,10 @@ $user = Auth::user();
 								<span class="pic"><img src="{{ URL::asset('images/history-buy.png') }}" alt=""></span>
 								<p>История покупок</p>
 							</a>
-							<a href="#" class="office-link">
+							<!--<a href="#" class="office-link">
 								<span class="pic"><img src="{{ URL::asset('images/status-buy.png') }}" alt=""></span>
 								<p>Статус заказов</p>
-							</a>
+							</a>-->
 							<a href="#" class="office-link">
 								<span class="pic"><img src="{{ URL::asset('images/change-mail.png') }}" alt=""></span>
 								<p>Сменить почту</p>
@@ -71,10 +71,10 @@ $user = Auth::user();
 								<span class="pic"><img src="{{ URL::asset('images/change-password.png') }}" alt=""></span>
 								<p>Сменить пароль</p>
 							</a>
-							<a href="#" class="office-link escape">
+							<!--<a href="#" class="office-link escape">
 								<span class="pic"><img src="{{ URL::asset('images/office-exit.png') }}" alt=""></span>
 								<p>Выход</p>
-							</a>
+							</a>-->
 						</div>
 
 						<div class="office-tab">
@@ -137,54 +137,18 @@ $user = Auth::user();
 										<div class="history-col">Статус</div>
 									</div>
 
-									<div class="history-row">
-										<div class="history-col">Panel content</div>
-										<div class="history-col">012642</div>
-										<div class="history-col"><div class="summ">25 000 руб</div></div>
-										<div class="history-col">В процессе</div>
-									</div>
-
-									<div class="history-row">
-										<div class="history-col">Panel content</div>
-										<div class="history-col">012642</div>
-										<div class="history-col"><div class="summ">200 руб</div></div>
-										<div class="history-col">Отменён</div>
-									</div>
-
-									<div class="history-row">
-										<div class="history-col">Panel content</div>
-										<div class="history-col">012642</div>
-										<div class="history-col"><div class="summ">8 000 руб</div></div>
-										<div class="history-col">Выполнен</div>
-									</div>
-
-									<div class="history-row">
-										<div class="history-col">Panel content</div>
-										<div class="history-col">012642</div>
-										<div class="history-col"><div class="summ">25 000 руб</div></div>
-										<div class="history-col">В процессе</div>
-									</div>
-
-									<div class="history-row">
-										<div class="history-col">Panel content</div>
-										<div class="history-col">012642</div>
-										<div class="history-col"><div class="summ">200 руб</div></div>
-										<div class="history-col">Отменён</div>
-									</div>
-
-									<div class="history-row">
-										<div class="history-col">Panel content</div>
-										<div class="history-col">012642</div>
-										<div class="history-col"><div class="summ">8 000 руб</div></div>
-										<div class="history-col">Выполнен</div>
-									</div>
-
-									<div class="history-row">
-										<div class="history-col">Panel content</div>
-										<div class="history-col">012642</div>
-										<div class="history-col"><div class="summ">8 000 руб</div></div>
-										<div class="history-col">Выполнен</div>
-									</div>
+									@foreach($history as $item)
+										<div class="history-row">
+											<div class="history-col">
+												@foreach($item['product_list'] as $product)
+													<div>{{ $product }}</div>
+												@endforeach
+											</div>
+											<div class="history-col">{{ $item['vendor_code'] }}</div>
+											<div class="history-col"><div class="summ">{{ number_format($item['total'],2, '.', ' ') }} руб</div></div>
+											<div class="history-col">{{ $item['status'] }}</div>
+										</div>
+									@endforeach
 								</div>
 							</div>
 						</div>

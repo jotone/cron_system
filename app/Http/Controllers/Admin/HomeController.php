@@ -12,6 +12,8 @@ use App\Services;
 use App\User;
 
 use App\Http\Controllers\Supply\Functions;
+use App\UserVacancy;
+use App\Vacancies;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Auth;
@@ -115,29 +117,56 @@ class HomeController extends BaseController{
 					'email'		=> $question->email,
 					'question'	=> $question->question,
 					'class'		=> $class,
-					'status'	=> $call->status,
-					'created'	=> Functions::convertDate($call->created_at),
-					'updated'	=> Functions::convertDate($call->updated_at),
+					'status'	=> $question->status,
+					'created'	=> Functions::convertDate($question->created_at),
+					'updated'	=> Functions::convertDate($question->updated_at),
+				];
+			}
+
+			$vacancies = UserVacancy::orderBy('status','asc')->orderBy('created_at','desc')->get();
+			$vacancy_list = [];
+			foreach($vacancies as $vacancy){
+				switch($vacancy->status){
+					case '1':	$class = 'finished'; break;
+					case '2':	$class = 'canceled'; break;
+					default:	$class = '';
+				}
+				$current_vacancy = Vacancies::select('id','title')->find($vacancy->refer_to_vacancy);
+				$vacancy_list[] = [
+					'id'		=> $vacancy->id,
+					'name'		=> $vacancy->name,
+					'phone'		=> $vacancy->phone,
+					'email'		=> $vacancy->email,
+					'file'		=> substr($vacancy->file, 7),
+					'vacancy'	=> [
+							'id'	=> $current_vacancy->id,
+							'title'	=> $current_vacancy->title
+						],
+					'class'		=> $class,
+					'status'	=> $vacancy->status,
+					'created'	=> Functions::convertDate($vacancy->created_at),
+					'updated'	=> Functions::convertDate($vacancy->updated_at),
 				];
 			}
 
 			return view('admin.home', [
-				'start'		=> $start,
-				'menu'		=> $menu,
-				'page_title'=> $page_caption->title,
-				'order_list'=> $order_list,
-				'call_list'	=> $call_list,
-				'question_list'=> $question_list
+				'start'			=> $start,
+				'menu'			=> $menu,
+				'page_title'	=> $page_caption->title,
+				'order_list'	=> $order_list,
+				'call_list'		=> $call_list,
+				'question_list'	=> $question_list,
+				'vacancy_list'	=> $vacancy_list
 			]);
 		}
 	}
 
 	public function changeStatus(Request $request){
 		$data = $request->all();
-
 		switch($data['type']){
 			case 'call':	$result = PhoneCall::where('id','=',$data['id']); break;
 			case 'question':$result = Questions::where('id','=',$data['id']); break;
+			case 'vacancy':	$result = UserVacancy::where('id','=',$data['id']); break;
 			case 'order':	$result = OrderStatus::where('id','=',$data['id']); break;
 		}
 		$result = $result->update(['status'=> $data['status']]);
@@ -152,6 +181,7 @@ class HomeController extends BaseController{
 		switch($data['type']){
 			case 'call':	$result = PhoneCall::where('id','=',$data['id']); break;
 			case 'question':$result = Questions::where('id','=',$data['id']); break;
+			case 'vacancy':	$result = UserVacancy::where('id','=',$data['id']); break;
 			case 'order':	$result = OrderStatus::where('id','=',$data['id']); break;
 		}
 		$result = $result->delete();
