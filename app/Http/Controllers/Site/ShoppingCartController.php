@@ -159,6 +159,7 @@ class ShoppingCartController extends BaseController{
 				<head><title>Cron System - поступление заказа</title></head>
 				<body>
 					<table>
+						<tr><td>Поступление заказа</td></tr>
 						<tr>
 							<td colspan="3">'.trim($data['lastname']).' '.trim($data['firstname']).' ('.$email.') заказал(а) товары:</td>
 						</tr>

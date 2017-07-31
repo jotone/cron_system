@@ -93,6 +93,9 @@ class ServicesController extends BaseController{
 				<body>
 					<table>
 						<tr>
+							<td>Принят запрос на обратный звонок</td>
+						</tr>
+						<tr>
 							<td>Имя: '.trim($data['name']).'</td>
 						</tr>
 						<tr>

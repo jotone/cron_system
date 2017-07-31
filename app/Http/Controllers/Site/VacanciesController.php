@@ -173,6 +173,62 @@ class VacanciesController extends BaseController{
 					'refer_to_vacancy' => Crypt::decrypt($data['vacancy']),
 				]);
 				if($result != false){
+					$our_email = EtcData::select('value')->where('label','=','info')->where('key','=','email')->first();
+					$our_phone = EtcData::select('value')->where('label','=','info')->where('key','=','phone')->first();
+					$headers  = "Content-type: text/html; charset=utf-8 \r\n";
+					$headers .= 'From: <'.$our_email->value.">\r\n";
+					//to user
+					$message ='
+					<html>
+						<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+						<head><title>Cron System - Ваше резюме принято на рассмотрение</title></head>
+						<body>
+							<table>
+								<tr>
+									<td>Ваше резюме принято на рассмотрение. В скором времени Мы свяжемся с вами.</td>
+								</tr>
+								<tr>
+									<td>
+										<p>С уважинием, администрация Cron System.</p>
+										<p>e: '.$our_email->value.'</p>
+										<p>t: '.$our_phone->value.'</p>
+									</td>
+								</tr>
+							</table>
+						</body>
+					</html>';
+					mail(trim($data['email']), 'Cron System - Ваше резюме принято на рассмотрение', $message, $headers);
+					// /to user
+
+					//to admin
+					$current_vacancy = Vacancies::select('title')->find(Crypt::decrypt($data['vacancy']));
+					$message ='
+					<html>
+						<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+						<head><title>Cron System - Принято резюме по вакансии "'.$current_vacancy->title.'"</title></head>
+						<body>
+							<table>
+								<tr>
+									<td>Принято резюме по вакансии "'.$current_vacancy->title.'"</td>
+								</tr>
+								<tr>
+									<td>Имя: '.trim($data['name']).'</td>
+								</tr>
+								<tr>
+									<td>Телефон: '.trim($data['tel']).'</td>
+								</tr>
+								<tr>
+									<td>Email: '.trim($data['email']).'</td>
+								</tr>
+								<tr>
+									<td><a href="http://www.cron.lar/admin">Подробнее</a></td>
+								</tr>
+							</table>
+						</body>
+					</html>';
+					mail($our_email->value, 'Cron System - Принято резюме по вакансии', $message, $headers);
+					// /to admin
+
 					return json_encode(['message'=>'success']);
 				}
 			}

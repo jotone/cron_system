@@ -304,6 +304,7 @@ class HomeController extends BaseController{
 				<head><title>Cron System - Поступил вопрос</title></head>
 				<body>
 					<table>
+						<tr><td>Поступил вопрос</td></tr>
 						<tr>
 							<td>
 								<p>От: '.trim($data['name']).'</p>
@@ -319,13 +320,13 @@ class HomeController extends BaseController{
 								<p>Примечание: '.trim($data['callback-type']).'</p>
 							</td>
 						</tr>
-						<tr>
-							<td><a href="http://www.cron.lar/admin">Подробнее</a></td>
+						<tr><td><a href="http://www.cron.lar/admin">Подробнее</a></td>
+							
 						</tr>
 					</table>
 				</body>
 			</html>';
-			mail($our_email->value, 'Cron System - Ваш заказ принят', $message, $headers);
+			mail($our_email->value, 'Cron System - Поступил вопрос', $message, $headers);
 			// /to admin
 			return json_encode([
 				'message'=>'success',
