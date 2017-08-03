@@ -88,6 +88,9 @@ Route::get('/brand/{brand}/page/{page?}',[
 	Route::get('/brand/{brand}/{slug?}/page/{page?}',[
 		'uses'=>'Site\ProductController@brand'
 	]);
+	Route::get('/brand', [
+		'uses'=>'Site\ProductController@redirectToCatalog'
+	]);
 //Каталог
 Route::get('/catalog',[
 	'as'=>'catalog',

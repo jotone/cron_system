@@ -52,6 +52,10 @@ class ProductController extends BaseController{
 		return $result;
 	}
 
+	public function redirectToCatalog(){
+		return redirect(route('catalog'));
+	}
+
 	public function brand($brand = '', $slug = '', $page = 1){
 		$defaults = Helpers::getDefaults();
 
@@ -77,7 +81,10 @@ class ProductController extends BaseController{
 			'text'		=> $page_content->seo_text
 		];
 
-		$brand_data = Brand::select('id','title','slug','is_last')->where('slug','=',$brand_slug)->first();
+		$brand_data = Brand::select('id','title','slug','is_last','refer_to')
+			->where('slug','=',$brand_slug)
+			->where('enabled','=',1)
+			->first();
 		$inner_brands = explode(',', self::findLastBrand($brand_data));
 		$inner_brands = array_diff($inner_brands, array(''));
 
@@ -128,11 +135,14 @@ class ProductController extends BaseController{
 			'total'		=> ceil($products_count/$limit)
 		];
 
+		$bread_crumbs = array_reverse(Helpers::getBrandHierarchy($brand_slug));
+
 		return view('brand', [
 			'defaults'		=> $defaults,
 			'products'		=> $products,
 			'paginate_options'=> $paginate_options,
 			'page_title'	=> $brand_data->title,
+			'bread_crumbs'	=> $bread_crumbs,
 			'link'			=> $link,
 			'products_list'	=> $products_list,
 			'parent_brand'	=> $brand,

@@ -14,7 +14,15 @@
 					<div class="breadcrumbs-inner">
 						<ul class="breadcrumbs-list">
 							<li><a href="{{ route('home') }}">Главная</a></li>
-							<li>{{ $page_title }}</li>
+							@for($i = 0; $i< count($bread_crumbs); $i++)
+								@if($i == 0)
+									<li><a href="{{ URL::asset('/brand/'.$bread_crumbs[0]['slug']) }}">{{ $bread_crumbs[$i]['title'] }}</a></li>
+								@elseif($i == (count($bread_crumbs) -1))
+									<li>{{ $bread_crumbs[$i]['title'] }}</li>
+								@else
+									<li><a href="{{ URL::asset('/brand/'.$bread_crumbs[0]['slug'].'/'.$bread_crumbs[$i]['slug']) }}">{{ $bread_crumbs[$i]['title'] }}</a></li>
+								@endif
+							@endfor
 						</ul>
 
 						<form name="brandFilters" class="brand-filters">

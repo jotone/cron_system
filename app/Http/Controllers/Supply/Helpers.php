@@ -271,4 +271,20 @@ class Helpers extends BaseController{
 		}
 		return $product_list;
 	}
+
+	public static function getBrandHierarchy($brand_slug, $result = []){
+		$brand_data = Brand::select('id', 'title', 'slug', 'refer_to')
+			->where('slug', '=', $brand_slug)
+			->where('enabled','=',1)
+			->first();
+		$result[] = [
+			'title' => $brand_data->title,
+			'slug' => $brand_data->slug
+		];
+		if($brand_data->refer_to != 0){
+			$parent = Brand::select('slug')->find($brand_data->refer_to);
+			$result = self::getBrandHierarchy($parent->slug, $result);
+		}
+		return $result;
+	}
 }
