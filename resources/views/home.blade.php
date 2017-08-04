@@ -93,11 +93,13 @@
 						@foreach($content['news'] as $news)
 						<li>
 							<div class="popular-pic">
-								<img src="{{ URL::asset($news['img_url']->img) }}" alt="{{ $news['img_url']->alt }}">
+								<a href="{{ route('news-inner', $news['slug']) }}">
+									<img src="{{ URL::asset($news['img_url']->img) }}" alt="{{ $news['img_url']->alt }}">
+								</a>
 							</div>
 							<div class="popular-content">
 								<a href="{{ route('news-inner', $news['slug']) }}" class="button-invers">Подробнее</a>
-								<h6>{{ $news['title'] }}</h6>
+								<a href="{{ route('news-inner', $news['slug']) }}"><h6>{{ $news['title'] }}</h6></a>
 								<div class="popular-info">
 									<p>{{ $news['text'] }}</p>
 								</div>
