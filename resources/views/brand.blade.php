@@ -54,7 +54,7 @@
 				<div class="brand-items">
 					@foreach($products as $product)
 						<div class="product-item @if(!empty($product['is_hot'])) hot-item @endif">
-							<div class="pic">
+							<div class="pic @if(!empty($product['price'])) to-busket @else ask-price @endif">
 								@if(!empty($product['img_url']->img))
 									<img src="{{ URL::asset($product['img_url']->img) }}" alt="{{ $product['img_url']->alt }}">
 								@endif

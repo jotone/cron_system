@@ -134,7 +134,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		showItemPopup($(this));
 	});
-	$(document).find('.product-item .pic').on('click', function(){
+	$(document).find('.product-item .to-busket').on('click', function(){
 		showItemPopup($(this));
 	});
 
