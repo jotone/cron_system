@@ -1,3 +1,10 @@
+function seoToggle() {
+	if($('input[name=need_seo]').prop('checked') == true){
+		$('fieldset #seo').show();
+	}else{
+		$('fieldset #seo').hide();
+	}
+}
 function sendPositions(){
 	var positions = [];
 	$('.categories-list-wrap li').each(function(){
@@ -31,11 +38,18 @@ function sendPositions(){
 $(document).ready(function(){
 	autoSlug();
 	buildFixedNavMenu();
+	seoToggle();
+	$('input[name=need_seo]').change(function(){
+		seoToggle();
+	});
 
 	$('button[name=save]').click(function(){
 		formData.append('id', $('input[name=id]').val());
 		formData.append('title', $('input[name=title]').val());
 		formData.append('slug', $('input[name=slug]').val());
+		formData.append('need_seo', ($('input[name=need_seo]').prop('checked') == true)? 1: 0);
+		formData.append('seo_title', $('input[name=seo_title]').val());
+		formData.append('seo_text', CKEDITOR.instances.seo_text.getData());
 		formData.append('enabled', ($('input[name=enabled]').prop('checked') == true)? 1: 0);
 		formData.append('refer_to', $('select[name=refer_to]').val());
 		$.ajax({

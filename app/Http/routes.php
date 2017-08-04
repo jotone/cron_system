@@ -99,6 +99,14 @@ Route::get('/catalog',[
 	Route::get('/catalog/page/{page?}',[
 		'uses'=>'Site\ProductController@catalog'
 	]);
+//Специальные предложения
+Route::get('/special_offers',[
+	'as'=>'special_offers',
+	'uses'=>'Site\ProductController@specialOffers'
+]);
+	Route::get('/special_offers/page/{page?}',[
+		'uses'=>'Site\ProductController@specialOffers'
+	]);
 //Оборудование
 Route::get('/equipment',[
 	'as'=>'equipment',

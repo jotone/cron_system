@@ -54,6 +54,7 @@ class BrandController extends BaseController{
 
 			$content = Brand::find($id);
 			$brands_list = Functions::buildVerticalOptionList('brands', $content->refer_to, $content->id);
+
 			return view('admin.add.brands', [
 				'start'		=> $start,
 				'menu'		=> $menu,
@@ -66,6 +67,7 @@ class BrandController extends BaseController{
 
 	public function addItem(Request $request){
 		$data = $request->all();
+
 		if($data['refer_to'] != 0){
 			Brand::where('id','=',$data['refer_to'])->update(['is_last'=>0]);
 		}
@@ -74,6 +76,9 @@ class BrandController extends BaseController{
 			$result = Brand::find($data['id']);
 			$result->title		= trim($data['title']);
 			$result->slug		= trim($data['slug']);
+			$result->need_seo	= $data['need_seo'];
+			$result->seo_title	= $data['seo_title'];
+			$result->seo_text	= $data['seo_text'];
 			$result->refer_to	= $data['refer_to'];
 			$result->is_last	= 1;
 			$result->enabled	= $data['enabled'];
@@ -89,6 +94,9 @@ class BrandController extends BaseController{
 				'slug'		=> trim($data['slug']),
 				'refer_to'	=> $data['refer_to'],
 				'position'	=> $position,
+				'need_seo'	=> $data['need_seo'],
+				'seo_title'	=> $data['seo_title'],
+				'seo_text'	=> $data['seo_text'],
 				'is_last'	=> 1,
 				'enabled'	=> $data['enabled']
 			]);

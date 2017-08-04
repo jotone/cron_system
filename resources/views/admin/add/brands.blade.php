@@ -48,6 +48,26 @@
 						</label>
 					</div>
 				</fieldset>
+
+				<fieldset>
+					<legend>SEO блок</legend>
+					<div class="row-wrap">
+						<label class="fieldset-label-wrap">
+							<input name="need_seo" type="checkbox" class="chbox-input" @if( (isset($content)) && ($content->need_seo == 1)) checked="checked" @endif>
+							<span>Разрешить SEO</span>
+						</label>
+					</div>
+					<div class="row-wrap" id="seo">
+						<label class="fieldset-label-wrap">
+							<input name="seo_title" class="text-input col_1_2" type="text" placeholder="SEO заглавие&hellip;" @if(isset($content->seo_title)) value="{{ $content->seo_title }}" @endif>
+							<span>SEO заглавие</span>
+						</label>
+					</div>
+					<div class="row-wrap" id="seo">
+						<p>SEO текст</p>
+						<textarea name="seo_text" class="needCKE">@if(isset($content->seo_text)){{ $content->seo_text }}@endif</textarea>
+					</div>
+				</fieldset>
 			</div>
 		</div>
 

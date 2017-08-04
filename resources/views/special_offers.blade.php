@@ -1,9 +1,9 @@
 @extends('layout.default')
 @section('content')
 <div class="global-wrapper">
-		<!-- HEADER -->
-	@include('layout.header')
-	<!-- /HEADER -->
+	<!-- HEADER -->
+@include('layout.header')
+<!-- /HEADER -->
 
 	<!-- MAIN -->
 	<div class="main">
@@ -14,28 +14,11 @@
 					<div class="breadcrumbs-inner">
 						<ul class="breadcrumbs-list">
 							<li><a href="{{ route('home') }}">Главная</a></li>
-							<li><a href="{{ route('catalog') }}">Каталог</a></li>
-							@for($i = 0; $i< count($bread_crumbs); $i++)
-								@if($i == 0)
-									<li><a href="{{ URL::asset('/brand/'.$bread_crumbs[0]['slug']) }}">{{ $bread_crumbs[$i]['title'] }}</a></li>
-								@elseif($i == (count($bread_crumbs) -1))
-									<li>{{ $bread_crumbs[$i]['title'] }}</li>
-								@else
-									<li><a href="{{ URL::asset('/brand/'.$bread_crumbs[0]['slug'].'/'.$bread_crumbs[$i]['slug']) }}">{{ $bread_crumbs[$i]['title'] }}</a></li>
-								@endif
-							@endfor
+							<li>{{ $page_title }}</li>
 						</ul>
 
 						<form name="brandFilters" class="brand-filters">
 							{{ csrf_field() }}
-							<div class="select-big">
-								<select class="js-select" name="brands" data-placeholder="Выберите продукт" data-parent="{{ $parent_brand }}">
-									<option label="empty"></option>
-									@foreach($products_list as $item)
-										<option value="{{ $item['slug'] }}">{{ $item['title'] }}</option>
-									@endforeach
-								</select>
-							</div>
 							<div class="select-small">
 								<label for="number-select">Показать:</label>
 								<select id="number-select" name="brandsNumber" class="js-select" >
@@ -44,7 +27,6 @@
 								</select>
 							</div>
 						</form>
-
 					</div>
 				</div>
 			</div>
@@ -109,11 +91,11 @@
 				@endif
 
 				@if( (isset($seo)) && ($seo['need_seo'] > 0) )
-				<div class="brand-info">
-					<h2>{{ $seo['title'] }}</h2>
-					<div class="info-content">{!! $seo['text'] !!}</div>
-					<a href="#ask_popup" class="button-round js_popup">Задать вопрос</a>
-				</div>
+					<div class="brand-info">
+						<h2>{{ $seo['title'] }}</h2>
+						<div class="info-content">{!! $seo['text'] !!}</div>
+						<a href="#ask_popup" class="button-round js_popup">Задать вопрос</a>
+					</div>
 				@endif
 			</div>
 		</section>
@@ -121,7 +103,7 @@
 	<!-- /MAIN -->
 
 	<!-- FOOTER -->
-	@include('layout.footer')
-	<!-- /FOOTER -->
+@include('layout.footer')
+<!-- /FOOTER -->
 </div>
 @stop

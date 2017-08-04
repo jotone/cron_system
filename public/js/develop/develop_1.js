@@ -112,23 +112,30 @@ $(document).ready(function(){
 		}
 	});
 
-	//to shopping cart
-	$(document).on('click','.to_busket', function(e) {
-		e.preventDefault();
-		var picture = $(this).closest('.product-item').find('.pic').html();
-		var title = $(this).closest('.product-item').find('.name .prod-name').text();
-		var price = $(this).closest('.product-item').find('.price .prod-price .new').text();
-		var product = $(this).closest('.price').attr('data-product');
+	function showItemPopup(_this){
+		var picture = _this.closest('.product-item').find('.pic').html();
+		var title = _this.closest('.product-item').find('.name .prod-name').text();
+		var price = _this.closest('.product-item').find('.price .prod-price .new').text();
+		var product = _this.closest('.price').attr('data-product');
 
 		$('.busket_popup .pic').html(picture);
 		$('.busket_popup .title').html(title);
 		$('.busket_popup .product-desc .price').html(price);
 		$('.busket_popup .product-desc .price').attr('data-price',price);
 		$('.busket_popup').attr('data-product',product);
-		
+
 		$.fancybox.open({
 			src: '#busket_popup',
 		});
+	}
+
+	//to shopping cart
+	$(document).on('click','.to_busket', function(e) {
+		e.preventDefault();
+		showItemPopup($(this));
+	});
+	$(document).find('.product-item .pic').on('click', function(){
+		showItemPopup($(this));
 	});
 
 	$(document).find('.busket_popup').on('click','.minus, .plus', function(){

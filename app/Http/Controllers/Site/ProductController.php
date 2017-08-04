@@ -14,6 +14,23 @@ use Validator;
 
 class ProductController extends BaseController{
 
+	protected static function getInnerBrands($brand_id, $result = ''){
+		$inner_count = Brand::select('id')->where('refer_to','=',$brand_id)->where('enabled','=',1)->count();
+		if($inner_count > 0){
+			$inner = Brand::select('id','is_last')->where('refer_to','=',$brand_id)->where('enabled','=',1)->get();
+			foreach($inner as $item){
+				if($item->is_last > 0){
+					$result .= $item->id.',';
+				}else{
+					$result = self::getInnerBrands($item->id, $result);
+				}
+			}
+		}else{
+			$result .= $brand_id.',';
+		}
+		return $result;
+	}
+
 	protected static function findLastBrand($brand_data){
 		$result = '';
 		if($brand_data->is_last < 1){
@@ -25,7 +42,7 @@ class ProductController extends BaseController{
 				$result .= self::findLastBrand($sub_brand);
 			}
 		}else{
-			$result = $brand_data->id.',';
+			$result = self::getInnerBrands($brand_data->id);
 		}
 		return $result;
 	}
@@ -81,14 +98,19 @@ class ProductController extends BaseController{
 			'text'		=> $page_content->seo_text
 		];
 
-		$brand_data = Brand::select('id','title','slug','is_last','refer_to')
+		$brand_data = Brand::select('id','title','slug','is_last','refer_to','need_seo','seo_title','seo_text')
 			->where('slug','=',$brand_slug)
 			->where('enabled','=',1)
 			->first();
+		$seo = [
+			'need_seo'	=> $brand_data->need_seo,
+			'title'		=> $brand_data->seo_title,
+			'text'		=> $brand_data->seo_text
+		];
 		$inner_brands = explode(',', self::findLastBrand($brand_data));
 		$inner_brands = array_diff($inner_brands, array(''));
+		//dd($inner_brands);
 
-		$products = [];
 		foreach($inner_brands as $brand_id){
 			$items = Products::select('id','title','slug','img_url','text','price','old_price','is_hot')
 				->where('refer_to_brand','=',$brand_id)
@@ -251,6 +273,71 @@ class ProductController extends BaseController{
 			'defaults'		=> $defaults,
 			'categories'	=> $categories,
 			'brands'		=> $brands,
+			'limit'			=> $limit,
+			'products'		=> $list,
+			'paginate_options'=> $paginate_options,
+			'meta_data'		=> $meta_data,
+			'seo'			=> $seo
+		]);
+	}
+
+	public function specialOffers($page = 1){
+		$defaults = Helpers::getDefaults();
+
+		$limit = (isset($_COOKIE['per_page']))? $_COOKIE['per_page']: 8;
+		if($limit < 8) $limit = 8;
+
+		$start = ($page-1) * $limit;
+
+		$path = \Route::current()->getName();
+		$page_content = Pages::where('link','LIKE', '%'.$path.'%')->first();
+		$meta_data = [
+			'title'		=> $page_content->meta_title,
+			'keywords'	=> $page_content->meta_keywords,
+			'description'=>$page_content->meta_description
+		];
+		$seo = [
+			'need_seo'	=> $page_content->need_seo,
+			'title'		=> $page_content->seo_title,
+			'text'		=> $page_content->seo_text
+		];
+
+		$products = Products::select('id','title','slug','text','img_url','old_price','price','is_hot')
+			->where('is_hot','=',2)
+			->where('enabled','=',1);
+
+		$products_count = $products->count();
+		$products = $products->orderBy('title','asc')->skip($start)->take($limit)->get();
+
+		$list = [];
+		foreach($products as $product){
+			switch($product->is_hot){
+				case '1':	$is_hot = 'hot'; break;
+				case '2':	$is_hot = 'sale'; break;
+				default:	$is_hot = '';
+			}
+			$list[] = [
+				'id'		=> Crypt::encrypt($product->id),
+				'title'		=> $product->title,
+				'slug'		=> $product->slug,
+				'text'		=> $product->text,
+				'img_url'	=> json_decode($product->img_url),
+				'old_price'	=> number_format($product->old_price, 0, '',' '),
+				'price'		=> number_format($product->price, 0, '',' '),
+				'is_hot'	=> $is_hot
+			];
+		}
+
+		$paginate_options = [
+			'prev'		=> $page-1,
+			'next'		=> $page+1,
+			'current'	=> $page,
+			'total'		=> ceil($products_count/$limit)
+		];
+
+		return view('special_offers', [
+			'defaults'		=> $defaults,
+			'page_title'	=> $page_content->title,
 			'limit'			=> $limit,
 			'products'		=> $list,
 			'paginate_options'=> $paginate_options,
