@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\EmailResets;
+use App\EtcData;
 use App\PasswordResets;
 use App\User;
 
@@ -127,9 +128,11 @@ class AuthController extends BaseController{
 			'activation_code' => $activation_code
 		]);
 
+		$our_email = EtcData::select('value')->where('label','=','info')->where('key','=','email')->first();
+
 		//Send Letter to user with registration activation code
 		$headers  = "Content-type: text/html; charset=utf-8 \r\n";
-		$headers .= 'From: <hello@gmail.com>'."\r\n";
+		$headers .= 'From: <'.$our_email->value.'>'."\r\n";
 		$message = '<html>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			<head><title>Регистрация на Cron System</title></head>
@@ -180,8 +183,10 @@ class AuthController extends BaseController{
 		$activation_code = Crypt::encrypt(json_encode($email_reset->id));
 		User::where('id','=',$user_data['id'])->update(['activation_code'=>$activation_code]);
 
+		$our_email = EtcData::select('value')->where('label','=','info')->where('key','=','email')->first();
+
 		$headers  = "Content-type: text/html; charset=utf-8 \r\n";
-		$headers .= 'From: <hello@gmail.com>'."\r\n";
+		$headers .= 'From: <'.$our_email->value.'>'."\r\n";
 		$message = '<html>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			<head><title>Смена почты на Cron System</title></head>
@@ -268,8 +273,10 @@ class AuthController extends BaseController{
 		$activation_code = Crypt::encrypt(json_encode($password_reset->id));
 		User::where('id','=',$user['id'])->update(['recovery_token'=>$activation_code]);
 
+		$our_email = EtcData::select('value')->where('label','=','info')->where('key','=','email')->first();
+
 		$headers  = "Content-type: text/html; charset=utf-8 \r\n";
-		$headers .= 'From: <hello@gmail.com>'."\r\n";
+		$headers .= 'From: <'.$our_email->value.'>'."\r\n";
 		$message = '<html>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			<head><title>Смена пароля на Cron System</title></head>
@@ -344,8 +351,10 @@ class AuthController extends BaseController{
 		$password = md5($user['email'].$password);
 		User::where('id','=',$user->id)->update(['password'=>$password]);
 
+		$our_email = EtcData::select('value')->where('label','=','info')->where('key','=','email')->first();
+
 		$headers  = "Content-type: text/html; charset=utf-8 \r\n";
-		$headers .= 'From: <hello@gmail.com>'."\r\n";
+		$headers .= 'From: <'.$our_email->value.'>'."\r\n";
 		$message = '<html>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			<head><title>Смена пароля на Cron System</title></head>

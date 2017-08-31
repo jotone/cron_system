@@ -259,12 +259,26 @@ class HomeController extends BaseController{
 	public function askQuestion(Request $request){
 		$data = $request->all();
 
+		if(isset($data['callbackType'])){
+			switch(trim($data['callbackType'])){
+				case 0:
+				case '0': $call_back_type = 'Хочу, чтобы менеджер ответил мне по E-mail'; break;
+
+				case 1:
+				case '1': $call_back_type = 'Хочу, чтобы менеджер мне перезвонил'; break;
+
+				case 2:
+				case '2': $call_back_type = 'Хочу, чтобы менеджер приехал на встречу'; break;
+				default: $call_back_type = '';
+			}
+		}
+
 		$result = Questions::create([
 			'user_name'		=> trim($data['name']),
 			'organisation'	=> trim($data['organisation']),
 			'city'			=> trim($data['city']),
 			'phone'			=> trim($data['tel']),
-			'callback_type'	=> trim($data['callbackType']),
+			'callback_type'	=> $call_back_type,
 			'email'			=> trim($data['email']),
 			'question'		=> trim($data['question'])
 		]);
