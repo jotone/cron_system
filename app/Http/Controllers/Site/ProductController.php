@@ -5,7 +5,7 @@ use App\Brand;
 use App\Category;
 use App\Pages;
 use App\Products;
-
+use App\Http\Controllers\Supply\Functions;
 use App\Http\Controllers\Supply\Helpers;
 use Illuminate\Routing\Controller as BaseController;
 use Auth;
@@ -219,7 +219,9 @@ class ProductController extends BaseController{
 
 					case 'brand':
 						$brand = Brand::select('id')->where('slug','=',$value)->first();
-						$products = $products->where('refer_to_brand','=',$brand->id);
+						$ids = Functions::getChildBrandIDArray([$brand->id]);
+						//$in = '(' . implode(',', $ids) .')';
+						$products = $products->whereIn('refer_to_brand',$ids); 
 					break;
 
 					case 'price':
@@ -268,7 +270,10 @@ class ProductController extends BaseController{
 			'current'	=> $page,
 			'total'		=> ceil($products_count/$limit)
 		];
-
+		$filter_res=[];
+		if(isset($_COOKIE['catalog_filter']) && (!empty($_COOKIE['catalog_filter']))){
+			$filter_res=get_object_vars(json_decode($_COOKIE['catalog_filter']));
+		}
 		return view('catalog', [
 			'defaults'		=> $defaults,
 			'categories'	=> $categories,
@@ -277,7 +282,11 @@ class ProductController extends BaseController{
 			'products'		=> $list,
 			'paginate_options'=> $paginate_options,
 			'meta_data'		=> $meta_data,
-			'seo'			=> $seo
+			'seo'			=> $seo,
+			'start'			=> $start,
+			'limit'			=> $limit,
+			'filter'		=>$filter_res,
+			'price_range'	=>Functions::getMinMaxPrice()
 		]);
 	}
 
@@ -343,6 +352,60 @@ class ProductController extends BaseController{
 			'paginate_options'=> $paginate_options,
 			'meta_data'		=> $meta_data,
 			'seo'			=> $seo
+		]);
+	}
+
+	public function search($page=1){
+		$defaults = Helpers::getDefaults();
+		$limit = 8;
+		$start = ($page-1) * $limit;
+		$searh_request='';
+
+		if(isset($_GET['search']) && $_GET['search']!=''){
+			$searh_request=$_GET['search'];
+			$products = Products::select('id','title','slug','text','img_url','old_price','price','is_hot')
+				->where('title','LIKE','%'.$_GET['search'].'%')
+				->where('enabled','=',1);
+		}else{
+			$products = Products::select('id','title','slug','text','img_url','old_price','price','is_hot')
+				->where('enabled','=',1);
+		}
+		$list = [];
+		$products_count=0;
+		if(!empty($products)){
+			$products_count = $products->count();
+			$products = $products->orderBy('title','asc')->skip($start)->take($limit)->get();
+
+			foreach($products as $product){
+				switch($product->is_hot){
+					case '1':	$is_hot = 'hot'; break;
+					case '2':	$is_hot = 'sale'; break;
+					default:	$is_hot = '';
+				}
+				$list[] = [
+					'id'		=> Crypt::encrypt($product->id),
+					'title'		=> $product->title,
+					'slug'		=> $product->slug,
+					'text'		=> $product->text,
+					'img_url'	=> json_decode($product->img_url),
+					'old_price'	=> number_format($product->old_price, 0, '',' '),
+					'price'		=> number_format($product->price, 0, '',' '),
+					'is_hot'	=> $is_hot
+				];
+			}
+		}
+		$paginate_options = [
+			'prev'		=> $page-1,
+			'next'		=> $page+1,
+			'current'	=> $page,
+			'total'		=> ceil($products_count/$limit)
+		];
+		return view('search', [
+			'defaults'		=> $defaults,
+			'page_title'	=> 'Поиск',
+			'products'		=> $list,
+			'paginate_options'=> $paginate_options,
+			'searh_request'=>$searh_request
 		]);
 	}
 }

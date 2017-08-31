@@ -8,6 +8,7 @@
 		<div class="page-caption row-wrap">{{ $page_title }}</div>
 		<div class="button-wrap">
 			<a class="control-button" href="{{ route('admin-brands-add') }}">Добавить</a>
+			<a class="control-button" href="{{ route('admin-brands-import') }}">Import</a>
 		</div>
 		<div class="categories-list-wrap">
 			{!! $brands !!}

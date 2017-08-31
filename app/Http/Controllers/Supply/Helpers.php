@@ -10,6 +10,7 @@ use App\SocialMenu;
 use Illuminate\Http\Request;
 use App\TopMenu;
 use Auth;
+use App\Http\Controllers\Supply\Functions;
 use Illuminate\Support\Facades\Crypt;
 use URL;
 
@@ -154,7 +155,9 @@ class Helpers extends BaseController{
 
 					case 'brand':
 						$brand = Brand::select('id')->where('slug','=',$value)->first();
-						$products = $products->where('refer_to_brand','=',$brand->id);
+                                                $ids = Functions::getChildBrandIDArray([$brand->id]);
+                                                //$in = '(' . implode(',', $ids) .')';
+						$products = $products->whereIn('refer_to_brand',$ids); 
 					break;
 
 					case 'price':
@@ -175,7 +178,8 @@ class Helpers extends BaseController{
 				}
 			}
 			$products_count = $products->count();
-			$products = $products->take($limit)->get();
+                        //$start = ($data['page']-1) * $limit;
+			$products = $products->orderBy('title','asc')->take($limit)->get();
 
 			$product_list = [];
 			foreach($products as $product){
@@ -198,9 +202,9 @@ class Helpers extends BaseController{
 			}
 
 			$paginate_options = [
-				'prev'		=> $data['page']-1,
-				'next'		=> $data['page']+1,
-				'current'	=> $data['page'],
+				'prev'		=> 0,
+				'next'		=> 2,
+				'current'	=> 1,
 				'total'		=> ceil($products_count/$limit)
 			];
 

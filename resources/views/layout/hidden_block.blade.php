@@ -15,6 +15,24 @@
 		</div>
 	</div>
 
+	<div id="specify_price" class="specify_price">
+		<div class="specify_price_wrap ask_popup">
+			<form action="ajax.php" class="specify_price_form" method="POST">
+				<div class="popup-title">Уточнить цену</div>
+				<div class="form-field">
+					<span class="field-name">Имя</span>
+					<input type="text" class="el-input" name="name" required="required">
+				</div>
+				<div class="form-field">
+					<span class="field-name">Телефон</span>
+					<input type="text" class="el-input" name="tel" required="required">
+				</div>
+				<input type="hidden" class="product-id"  name="product_id" value="">
+				<input type="submit" class="submit" value="Отправить">
+			</form>
+		</div>
+	</div>
+
 	<div id="call-popup">
 		<form action="ajax.php" class="contact-form">
 			<div class="contact-form-title">

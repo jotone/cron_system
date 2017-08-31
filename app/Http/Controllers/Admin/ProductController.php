@@ -178,7 +178,8 @@ class ProductController extends BaseController{
 				'show_on_main'		=> $data['show_on_main'],
 				'views'				=> 0,
 				'enabled'			=> $data['enabled'],
-				'published_at'		=> date('Y-m-d H:i:s')
+				'published_at'		=> date('Y-m-d H:i:s'),
+								'import_id'             => 0
 			]);
 		}
 		if($result != false){
@@ -192,5 +193,53 @@ class ProductController extends BaseController{
 		if($result != false){
 			return json_encode(['message'=>'success']);
 		}
+	}
+
+
+	//Импорт товаров
+	public function importProducts(Request $request){
+		$allow_access = Functions::checkAccessToPage($request->path());
+		if($allow_access) {
+			$start = Functions::getMicrotime();
+			$menu = Functions::buildMenuList($request->path());
+			return view('admin.import.productImport',[
+				'start'		=> $start,
+				'menu'		=> $menu,
+				'page_title'=> 'Import товаров',
+			]);
+		}
+	}
+
+	public function importCSV(Request $request){
+		$allow_access = Functions::checkAccessToPage($request->path());
+		if($allow_access){
+			switch ($_REQUEST['action']){
+				case 'to_json':
+					$data = $request->all();
+					$row = 1;
+					$res=array();
+					$fh = fopen($_FILES['file_products']['tmp_name'], "r");
+					if (($handle = $fh) !== FALSE) {
+						while (($data = fgetcsv($handle, 10000, ",")) !== FALSE) {
+							$num = count($data);
+							$row++;
+							$tmp_arr=array();
+							for ($c=0; $c < $num; $c++) {
+								$tmp_arr[]= $data[$c];
+							}
+							$res[]=$tmp_arr;
+						}
+						fclose($handle);
+					}
+					$res=['error'=>'0', 'message'=>'success','data'=>$res];
+					return json_encode($res,JSON_UNESCAPED_UNICODE);
+				break;
+				case 'add_list':
+					$result= Functions::addProductList($_REQUEST['json']);
+					return json_encode($res=['error'=>'0', 'message'=>$result],JSON_UNESCAPED_UNICODE);
+				break;
+			}
+		}
+		return json_encode(['error'=>'1', 'message'=>'No elements find!']);
 	}
 }

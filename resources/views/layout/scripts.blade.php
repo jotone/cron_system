@@ -14,6 +14,7 @@
 <script type="text/javascript" src="{{ URL::asset('js/plagins/jquery.validate.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/plagins/maskInput.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/plagins/slick.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/plagins/TimeCircles.js') }}"></script>
 <!-- add you plagins js here -->
 <script type="text/javascript" src="{{ URL::asset('js/plagins/jquery.jscrollpane.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/plagins/jquery.mousewheel.js') }}"></script>
@@ -21,6 +22,12 @@
 <script src="https://cdn.mapkit.io/v1/infobox.js"></script>
 
 <!-- endbuild -->
+
+<script>
+    //list of products
+    var productListStart = 8;//How many products per page
+    var productLoadsCount = 4;//How mach load products
+</script>
 
 <!-- build:js scripts/main.js -->
 <script type="text/javascript" src="{{ URL::asset('js/basic_scripts.js') }}"></script>
@@ -35,7 +42,8 @@
 
 <?php $coordinates = json_decode($defaults['info']['marker_coordinates']);?>
 <script>
-	var removing_from_busket = "ajax.php";
+
+   	var removing_from_busket = "ajax.php";
 	var show_more = "ajax.php";
 	var mapMarker = "<?= $defaults['info']['map_marker']; ?>";
 	var coordinateMarkerY = <?= $coordinates->y; ?>;

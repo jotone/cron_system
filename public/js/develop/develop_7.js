@@ -43,7 +43,40 @@ $(document).ready(function(){
 		}
 		return false;
 	});
+
+	$('.price-filter-input').on('keyup',function(){
+		if ($(this).is('[data-max-price]')){
+			catalogPriceCorrect($(this),'max');
+		} else{
+			catalogPriceCorrect($(this),'min');
+		}
+	});
+
+	$('form[name="catalog-filter"]').on('submit',function(e){
+		console.log('submit prevent');
+		e.preventDefault();
+	})
+
 });
+
+//catalog price set min-max
+function catalogPriceCorrect(input,correction) {
+	var max = +($('.price-filter-input[data-max-price]').attr('data-max-price'));
+	var min = +($('.price-filter-input[data-min-price]').attr('data-min-price'));
+	var value = parseInt(input.val());
+
+	if ( value < min || isNaN(value) ){
+		input.val(min)
+	} else if (value > max) {
+		input.val(max)
+	} else {
+		input.val(value);
+	}
+
+	if ( parseInt($('.price-filter-input[data-max-price]').val()) < parseInt($('.price-filter-input[data-min-price]').val()) ){
+		$('.price-filter-input[data-max-price]').val(parseInt($('.price-filter-input[data-min-price]').val()) + 1 );
+	}
+}
 
 //Catalog Filter Hide
 $(document).click(function(e){

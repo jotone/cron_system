@@ -4,7 +4,6 @@
 		<!-- HEADER -->
 	@include('layout.header')
 	<!-- /HEADER -->
-
 	<!-- MAIN -->
 	<div class="main">
 		<!-- add partials here -->
@@ -39,7 +38,7 @@
 							<div class="link-list-wrap">
 								<ul class="link-list js-scrollpane">
 								@foreach($categories as $category)
-									<li><a href="#{{ $category->slug }}">{{ $category->title }}</a></li>
+									<li @if(isset($filter['category']) && $filter['category']==$category->slug) class="active" @endif><a href="#{{ $category->slug }}">{{ $category->title }}</a></li>
 								@endforeach
 								</ul>
 							</div>
@@ -61,7 +60,7 @@
 										@foreach($brands as $brand)
 											<li>
 												<label>
-													<input type="radio" id="{{ $brand->slug }}" name="brand_radio">
+													<input @if(isset($filter['brand']) && $filter['brand']==$brand->slug) checked="checked" @endif type="radio" id="{{ $brand->slug }}" name="brand_radio">
 													<span></span>
 													{{ $brand->title }}
 												</label>
@@ -78,13 +77,17 @@
 								</a>
 								<div class="filter-price-wrap">
 									<div class="filter-price-inner">
+										<?php $price_array=[];?>
+										@if(isset($filter['price']))
+											<?php $price_array=json_decode($filter['price']);?>
+										@endif
 										<div class="form-field">
 											<label for="min">От</label>
-											<input type="text" id="min" name="min">
+											<input type="text" id="min" class="price-filter-input" data-min-price='{{$price_range['min']}}' name="min" value="{{$price_array->min or $price_range['min']}}">
 										</div>
 										<div class="form-field">
 											<label for="max">До</label>
-											<input type="text" id="max" name="max">
+											<input type="text" id="max" class="price-filter-input" data-max-price='{{$price_range['max']}}' name="max" value="{{$price_array->max or $price_range['max']}}">
 										</div>
 									</div>
 									<button type="button" name="acceptPrice" class="button-invers">ПРИМЕНИТЬ</button>
@@ -96,15 +99,15 @@
 									<span class="filter-arrow"></span>
 								</a>
 								<div class="filter-stars">
-									<input name="eval" type="radio" id="five-star" value="5">
+									<input @if(isset($filter['rating']) && str_replace(['"'],'',$filter['rating'])==5) checked="checked" @endif name="eval" type="radio" id="five-star" value="5">
 									<label for="five-star" class="stars-label"></label>
-									<input name="eval" type="radio" id="four-star" value="4">
+									<input @if(isset($filter['rating']) && str_replace(['"'],'',$filter['rating'])==4) checked="checked" @endif name="eval" type="radio" id="four-star" value="4">
 									<label for="four-star" class="stars-label"></label>
-									<input name="eval" type="radio" id="three-star" value="3">
+									<input @if(isset($filter['rating']) && str_replace(['"'],'',$filter['rating'])==3) checked="checked" @endif name="eval" type="radio" id="three-star" value="3">
 									<label for="three-star" class="stars-label"></label>
-									<input name="eval" type="radio" id="two-star" value="2">
+									<input @if(isset($filter['rating']) && str_replace(['"'],'',$filter['rating'])==2) checked="checked" @endif name="eval" type="radio" id="two-star" value="2">
 									<label for="two-star" class="stars-label"></label>
-									<input name="eval" type="radio" id="one-star" value="1">
+									<input @if(isset($filter['rating']) && str_replace(['"'],'',$filter['rating'])==1) checked="checked" @endif name="eval" type="radio" id="one-star" value="1">
 									<label for="one-star" class="stars-label"></label>
 								</div>
 							</div>
@@ -122,6 +125,7 @@
 						</div>
 						<div class="products">
 						@foreach($products as $product)
+
 							<div class="product-item @if(!empty($product['is_hot'])) hot-item @endif">
 								<div class="pic @if(!empty($product['price'])) to-busket @else ask-price @endif">
 									@if(!empty($product['img_url']->img))

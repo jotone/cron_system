@@ -8,6 +8,7 @@
 		<div class="page-caption row-wrap">{{ $page_title }}</div>
 		<div class="button-wrap">
 			<a class="control-button" href="{{ route('admin-products-add') }}">Добавить</a>
+            <a class="control-button" href="{{ route('admin-products-import') }}">Import</a>
 		</div>
 		@if(1 < $pagination['last_page'])
 			<div class="row-wrap">

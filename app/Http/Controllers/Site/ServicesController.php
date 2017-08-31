@@ -28,10 +28,8 @@ class ServicesController extends BaseController{
 				$content[$temp->meta_key] = json_decode($temp->meta_value);
 			}
 		}
-		$content['promo_page'] = new \DateTime($content['promo_page']);
-		$current_time = new \DateTime(date('Y-m-d H:i:s'));
-		$interval = $content['promo_page']->diff($current_time);
-
+		$interval = new \DateTime($content['promo_page']);
+				$interval=$interval->format('Y-m-d H:i:s');
 		$meta_data = [
 			'title'		=> $page->meta_title,
 			'keywords'	=> $page->meta_keywords,

@@ -204,13 +204,14 @@ class HomeController extends BaseController{
 	public function getMoreProducts(Request $request){
 		$data = $request->all();
 		if( (isset($data['start'])) && (ctype_digit($data['start'])) ){
-			$start = $data['start']+8;
+			$start = $data['start'];
+						$count=$data['loadCount'];
 			$products = Products::select('id','title','slug','text','img_url','old_price','price','is_hot')
 				->where('enabled','=',1)
 				->where('show_on_main','=',1)
 				->orderBy('published_at','desc')
 				->skip($start)
-				->take(4)
+				->take($count)
 				->get();
 			$product_list = [];
 
@@ -239,11 +240,11 @@ class HomeController extends BaseController{
 				->where('show_on_main','=',1)
 				->orderBy('published_at','desc')
 				->count();
-
+						$has_more=($next_products-$start-$count+1>0)?1:0;
 			if(!empty($product_list)){
 				return json_encode([
 					'message'	=> 'success',
-					'has_more'	=> $next_products-$start-8,
+					'has_more'	=> $has_more,
 					'items'		=> $product_list,
 					'start'		=> $start
 				]);

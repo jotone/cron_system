@@ -8,7 +8,7 @@
 	width: 100%;
 	background-color: #dff8ff;
 	text-align: center;
-	padding-bottom: 90px;
+	padding-bottom: 55px;
 	color: dimgrey;
 }
 
@@ -663,3 +663,29 @@
 }
 .private-office .office-box .history .history-col:first-child{font-weight: 700;}
 .private-office .office-box .history .history-col .summ{color: #99d6bc;}
+
+
+/*new timer style*/
+.time_circles {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.time_circles > div {
+	position: absolute;
+	text-align: center;
+}
+.time_circles > div > h4 {
+	margin: 0em 0 0px;
+	padding: 0px;
+	text-align: center;
+	line-height: 1 !important;
+}
+.time_circles > div > span {
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-size: 300%;
+	font-weight: bold;
+	line-height: 1 !important;
+}

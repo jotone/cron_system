@@ -208,11 +208,13 @@ ul{margin: 0; padding: 0; list-style: none;}
 	-ms-flex-pack: center;
 	justify-content: center;
 	font-size: 24px;
-	line-height: 29px;
+	align-items: center;
 	font-weight: 600;
 	color: #657072;
 	cursor: default;
 }
+/*mac os fix*/
+html.MacOS .pagination ul li{ padding-top: 3px;}
 
 .pagination ul li:last-child{margin-right: 0;}
 
@@ -1005,7 +1007,6 @@ ul{margin: 0; padding: 0; list-style: none;}
 }
 
 .brand .brand-items{
-	margin-bottom: 30px;
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -1013,7 +1014,8 @@ ul{margin: 0; padding: 0; list-style: none;}
 	flex-wrap: wrap;
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
-	justify-content: space-around;
+	justify-content: flex-start;
+	margin: 0 -0.5% 30px;
 }
 
 .brand .brand-items .product-item{margin-bottom: 27px; padding: 30px 15px 6px;}
@@ -1297,6 +1299,7 @@ ul{margin: 0; padding: 0; list-style: none;}
 	transition: all 300ms ease;
 }
 .catalog .catalog-wrap .catalog-filter-wrap .filter-item .link-list-wrap .link-list li a:hover{color: #00b3ad;}
+.catalog .catalog-wrap .catalog-filter-wrap .filter-item .link-list-wrap .link-list li.active a{color: #00b3ad;}
 .catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-checkbox-inner{padding-top: 13px;}
 .catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-checkbox-inner .filter-search{
 	position: relative;
@@ -1314,7 +1317,7 @@ ul{margin: 0; padding: 0; list-style: none;}
 	width: 40px;
 	background: #00b3ad;
 	border: 0;
-	padding: 9px 0 6px 0;
+	padding: 8px 0 6px 0;
 }
 .catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-checkbox-inner .checkbox-list-wrap{padding-left: 33px;}
 .catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-checkbox-inner .checkbox-list-wrap .checkbox-list{height: 290px; overflow-y: scroll;}
@@ -1446,7 +1449,10 @@ ul{margin: 0; padding: 0; list-style: none;}
 	flex-wrap: wrap;
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
-	justify-content: space-between;
+	justify-content: flex-start;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	margin: 0 -0.5%;
 }
 
 .catalog .catalog-wrap .catalog-right .products .product-item{margin-bottom: 27px; padding: 30px 15px 6px;}
@@ -1478,3 +1484,24 @@ ul{margin: 0; padding: 0; list-style: none;}
 }
 .catalog .catalog-wrap .catalog-right .catalog-seo .catalog-text p:first-child, .catalog .catalog-wrap .catalog-right .catalog-seo .catalog-text span:first-child{margin-bottom: 28px;}
 .catalog .catalog-wrap .catalog-right .catalog-seo .button-round{padding: 17px 5px; margin: 0 auto;}
+
+
+/* page 404 */
+.error-404{background: url(/images/bg.jpg);}
+.error-404-wrap{ position: relative; display: flex; align-items: center; justify-content: center;padding: calc((100vh - 500px) / 2) 0;}
+/*left*/
+.error-404-left{ position: relative;}
+.error-404-image{ height: 500px; width: 500px; overflow: hidden;border-radius: 50%;border:4px solid white;padding:47px; }
+.error-404-image:after{ position: absolute; top:-6px; left:50%; content: ''; height: 16px; width: 16px;border:4px solid white;border-radius: 50%; background-color: #00b4ae;}
+.error-404-image:before{ position: absolute; top:60%; right:1px; content: ''; height: 16px; width: 16px;border:4px solid white;border-radius: 50%; background-color: #00b4ae;}
+.error-404-image-wrap{ height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;border-radius: 50%; overflow: hidden;}
+.error-404-image-wrap img{max-width: 150%;margin-left: -20%;margin-top: -12%;}
+
+.error-404-loope{ position: absolute;right: 0;bottom: calc(100% - 91px);}
+.error-404-smallImg{ position: absolute; left:-90px; bottom:-11px;}
+
+/*left*/
+.error-404-right{ padding-left: 100px;}
+.error-404-right .button-round{ text-transform: uppercase;border-radius: 0px; font-weight: normal; width: 165px; line-height:1; padding:5px; height: 43px; display: flex; align-items: center; justify-content: center; font-size: 16px;}
+.error-404-title{ font-size: 60px; color: white;font-weight: 700; margin-bottom: 20px;}
+.error-404-text{ font-size: 19px; color: #303030; margin-bottom: 50px;}

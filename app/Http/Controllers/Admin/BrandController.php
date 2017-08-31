@@ -30,6 +30,63 @@ class BrandController extends BaseController{
 		}
 	}
 
+	public function importPage(Request $request){
+		$allow_access = Functions::checkAccessToPage($request->path());
+		if($allow_access){
+			$data = $request->all();
+			$start = Functions::getMicrotime();
+			$menu = Functions::buildMenuList($request->path());
+
+			return view('admin.import.brands', [
+				'start'		=> $start,
+				'menu'		=> $menu,
+				'data'		=> $data
+			]);
+		}
+	}
+
+	//Import_controlls
+	public function importCSV(Request $request){
+		$allow_access = Functions::checkAccessToPage($request->path());
+		if($allow_access){
+			switch ($_REQUEST['action']){
+				case 'to_json':
+					$data = $request->all();
+					$row = 1;
+					$res=array();
+					$fh = fopen($_FILES['file_brands']['tmp_name'], "r");
+					if (($handle = $fh) !== FALSE) {
+						while (($data = fgetcsv($handle, 10000, ",")) !== FALSE) {
+							$num = count($data);
+							$row++;
+							$tmp_arr=array();
+							for ($c=0; $c < $num; $c++) {
+								$tmp_arr[]= $data[$c];
+							}
+							$res[]=$tmp_arr;
+						}
+						fclose($handle);
+					}
+					$res=['error'=>'0', 'message'=>'success','data'=>$res];
+					return json_encode($res,JSON_UNESCAPED_UNICODE);
+				break;
+				case 'add_list':
+					$result= Functions::addBrandList($_REQUEST['json']);
+					return json_encode($res=['error'=>'0', 'message'=>$result],JSON_UNESCAPED_UNICODE);
+				break;
+			}
+		}
+		return json_encode(['error'=>'1', 'message'=>'No elements find!']);
+	}
+
+	public function import_list(Request $request){
+		$allow_access = Functions::checkAccessToPage($request->path());
+		if($allow_access){
+			//Импортирование одной цепочки брендов
+		}
+	}
+	//END Import_controlls
+
 	public function addPage(Request $request){
 		$allow_access = Functions::checkAccessToPage($request->path());
 		if($allow_access) {

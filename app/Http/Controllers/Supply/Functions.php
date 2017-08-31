@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Supply;
 use App\AdminMenu;
 use App\Brand;
 use App\News;
+use App\Category;
 use App\PageContent;
 use App\Pages;
 use App\Products;
@@ -15,6 +16,21 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 
 class Functions extends BaseController{
+	public static function getMinMaxPrice(){
+		$products=Products::select('price')->where('enabled','=',1)->get();
+		$res['min']=0;
+		$res['max']=0;
+		foreach($products as $product){
+			if($res['min']>=$product->price){
+				$res['min']=$product->price;
+			}
+			if($res['max']<=$product->price){
+				$res['max']=$product->price;
+			}
+		}
+		return $res;
+	}
+
 	public static function getMicrotime(){
 		$time = microtime();
 		$time = explode(' ', $time);
@@ -376,6 +392,199 @@ class Functions extends BaseController{
 			];
 		}else{
 			return self::getParentBrand($brand->refer_to);
+		}
+	}
+
+	public static function getChildBrandIDArray($array){
+		$res_arr=[];
+		foreach($array as $element){
+			$brands = Brand::select('id','refer_to','is_last')->where('refer_to','=',$element)->get();
+			foreach($brands as $brand){
+				if($brand->is_last == 1){
+		$res_arr=array_merge($res_arr,[$brand->id]);
+				}else{
+					$res_arr=array_merge($res_arr,self::getChildBrandIDArray([$brand->id]));
+				}
+			}
+		}
+		return $res_arr;
+	}
+
+
+	//Получение списка дочерних брендов
+	public static  function getChildBrands($id){
+		$brands=[];
+		if($id==-1){
+			$brands=Brand::all();
+		}else{
+			$brands = Brand::where('refer_to',$id)->get();
+		}
+		return $brands;
+	}
+
+	// Добавление бренда по его тайтлу
+	private static function addBrandItem($title,$refer_to,$is_last){
+		$last_pos = Brand::select('position')
+			->where('refer_to','=',$refer_to)
+			->orderBy('position','desc')
+			->first();
+		$position = (!empty($last_pos))? $last_pos->position +1: 0;
+		$result = Brand::create([
+			'title'		=> trim($title),
+			'slug'		=> trim(self::str2url($title)),
+			'refer_to'	=> $refer_to,
+			'position'	=> $position,
+			'need_seo'	=> 0,
+			'seo_title'	=> $title,
+			'seo_text'	=> $title,
+			'is_last'	=> $is_last,
+			'enabled'	=> 1
+		]);
+		return $result->id;
+	}
+
+	//Создание связного списка категорий
+	private static function  setBrandList($array,$id){
+		$i=0;
+		foreach ($array as $el){
+			$is_last=0;
+			if($i==count($array)-1) $is_last=1;
+			$id=self::addBrandItem($el,$id,$is_last);
+			$i++;
+		}
+		return 1;
+	}
+
+	// поиск последнего вхождения в существующий список категорий
+	private static function searchLastChildImportBrand($array,$index,$id){
+		$brands=self::getChildBrands($id);
+		foreach ($brands as $brand){
+			if($brand->title==$array[$index] && count($array)>$index){
+				return self::searchLastChildImportBrand($array,$index+1,$brand->id);
+			}
+		}
+		if($id==-1)$id=0;
+		return ['id'=>$id,'index'=>$index,'array'=>array_slice($array,$index)];
+	}
+
+	//Импортирование списка брендов
+	public static function addBrandList($array){
+		$res_search= self::searchLastChildImportBrand($array,0,-1);
+		$res=self::setBrandList($res_search['array'],$res_search['id']);
+		return print_r($res_search,true);
+	}
+
+
+	private static function makeDataProductArr($array){
+		$data=array();
+		$data['image_type']='file';
+		$data['image']=$array[6];
+		$data['image_alt']=$array[6];
+		if(intval($array[0])!=0){
+			$product = Products::select('id')
+				->where('import_id','=',intval($array[0]))
+				->first();
+			$data['id']=(!empty($product))?$product->id:Null;
+		}
+		$data['import_id']=$array[0];
+		$data['title']=$array[2];
+		$data['slug']=trim(self::str2url($array[2]));
+		$data['text']=$array[3];
+		$data['old_price']=$array[5];
+		$data['price']=$array[4];
+		//
+		$category = Category::select('id')
+			->where('title','LIKE',$array[9])
+			->first();
+		$data['category']=(!empty($category))?$category->id:0;
+
+		$brand = Brand::select('id')
+			->where('title','LIKE',$array[1])
+			->first();
+		$data['brand']=(!empty($brand))?$brand->id:0;
+		//
+		$data['rating']=$array[8];
+		$data['is_hot']=$array[7];
+		$data['show_on_main']=0;
+		$data['enabled']=1;
+		return $data;
+	}
+
+		//Import products
+	public static function addProductList($array){
+		$data=self::makeDataProductArr($array);
+		if($data['image_type'] == 'file'){
+			$img_url = json_encode([
+				'img'=>$data['image'],
+				'alt'=>$data['image_alt']
+			]);
+		}else{
+			$image = Functions::createImg($data['image'], true);
+			$img_url = json_encode([
+				'img'=>$image,
+				'alt'=>$data['image_alt']
+			]);
+		}
+
+		$create_array=[
+			'title'				=> trim($data['title']),
+			'slug'				=> trim($data['slug']),
+			'text'				=> $data['text'],
+			'img_url'			=> $img_url,
+			'old_price'			=> str_replace(',','.',$data['old_price']),
+			'price'				=> str_replace(',','.',$data['price']),
+			'refer_to_category'	=> $data['category'],
+			'refer_to_brand'	=> $data['brand'],
+			'rating'			=> ( ($data['rating'] == 'undefined') || ($data['rating'] == '') )? 0: $data['rating'],
+			'is_hot'			=> $data['is_hot'],
+			'show_on_main'		=> $data['show_on_main'],
+			'views'				=> 0,
+			'enabled'			=> $data['enabled'],
+			'published_at'		=> date('Y-m-d H:i:s'),
+			'import_id'			=> $data['import_id']
+		];
+		if( (isset($data['id'])) && (!empty($data['id'])) ){
+			$result = Products::find($data['id']);
+			$result->title				= trim($data['title']);
+			$result->slug				= trim($data['slug']);
+			$result->text				= $data['text'];
+			$result->img_url			= $img_url;
+			$result->old_price			= str_replace(',','.',$data['old_price']);
+			$result->price				= str_replace(',','.',$data['price']);
+			$result->refer_to_category	= $data['category'];
+			$result->refer_to_brand		= $data['brand'];
+			$result->rating				= ( ($data['rating'] == 'undefined') || ($data['rating'] == '') )? 0: $data['rating'];
+			$result->is_hot				= $data['is_hot'];
+			$result->show_on_main		= $data['show_on_main'];
+			$result->enabled			= $data['enabled'];
+			if($result->enabled > 0){
+				$result->published_at = date('Y-m-d H:i:s');
+			}
+			$result->save();
+		}else{
+			$result = Products::create([
+				'title'				=> trim($data['title']),
+				'slug'				=> trim($data['slug']),
+				'text'				=> $data['text'],
+				'img_url'			=> $img_url,
+				'old_price'			=> str_replace(',','.',$data['old_price']),
+				'price'				=> str_replace(',','.',$data['price']),
+				'refer_to_category'	=> $data['category'],
+				'refer_to_brand'	=> $data['brand'],
+				'rating'			=> ( ($data['rating'] == 'undefined') || ($data['rating'] == '') )? 0: $data['rating'],
+				'is_hot'			=> $data['is_hot'],
+				'show_on_main'		=> $data['show_on_main'],
+				'views'				=> 0,
+				'enabled'			=> $data['enabled'],
+				'published_at'		=> date('Y-m-d H:i:s'),
+								'import_id'			=> $data['import_id']
+			]);
+		}
+		return $create_array;
+		if($result != false){
+			return 1;
+		}else{
+			return 0;
 		}
 	}
 }

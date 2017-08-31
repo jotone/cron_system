@@ -183,16 +183,22 @@ $(document).ready(function(){
 
 		if($(this).next('ul').css('display') == "none"){
 			$(this).next('ul').slideDown();
+			$(this).addClass('minimazed');
 		}else{
 			$(this).next('ul').slideUp();
+			$(this).removeClass('minimazed');
 		}
 	});
 
 	$('.menu-list > li > .slide-up').click(function () {
-		if($(this).next('ul').css('display') == "none"){
-			$(this).next('ul').slideDown();
+		var menuHolder = $(this).next();
+		console.log($(this));
+		if(menuHolder.css('display') == "none"){
+			menuHolder.slideDown();
+			$(this).removeClass('minimazed');
 		}else{
-			$(this).next('ul').slideUp();
+			menuHolder.slideUp();
+			$(this).addClass('minimazed');
 		}
 	});
 
@@ -208,13 +214,27 @@ $(document).ready(function(){
 	});
 
 	// show more button
+	var showMoreClicked = false;
 	$('.more').on("click", function(e){
 		e.preventDefault();
-		var start = $(this).closest('.mbox').find('.products').attr('data-start');
+		//var start = $(this).closest('.mbox').find('.products').attr('data-start');
+		var dispatchData = null;
+		productListStart = parseInt(productListStart);
+		productLoadsCount = parseInt(productLoadsCount);
+
+		if (showMoreClicked) {
+			productListStart += productLoadsCount
+		}
+
+		dispatchData = {
+			start:productListStart,
+			loadCount:productLoadsCount
+		}
+
 		var _this = $(this);
 		$.ajax({
 			url:	'/get_more_products',
-			data:	{start: start},
+			data:	dispatchData,
 			type:	'GET',
 			success:function(data){
 				try{
@@ -222,19 +242,32 @@ $(document).ready(function(){
 					if(data.message == 'success'){
 						for(var i in data.items){
 							var product = data.items[i];
-							var item = builProductView(product);
+							var item = $( builProductView(product) );
+							item.addClass('hide');
 							_this.closest('.mbox').find('.products').append(item);
+							showProductItemsAnimate(i);
 						}
 
 						if(data.has_more < 1){
 							_this.hide();
 						}
 						_this.closest('.mbox').find('.products').attr('data-start',data.start);
+
+						showMoreClicked = true;
+
 					}
+
 				}catch(e){}
 			}
 		});
+
 	});
+	function showProductItemsAnimate(i) {
+		setTimeout(function(){
+			$('.product-item.hide').first().removeClass('hide');
+		},i*130)
+	}
+
 	// /show more button
 
 	// burger

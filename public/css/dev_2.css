@@ -46,7 +46,7 @@
 
 .busket_popup {overflow: visible;}
 .busket_popup .pic { text-align: center; padding-bottom: 20px;}
-.busket_popup .title {    
+.busket_popup .title {
 	font-weight: 600;
 	font-size: 22px;
 	color: #303030;
@@ -62,7 +62,7 @@
 	align-items: center;
 }
 .busket_popup .product-desc .table-col {width: 50%;}
-.busket_popup .product-desc .price {  
+.busket_popup .product-desc .price {
 	padding-top: 8px;
 	font-weight: 700;
 	font-size: 40px;
@@ -77,10 +77,15 @@
 	width: 24%;
 	background: #fff;
 	padding: 30px 15px 15px;
+	margin: 0 0.5%;
 	margin-bottom: 23px;
 	display: flex;
 	flex-wrap: wrap;
 	align-content: space-between;
+	transition:all ease .3s;
+}
+.product-item.hide{
+	opacity:0;
 }
 .product-item .pic{
 	cursor: pointer;
@@ -247,8 +252,9 @@
 
 .search-input{
 	width: 268px;
+	height: 35px;
 	border: 1px solid #00b3ad;
-	padding: 6px 6px 5px;
+	padding: 2px 6px;
 	font-weight: 400;
 	font-size: 18px;
 	color: #00b3ad;
@@ -323,9 +329,20 @@
 
 .search form .submit{
 	width: 40px;
+	height: 35px;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center
+	;justify-content: center;
 	background-color: #00b3ad;
 	border: 0;
-	padding: 8px 0 6px;
+}
+.search form .submit:hover{
+	background-color: #00c7ff;
 }
 
 .buttons{
@@ -486,10 +503,14 @@
 	text-align: center;
 	font-size: 16px;
 	color: #fff;
-	padding: 4px 34px 6px;
+	padding: 3px 34px;
+	height: 26px;
 	transition: .3s;
-	display: inline-block;
 	letter-spacing: -.3px;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: center;
 }
 
 .header .top-header .wrapper .ask:hover{background: #00c7ff; transition: .3s;}
@@ -510,7 +531,7 @@
 .header .top-header .wrapper .tel, .header .top-header .wrapper .regist{letter-spacing: -.3px;}
 .header .top-header .wrapper .tel:hover, .header .top-header .wrapper .regist:hover{color: #1abbb5; transition: .3s;}
 .header .top-header .wrapper .regist{padding-left: 60px; text-decoration: underline;}
-.header .top-header .wrapper .regist span{padding-right: 7px;}
+.header .top-header .wrapper .regist span{padding-right: 7px;margin-top: -1px;}
 
 .header .bottom-header{background: #fff; padding: 5px 0;}
 .header .bottom-header .wrapper{
@@ -668,6 +689,18 @@
 	align-items: center;
 	position: relative;
 }
+.header .bottom-header .wrapper .busket a img{transition:all ease .2s;}
+.header .bottom-header .wrapper .busket a:hover .busket-count{ background-color: #00c7ff;}
+.header .bottom-header .wrapper .busket a:hover img{ opacity:0;}
+.header .bottom-header .wrapper .busket a:hover img.busket-img-hover{ opacity:1;}
+.header .bottom-header .wrapper .busket .busket-img-hover{
+	position: absolute;
+	top:0;
+	right:23%;
+	bottom:0;
+	transition:all ease .2s;
+	opacity:0;
+}
 
 .header .bottom-header .wrapper .busket a .busket-count{
 	position: absolute;
@@ -680,6 +713,7 @@
 	font-weight: 700;
 	font-size: 14px;
 	color: #fff;
+	transition:all ease .2s;
 }
 
 .header .bottom-header .wrapper .busket-popup{
@@ -883,7 +917,7 @@
 	font-weight: 400;
 	font-size: 20px;
 	color: #fff;
-	padding: 5px 5px 10px;
+	padding: 5px 5px 5px;
 	width: 50px;
 }
 
@@ -965,6 +999,9 @@
 	color: #696969;
 	line-height: 32px;
 }
+
+.header .header-huge-menu .bottom-menu>ul li .slide-up.minimazed span:after{transform: rotate(25deg) translateY(0%); }
+.header .header-huge-menu .bottom-menu>ul li .slide-up.minimazed span:before{transform: rotate(-25deg) translateY(0%); }
 
 .header .header-huge-menu .bottom-menu>ul li a span{
 	width: 17px;
@@ -1211,9 +1248,10 @@
 	flex-direction: row;
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
-	justify-content: space-around;
+	justify-content: flex-start;
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
+	margin: 0 -0.5%;
 }
 
 .wrap-popular .more{
@@ -1295,9 +1333,17 @@
 .top-slider .index-slider .slide .text .button-round{
 	margin-top: 33px;
 	margin-left: 10px;
-	padding: 11px 11px 14px;
+	padding: 5px 5px 7px;
 	width: 279px;
+	height:55px;
 	font-size: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	line-height:1;
+}
+.top-slider .index-slider .slide .text .button-round{
+
 }
 .top-slider .index-slider .slide .overlay{
 	position: absolute;

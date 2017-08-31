@@ -40,8 +40,8 @@ $user = Auth::user();
 						<a href="#" class="close"></a>
 					</div>
 					<div class="search">
-						<form>
-							<input type="text" name="search" class="search-input" placeholder="Поиск...">
+						<form action="{{ route('search') }}">
+							<input type="text" name="search" value="@if(isset($_GET['search'])){{ $_GET['search']}}@endif" class="search-input" placeholder="Поиск...">
 							<button type="submit" class="submit">
 								<img src="{{ URL::asset('images/search.png') }}" alt="">
 							</button>
@@ -51,6 +51,7 @@ $user = Auth::user();
 					<div class="busket">
 						<a href="#">
 							<img src="{{ URL::asset('images/busket.png') }}" alt="">
+							<img src="{{ URL::asset('images/busket-hover.png') }}" class="busket-img-hover" alt="">
 							<span class="busket-count" style="display: none"></span>
 						</a>
 					</div>
@@ -74,9 +75,9 @@ $user = Auth::user();
 		<div class="mbox2">
 			<div class="top-menu">
 				<div class="search">
-					<form action="ajax.php">
-						<input type="text" name="search" class="search-input" placeholder="Поиск...">
-						<button type="submit" class="submit">go</button>
+					<form action="{{ route('search') }}">
+						<input type="text" name="search" class="search-input" value="@if(isset($_GET['search'])){{ $_GET['search']}}@endif" placeholder="Поиск...">
+						<button type="submit" class="submit"><img src="{{ URL::asset('images/search.png') }}" alt=""></button>
 					</form>
 				</div>
 				<a href="#" class="close">Назад<span></span></a>

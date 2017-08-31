@@ -8,7 +8,7 @@ function builProductView(product){
 	'<div class="product-item'+hotClass+'">'+
 		'<div class="pic">'+itemImage+hotTag+'</div>'+
 		'<div class="name">'+
-			'<span class="prod-name">'+product['title']+'</span>'+product['text']+
+			'<div class="prod-name">'+product['title']+'</div>'+product['text']+
 		'</div>'+
 		'<div class="price" data-product="'+product['id']+'">';
 
@@ -30,7 +30,7 @@ function builProductView(product){
 }
 
 function sendFilterData(type, data){
-	var pageIsset = window.location.pathname.split('/').indexOf('page')
+	var pageIsset = window.location.pathname.split('/').indexOf('page');
 	var page = (pageIsset > 0)? window.location.pathname.split('/')[pageIsset+1]: 1;
 	$.ajax({
 		url:	'/change_filter',
@@ -52,8 +52,24 @@ function sendFilterData(type, data){
 							paginationTag += '</li>';
 							$('.pagination ul').append(paginationTag)
 						}
-						$('.pagination a.prev').remove();
-						$('.pagination a.next').attr('href','/catalog/page/2');
+                                                if(parseInt(data.pagination.prev)>0){
+                                                    if($('.pagination a.prev').length<1){
+                                                        //alert('tyt');
+                                                        $('.pagination').prepend('<a href="#" class="prev"><</a>');
+                                                    }
+                                                    $('.pagination a.prev').attr('href','/catalog/page/'+data.pagination.prev);
+                                                }else{
+                                                    $('.pagination a.prev').remove();
+                                                }
+                                                if(parseInt(data.pagination.next)<=parseInt(data.pagination.total)){
+                                                    if($('.pagination a.next').length<1){
+                                                        $('.pagination').append('<a href="#" class="next">></a>');
+                                                    }
+                                                    $('.pagination a.next').attr('href','/catalog/page/'+data.pagination.next);
+                                                }else{
+                                                    $('.pagination a.next').remove();
+                                                }
+						
 					}else{
 						$('.pagination').hide();
 					}
@@ -64,6 +80,7 @@ function sendFilterData(type, data){
 						var item = builProductView(product);
 						$('.catalog-right .products').append(item);
 					}
+                                        history.pushState({},'CronSystem','/catalog');
 				}
 			}catch(e){}
 		}
@@ -258,6 +275,9 @@ $(document).ready(function(){
 	//category
 	$('.link-list-wrap li').on('click','a',function(e){
 		e.preventDefault();
+		$('.link-list-wrap li').removeClass('active');
+		$(this).closest('li').addClass('active');
+
 		var type = 'category';
 		var data = $(this).attr('href').replace(/#{1,}/g,'').trim();
 		sendFilterData(type, data);
@@ -265,16 +285,32 @@ $(document).ready(function(){
 	// /category
 
 	//brand
-	$('.filter-item').on('change','input[name=brand_radio]',function(){
+	$('.filter-item').on('click','.checkbox-list-wrap li label',function(){
 		var type = 'brand';
-		var data = $(this).attr('id');
+		var data = $(this).find('input').attr('id');
 		sendFilterData(type, data);
+
+		if ( $('.filter-search .search-input').val().length>0 ){
+			$('.filter-search .search-input').val('');
+		}
 	});
 
 	$(document).find('ul.autocomplete-dropdown').on('click','a',function(e){
 		e.preventDefault();
 		var type = 'brand';
 		var data = $(this).attr('href').replace(/#{1,}/g,'').trim();
+
+		var linkText = $(this).text();
+		var mainInput = $(this).closest('.filter-search').find('.search-input');
+		mainInput.val(linkText);
+
+		$('.checkbox-list-wrap li input[name="brand_radio"]').prop('checked',false);
+		$('.checkbox-list-wrap li input[name="brand_radio"]#'+data).prop( "checked", true );
+		console.log($('.checkbox-list-wrap li input[name="brand_radio"]#'+data));
+		console.log('.checkbox-list-wrap li input[name="brand_radio"]#'+data);
+		//remove dropDown menu
+		$('.autocomplete-dropdown').slideUp();
+
 		sendFilterData(type, data);
 	});
 	// /brand
@@ -321,4 +357,28 @@ $(document).ready(function(){
 		$('#call_back_popup input[name=service]').val($(this).attr('data-service'));
 	});
 	// /services
+
+	getOS();
+	function getOS() {
+		var userAgent = window.navigator.userAgent,
+			platform = window.navigator.platform,
+			macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+			windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+			iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+			os = null;
+
+		if (macosPlatforms.indexOf(platform) !== -1) {
+			os = 'MacOS';
+		} else if (iosPlatforms.indexOf(platform) !== -1) {
+			os = 'iOS';
+		} else if (windowsPlatforms.indexOf(platform) !== -1) {
+			os = 'Windows';
+		} else if (/Android/.test(userAgent)) {
+			os = 'Android';
+		} else if (!os && /Linux/.test(platform)) {
+			os = 'Linux';
+		}
+
+		$('html').addClass(os);
+	}
 });

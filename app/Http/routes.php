@@ -77,6 +77,14 @@ Route::get('/contacts',[
 	'as'=>'contacts',
 	'uses'=>'Site\HomeController@contacts'
 ]);
+//Поиск
+Route::get('/search',[
+	'as'=>'search',
+	'uses'=>'Site\ProductController@search'
+]);
+Route::get('/search/page/{page?}',[
+		'uses'=>'Site\ProductController@search'
+	]);
 //Бренды
 Route::get('/brand/{brand}/page/{page?}',[
 	'uses'=>'Site\ProductController@brand'
@@ -350,6 +358,14 @@ Route::group(['middleware' => 'admin'], function(){
 			'as'=>'admin-brands-add',
 			'uses'=>'Admin\BrandController@addPage'
 		]);
+				Route::get('/admin/brands/import',[
+			'as'=>'admin-brands-import',
+			'uses'=>'Admin\BrandController@importPage'
+		]);
+				Route::post('/admin/brands/import-ajax-csv',[
+			'as'=>'admin-brands-import-ajax-csv',
+			'uses'=>'Admin\BrandController@importCSV'
+		]);
 		Route::get('/admin/brands/edit/{id}',[
 			'as'=>'admin-brands-edit',
 			'uses'=>'Admin\BrandController@editPage'
@@ -416,6 +432,14 @@ Route::group(['middleware' => 'admin'], function(){
 		]);
 		Route::delete('/admin/products/drop',[
 			'uses'=>'Admin\ProductController@dropItem'
+		]);
+		Route::get('/admin/products/import',[
+			'as'=>'admin-products-import',
+			'uses'=>'Admin\ProductController@importProducts'
+		]);
+		Route::post('/admin/products/import-ajax-csv',[
+			'as'=>'admin-products-import-ajax-csv',
+			'uses'=>'Admin\ProductController@importCSV'
 		]);
 	//Страницы
 	Route::get('/admin/pages',[

@@ -25,6 +25,18 @@
 	.second-busket .card-busket:before{display: none;}
 }
 
+@media screen and (max-width: 1441px){
+	/*ask popup*/
+	.ask_popup{padding: 29px 55px 29px;}
+	.ask_popup .popup-title{ font-size: 30px; padding-bottom: 25px;}
+	.ask_popup .form-field{ padding-bottom: 15px;}
+	.ask_popup .form-field .field-name{ width: 24%; font-size: 21px;}
+	.ask_popup .form-field .el-input, .ask_popup .form-field .el-textarea{ padding:7px 10px;}
+	.ask_popup .form-field.radio{ font-size: 21px;}
+	.ask_popup .form-field .el-textarea{ height:100px;}
+	
+}
+
 @media screen and (max-width: 1366px){
 	.header .bottom-header .wrapper .header-menu ul li{padding: 0 7px;}
 	.header .bottom-header .wrapper .header-menu ul li a{font-size: 17px;}

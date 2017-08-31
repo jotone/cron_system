@@ -8,6 +8,7 @@
 	<div class="main">
 		<!-- add partials here -->
 		<section class="about-us">
+
 			<div class="text-box">
 				<div class="breadcrumbs-box">
 					<div class="mbox2">

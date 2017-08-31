@@ -1,3 +1,10 @@
+/*min width*/
+@media screen and (min-width: 1100px){
+	/*timer*/
+	.time_circles > div > h4{ font-size: 21px !important;letter-spacing: 1px;}
+	.time_circles > div > span{ font-size: 67px !important;}
+}
+
 @media screen and (max-width: 1600px){
 	.services .text-block{padding: 70px 0 60px;}
 	.private-office .office-box .office-content-box .office-tab.active:first-child{margin-left: 45px;}
@@ -165,6 +172,10 @@
 		justify-content: space-around;
 	}
 	.private-office .office-box .history .history-col{padding: 5px 0; text-align: center;}
+	
+	/*services timer*/
+	.timear{overflow: overlay;}
+	#close-timer1{ width: 600px;}
 }
 
 @media screen and (max-width: 479px){
