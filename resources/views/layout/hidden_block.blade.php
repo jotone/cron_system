@@ -84,15 +84,15 @@
 				<input type="text" class="el-input" name="tel" required="required">
 			</div>
 			<div class="form-field radio">
-				<input type="radio" class="el-radio" id="email" name="callback-type" value="Хочу, чтобы менеджер ответил мне по E-mail">
+				<input type="radio" class="el-radio" id="email" name="callbackType" value="Хочу, чтобы менеджер ответил мне по E-mail">
 				<label for="email">Хочу, чтобы менеджер ответил мне по E-mail</label>
 			</div>
 			<div class="form-field radio">
-				<input type="radio" class="el-radio" id="call" name="callback-type" value="Хочу, чтобы менеджер мне перезвонил">
+				<input type="radio" class="el-radio" id="call" name="callbackType" value="Хочу, чтобы менеджер мне перезвонил">
 				<label for="call">Хочу, чтобы менеджер мне перезвонил</label>
 			</div>
 			<div class="form-field radio">
-				<input type="radio" class="el-radio" id="meet" name="callback-type" value="Хочу, чтобы менеджер приехал на встречу">
+				<input type="radio" class="el-radio" id="meet" name="callbackType" value="Хочу, чтобы менеджер приехал на встречу">
 				<label for="meet">Хочу, чтобы менеджер приехал на встречу</label>
 			</div>
 			<div class="form-field">

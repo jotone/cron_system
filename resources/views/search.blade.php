@@ -21,7 +21,7 @@
 			</div>
 			<div class="mbox">
 				<h1>@if(!isset($_GET['search'])){{ $page_title }}@else Результаты по запросу: {{$searh_request}}@endif</h1>
-                                @if(count($products)>0)
+				@if(count($products)>0)
 				<div class="brand-items">
 					@foreach($products as $product)
 						<div class="product-item @if(!empty($product['is_hot'])) hot-item @endif">
@@ -54,13 +54,13 @@
 						</div>
 					@endforeach
 				</div>
-                                @else
-                                <div class="no_found">
-                                    <p>
-                                        Извините товаров по запросу <b>{{$searh_request}}</b> не найдено
-                                    </p>
-                                </div>
-                                @endif
+				@else
+				<div class="no_found">
+					<p>
+						Извините товаров по запросу <b>{{$searh_request}}</b> не найдено
+					</p>
+				</div>
+				@endif
 				@if($paginate_options['total'] > 1)
 					<div class="pagination">
 						@if($paginate_options['prev'] > 0)

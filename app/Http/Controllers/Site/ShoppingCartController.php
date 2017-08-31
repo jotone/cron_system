@@ -173,7 +173,7 @@ class ShoppingCartController extends BaseController{
 							<td colspan="2">'.$delivery->title.' - '.number_format($delivery->price, 2, '.', ' ').' руб. ('.$delivery->terms.')</td>
 						</tr>
 						<tr>
-							<td colspan="3"><a href="http://www.cron.lar/admin">Подробнее</a></td>
+							<td colspan="3"><a href="'.\URL::asset('/admin/').'">Подробнее</a></td>
 						</tr>
 					</table>
 				</body>

@@ -264,7 +264,7 @@ class HomeController extends BaseController{
 			'organisation'	=> trim($data['organisation']),
 			'city'			=> trim($data['city']),
 			'phone'			=> trim($data['tel']),
-			'callback_type'	=> trim($data['callback-type']),
+			'callback_type'	=> trim($data['callbackType']),
 			'email'			=> trim($data['email']),
 			'question'		=> trim($data['question'])
 		]);
@@ -318,10 +318,10 @@ class HomeController extends BaseController{
 						<tr>
 							<td>
 								<p>Суть вопроса: '.trim($data['question']).'</p><br>
-								<p>Примечание: '.trim($data['callback-type']).'</p>
+								<p>Примечание: '.trim($data['callbackType']).'</p>
 							</td>
 						</tr>
-						<tr><td><a href="http://www.cron.lar/admin">Подробнее</a></td>
+						<tr><td><a href="'.\URL::asset('/admin/').'">Подробнее</a></td>
 							
 						</tr>
 					</table>

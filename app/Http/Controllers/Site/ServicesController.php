@@ -100,7 +100,7 @@ class ServicesController extends BaseController{
 							<td>Телефон: '.trim($data['phone']).'</td>
 						</tr>
 						<tr>
-							<td><a href="http://www.cron.lar/admin">Подробнее</a></td>
+							<td><a href="'.\URL::asset('/admin/').'">Подробнее</a></td>
 						</tr>
 					</table>
 				</body>
