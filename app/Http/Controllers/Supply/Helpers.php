@@ -78,6 +78,23 @@ class Helpers extends BaseController{
 		];
 	}
 
+	public static function convertMonth($month){
+		switch($month){
+			case '1': return 'января';
+			case '2': return 'февраля';
+			case '3': return 'марта';
+			case '4': return 'апреля';
+			case '5': return 'мая';
+			case '6': return 'июня';
+			case '7': return 'июля';
+			case '8': return 'августа';
+			case '9': return 'сентября';
+			case '10':return 'октября';
+			case '11':return 'ноября';
+			case '12':return 'декабря';
+		}
+	}
+
 	public static function buildBrandList($refer_to = 0, $parent = '', $result = ''){
 		$items = Brand::select('id','title','slug')
 			->where('refer_to','=',$refer_to)

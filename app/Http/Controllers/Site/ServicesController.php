@@ -28,8 +28,14 @@ class ServicesController extends BaseController{
 				$content[$temp->meta_key] = json_decode($temp->meta_value);
 			}
 		}
-		$interval = new \DateTime($content['promo_page']);
-				$interval=$interval->format('Y-m-d H:i:s');
+
+		$current = new \DateTime('now');
+		$expire_date = new \DateTime($content['promo_page']);
+
+		$interval = $current->diff($expire_date);
+
+		$expire_date = $expire_date->format('j').' '.Helpers::convertMonth($expire_date->format('n'));
+
 		$meta_data = [
 			'title'		=> $page->meta_title,
 			'keywords'	=> $page->meta_keywords,
@@ -60,6 +66,8 @@ class ServicesController extends BaseController{
 			'defaults'	=> $defaults,
 			'services'	=> $list,
 			'interval'	=> $interval,
+			'promo_title'=>$content['promo_title']->value,
+			'expire_date'=>$expire_date,
 			'meta_data'	=> $meta_data,
 			'seo'		=> $seo
 		]);

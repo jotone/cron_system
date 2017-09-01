@@ -66,6 +66,7 @@ function getTemplateData(){
 						success:function(data){
 							try {
 								data = JSON.parse(data);
+								console.log(data)
 								for(var fieldsetName in data){
 									var _thisValue = data[fieldsetName].value;
 									switch(data[fieldsetName].type){
@@ -143,6 +144,10 @@ function getTemplateData(){
 													'</div>');
 											}
 											$(document).find('fieldset[data-name='+fieldsetName+'] .slider-images-wrap .image-wrap:first').addClass('active');
+										break;
+
+										case 'string':
+											$(document).find('fieldset[data-name='+fieldsetName+'] input[type=text]').val(_thisValue.value);
 										break;
 
 										case 'text':
@@ -331,6 +336,14 @@ $(document).ready(function(){
 
 				case 'slider':
 					temp.push(sliderDataFill($(this), $(this).attr('data-name')));
+				break;
+
+				case 'string':
+					temp.push({
+						type:	$(this).attr('data-type'),
+						field:	$(this).find('input[type=text]').attr('name'),
+						value:	$(this).find('input[type=text]').val()
+					});
 				break;
 
 				case 'text':

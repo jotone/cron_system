@@ -225,6 +225,7 @@ class PagesController extends BaseController{
 					];
 				break;
 
+				case 'string':
 				case 'text':
 					$content[$pos][$item->field] = [
 						'type'	=> $item->type,

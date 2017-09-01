@@ -9,12 +9,13 @@
 	<div class="main">
 		<!-- add partials here -->
 		<section class="services">
+			@if(!$interval->invert)
 			<div class="action">
 				<div class="mbox2">
 					<div class="title-box">
 						<h1 style="color: dimgrey;font-size: 48px;font-weight: 700;">Акции</h1>
-						<h2 style="font-size: 36px;">Финальная разпродажа весны</h2>
-						<p style="font-size: 24px;">Срок акции истекает 28 мая</p>
+						<h2 style="font-size: 36px;">{{ $promo_title }}</h2>
+						<p style="font-size: 24px;">Срок акции истекает {{ $expire_date }}</p>
 					</div>
 
 					<div class="timer-box">
@@ -44,8 +45,10 @@
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
+			@endif
 
 			<div class="text-box">
 				@for($i=0; $i<count($services); $i++)
