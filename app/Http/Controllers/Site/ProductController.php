@@ -5,11 +5,15 @@ use App\Brand;
 use App\Category;
 use App\Pages;
 use App\Products;
+
 use App\Http\Controllers\Supply\Functions;
 use App\Http\Controllers\Supply\Helpers;
+
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
-use Auth;
 use Illuminate\Support\Facades\Crypt;
+
+use Auth;
 use Validator;
 
 class ProductController extends BaseController{
@@ -407,5 +411,15 @@ class ProductController extends BaseController{
 			'paginate_options'=> $paginate_options,
 			'searh_request'=>$searh_request
 		]);
+	}
+
+	public function specifyPrice(Request $request){
+		$data = $request->all();
+
+		if(isset($data['product_id'])){
+			$product_id = Crypt::decrypt($data['product_id']);
+
+			$product = Products::select('title','img_url','refer_to_category','refer_to_brand')->find($product_id);
+		}
 	}
 }

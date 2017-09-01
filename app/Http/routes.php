@@ -193,6 +193,10 @@ Route::post('/ask_question',[
 	'as'=>'ask-question',
 	'uses'=>'Site\HomeController@askQuestion'
 ]);
+Route::post('/specify_price',[
+	'as'=>'specify-price',
+	'uses'=>'Site\ProductController@specifyPrice'
+]);
 Route::post('/order_phone_call',[
 	'as'=>'order-phone-call',
 	'uses'=>'Site\ServicesController@orderPhoneCall'

@@ -20,5 +20,6 @@ class VerifyCsrfToken extends BaseVerifier
 		'/update_cart',
 		'/ask_question',
 		'/order_phone_call',
+		'/specify_price',
 	];
 }

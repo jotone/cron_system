@@ -17,7 +17,7 @@
 
 	<div id="specify_price" class="specify_price">
 		<div class="specify_price_wrap ask_popup">
-			<form action="ajax.php" class="specify_price_form" method="POST">
+			<form action="{{ route('specify-price') }}" class="specify_price_form" method="POST">
 				<div class="popup-title">Уточнить цену</div>
 				<div class="form-field">
 					<span class="field-name">Имя</span>
@@ -25,9 +25,9 @@
 				</div>
 				<div class="form-field">
 					<span class="field-name">Телефон</span>
-					<input type="text" class="el-input" name="tel" required="required">
+					<input type="text" class="el-input" name="phone" required="required">
 				</div>
-				<input type="hidden" class="product-id"  name="product_id" value="">
+				<input type="hidden" name="product_id" value="">
 				<input type="submit" class="submit" value="Отправить">
 			</form>
 		</div>

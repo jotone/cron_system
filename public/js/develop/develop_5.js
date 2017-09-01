@@ -122,7 +122,7 @@ function newClockTimer() {
 
 	var counter = $("#DateCountdown");
 
-	setTimeout(function(){
+	/*setTimeout(function(){
 		counter.TimeCircles({
 			"animation": "smooth",
 			"bg_width": 0.9,
@@ -151,7 +151,7 @@ function newClockTimer() {
 				}
 			}
 		});
-	},100)
+	},100)/*/
 }
 
 $(document).ready(function () {
