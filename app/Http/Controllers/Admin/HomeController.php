@@ -2,14 +2,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\AdminMenu;
-use App\Brand;
 use App\DeliveryType;
 use App\OrderStatus;
 use App\PhoneCall;
 use App\Products;
 use App\Questions;
 use App\Services;
-use App\User;
+use App\SpecifyPrice;
 
 use App\Http\Controllers\Supply\Functions;
 use App\UserVacancy;
@@ -48,7 +47,7 @@ class HomeController extends BaseController{
 				$items = json_decode($order->history);
 				$products = [];
 				foreach($items as $product_id => $quant){
-					$product = Products::select('id','title','img_url','price','refer_to_brand','enabled')->find($product_id);
+					$product = Products::select('id','title','price','refer_to_brand','enabled')->find($product_id);
 					$brand = Functions::getParentBrand($product->refer_to_brand);
 					$products[] = [
 						'id'		=> $product->id,
@@ -70,6 +69,33 @@ class HomeController extends BaseController{
 					'delivery_price'=> $delivery->price,
 					'products'	=> $products,
 					'status'	=> $order->status,
+					'created'	=> Functions::convertDate($order->created_at),
+					'updated'	=> Functions::convertDate($order->updated_at),
+				];
+			}
+
+			$specify_prices = SpecifyPrice::orderBy('created_at','asc')->get();
+			$specify_prices_list = [];
+			foreach($specify_prices as $specify_price){
+				switch($specify_price->status){
+					case '1':	$class = 'finished'; break;
+					case '2':	$class = 'canceled'; break;
+					default:	$class = '';
+				}
+
+				$product = Products::select('id','title','refer_to_brand','enabled')->find($specify_price->product);
+				$brand = Functions::getParentBrand($product->refer_to_brand);
+
+				$specify_prices_list[] = [
+					'id'		=> $specify_price->id,
+					'user_name'	=> $specify_price->user_name,
+					'phone'		=> $specify_price->phone,
+					'product'	=> [
+						'id'		=> $product->id,
+						'title'		=> $product->title,
+						'brand'		=> $brand['title'],
+					],
+					'class'		=> $class,
 					'created'	=> Functions::convertDate($order->created_at),
 					'updated'	=> Functions::convertDate($order->updated_at),
 				];
@@ -154,6 +180,7 @@ class HomeController extends BaseController{
 				'menu'			=> $menu,
 				'page_title'	=> $page_caption->title,
 				'order_list'	=> $order_list,
+				'specify_prices_list'=> $specify_prices_list,
 				'call_list'		=> $call_list,
 				'question_list'	=> $question_list,
 				'vacancy_list'	=> $vacancy_list
@@ -166,6 +193,7 @@ class HomeController extends BaseController{
 		switch($data['type']){
 			case 'call':	$result = PhoneCall::where('id','=',$data['id']); break;
 			case 'question':$result = Questions::where('id','=',$data['id']); break;
+			case 'specify':	$result = SpecifyPrice::where('id','=',$data['id']); break;
 			case 'vacancy':	$result = UserVacancy::where('id','=',$data['id']); break;
 			case 'order':	$result = OrderStatus::where('id','=',$data['id']); break;
 		}

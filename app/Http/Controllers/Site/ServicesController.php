@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Site;
 
+use App\EtcData;
 use App\PhoneCall;
 use App\Services;
 use App\Pages;
@@ -105,7 +106,7 @@ class ServicesController extends BaseController{
 							<td>Имя: '.trim($data['name']).'</td>
 						</tr>
 						<tr>
-							<td>Телефон: '.trim($data['phone']).'</td>
+							<td>Телефон: '.trim($result['phone']).'</td>
 						</tr>
 						<tr>
 							<td><a href="'.\URL::asset('/admin/').'">Подробнее</a></td>

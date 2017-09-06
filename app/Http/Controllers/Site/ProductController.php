@@ -5,6 +5,7 @@ use App\Brand;
 use App\Category;
 use App\Pages;
 use App\Products;
+use App\SpecifyPrice;
 
 use App\Http\Controllers\Supply\Functions;
 use App\Http\Controllers\Supply\Helpers;
@@ -419,7 +420,16 @@ class ProductController extends BaseController{
 		if(isset($data['product_id'])){
 			$product_id = Crypt::decrypt($data['product_id']);
 
-			$product = Products::select('title','img_url','refer_to_category','refer_to_brand')->find($product_id);
+			$result = SpecifyPrice::create([
+				'user_name'	=> trim($data['name']),
+				'phone'		=> trim($data['phone']),
+				'product'	=> $product_id,
+				'status'	=> 0
+			]);
+
+			if($result != false){
+				return 'success';
+			}
 		}
 	}
 }

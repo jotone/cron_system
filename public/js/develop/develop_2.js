@@ -87,6 +87,18 @@ function busketCount(selector){
 	});
 }
 
+function productItemHeight(){
+	if($('.product-item').length){
+		var test = 0;
+		$('.product-item').each(function(){
+			if($(this).find('.name').outerHeight() > test){
+				test = $(this).find('.name').outerHeight();
+			}
+		});
+		$('.product-item .name').css('height', test);
+	}	
+}	
+
 $(document).ready(function(){
 	//get shopping cart items count
 	$.ajax({
@@ -116,15 +128,7 @@ $(document).ready(function(){
 
 	busketCount('.js-number');
 
-	if($('.product-item').length){
-		var test = 0;
-		$('.product-item').each(function(){
-			if($(this).find('.name').outerHeight() > test){
-				test = $(this).find('.name').outerHeight();
-			}
-		});
-		$('.product-item .name').css('height', test);
-	}
+	productItemHeight();
 
 	$('.header .busket').click(function(e){
 		e.preventDefault();
@@ -246,6 +250,8 @@ $(document).ready(function(){
 							item.addClass('hide');
 							_this.closest('.mbox').find('.products').append(item);
 							showProductItemsAnimate(i);
+
+							productItemHeight();
 						}
 
 						if(data.has_more < 1){

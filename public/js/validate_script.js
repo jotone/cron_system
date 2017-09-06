@@ -241,16 +241,16 @@ function validationCallDocuments(form) {
 	});
 
 	$.ajax({
-		url: thisForm.attr('action'),
-		type: "POST",
-		data: formData,
-		contentType: false,
-		processData: false,
-		cache: false,
-		error:	function(err){
+		url:		thisForm.attr('action'),
+		type:		"POST",
+		data:		formData,
+		contentType:false,
+		processData:false,
+		cache:		false,
+		error:		function(err){
 			$('.copyright').append(err);
 		},
-		success: function success(response){
+		success:	function(response){
 			if(response != 'success'){
 				$('.copyright').append(response);
 			}

@@ -439,8 +439,9 @@ html.MacOS .pagination ul li{ padding-top: 3px;}
 	font-size: 19px;
 }
 
+.news-content {padding: 0 15px;}
 .news-content h1, .news-content h2, .news-content h3, .news-content h4, .news-content h5, .news-content h6{padding: 0 65px; padding-top: 52px;}
-.news-content p, .news-content span{padding: 65px;}
+/*.news-content p, .news-content span{padding: 65px;}*/
 
 .news-content img{border-radius: 15px;}
 
@@ -993,7 +994,7 @@ html.MacOS .pagination ul li{ padding-top: 3px;}
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
 	justify-content: space-between;
-	max-width: 510px;
+	max-width: 150px;
 	width: 100%;
 }
 
@@ -1024,8 +1025,8 @@ html.MacOS .pagination ul li{ padding-top: 3px;}
 
 .brand .brand-items .product-item .price .button-invers{
 	padding: 12px;
-	width: 149px;
-	font-size: 18px;
+	width: 100%;
+	font-size: 13px;
 }
 
 .brand .pagination{margin-bottom: 53px;}
@@ -1455,18 +1456,19 @@ html.MacOS .pagination ul li{ padding-top: 3px;}
 	margin: 0 -0.5%;
 }
 
-.catalog .catalog-wrap .catalog-right .products .product-item{margin-bottom: 27px; padding: 30px 15px 6px;}
-.catalog .catalog-wrap .catalog-right .products .product-item .pic{height: 316px;}
+.catalog .catalog-wrap .catalog-right .products .product-item{margin-bottom: 27px; padding: 30px 5px 6px;}
+.catalog .catalog-wrap .catalog-right .products .product-item .pic{height: 76px;}
 .catalog .catalog-wrap .catalog-right .products .product-item .name{
 	padding: 19px 5px 6px;
 	font-size: 13px;
 	letter-spacing: -0.3px;
 }
-.catalog .catalog-wrap .catalog-right .products .product-item .name .prod-name{font-size: 20px; font-weight: 400;}
+.catalog .catalog-wrap .catalog-right .products .product-item .name .prod-name{font-size: 16px; font-weight: 400;}
+.catalog .catalog-wrap .catalog-right .products .product-item .price {height: 130px;}
 .catalog .catalog-wrap .catalog-right .products .product-item .price a{
 	margin-top: 13px;
-	padding: 10px 30px;
-	font-size: 16px;
+    padding: 10px 5px;
+    font-size: 13px;
 }
 .catalog .catalog-wrap .catalog-right .pagination{margin-bottom: 64px;}
 .catalog .catalog-wrap .catalog-right .catalog-seo{color: dimgrey;}

@@ -21,8 +21,13 @@
 
 				<div class="wrap-text">
 					<img src="{{ URL::asset($content['page']->value->img) }}" alt="image">
-					<h2 style="font-size: 36px;font-weight: 700;">О Компании</h2>
-					{!! $content['text']->value !!}
+					<div class="content-wrapper-all">
+						<h2 style="font-size: 36px;font-weight: 700;">О Компании</h2>
+
+						<div class="content-wrap">
+							{!! $content['text']->value !!}
+						</div>
+					</div>
 				</div>
 			</div>
 

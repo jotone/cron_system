@@ -26,16 +26,17 @@
 .title-line.line-white:before{background: #fff; width: 333px;}
 
 .hot, .sale{
-	width: 68px;
+	height: 38px;
+	width: 38px;
 	right: 8px;
 	top: -10px;
+	right: -15px;
 	text-transform: uppercase;
 	position: absolute;
 	padding-top: 4px;
-	height: 68px;
 	justify-content: center;
 	font-weight: 700;
-	font-size: 23px;
+	font-size: 12px;
 	display: flex;
 	color: #fefefe;
 	border-radius: 50%;
@@ -45,7 +46,8 @@
 .sale{background: #2ca02c;}
 
 .busket_popup {overflow: visible;}
-.busket_popup .pic { text-align: center; padding-bottom: 20px;}
+.busket_popup .hot, .busket_popup .sale {top: -20px;right: -15px;}
+.busket_popup .pic {max-width: 110px;margin: 0 auto;width: 100%;position: relative;text-align: center; padding-bottom: 20px;}
 .busket_popup .title {
 	font-weight: 600;
 	font-size: 22px;
@@ -74,14 +76,16 @@
 }
 
 .product-item{
-	width: 24%;
+	width: 10%;
 	background: #fff;
-	padding: 30px 15px 15px;
+	padding: 15px 5px 5px;
 	margin: 0 0.5%;
 	margin-bottom: 23px;
 	display: flex;
 	flex-wrap: wrap;
+	flex-direction: column;
 	align-content: space-between;
+/*	justify-content: space-between;*/
 	transition:all ease .3s;
 }
 .product-item.hide{
@@ -91,8 +95,9 @@
 	cursor: pointer;
 	position: relative;
 	text-align: center;
-	height: 350px;
-	width: 100%;
+	height: 75px;
+    width: 45%;
+    margin: 0 auto;
 }
 .product-item .pic img{
 	position: absolute;
@@ -104,7 +109,7 @@
 .product-item .name{
 	padding: 19px 8px 10px;
 	font-weight: 400;
-	font-size: 14px;
+	font-size: 12px;
 	color: #9b9b9b;
 	border-bottom: 2px solid #e8e8e8;
 	line-height: 21px;
@@ -114,11 +119,11 @@
 }
 .product-item .name .prod-name{
 	font-weight: 600;
-	font-size: 22px;
+	font-size: 15px;
 	color: #303030;
 	letter-spacing: -.7px;
 }
-.product-item .price{padding: 15px 0px 10px 9px; display: block; width: 100%;}
+.product-item .price{display:flex!important;flex-direction:column;justify-content:flex-end;height:140px;padding:15px 5px 10px 5px;display:block;width:100%;}
 .product-item .price .prod-price{float: left; text-align: left;}
 .product-item .price .prod-price .old{
 	font-weight: 400;
@@ -142,7 +147,7 @@
 .product-item .price .prod-price .new{
 	padding-top: 8px;
 	font-weight: 700;
-	font-size: 40px;
+	font-size: 27px;
 	color: #ee6111;
 	display: block;
 	letter-spacing: .4px;
@@ -150,9 +155,12 @@
 .product-item .price .button, .product-item .price .button-invers, .product-item .price a{
 	float: right;
 	margin-top: 16px;
-	padding: 14px 27px 10px 26px;
+	padding: 14px 3px 10px 3px;
 	letter-spacing: -.4px;
-	width: auto;
+  width: 100%;
+  font-size: 14px;
+  line-height: normal;
+  border: 3px solid #00b4ae;
 }
 
 .el-input, .el-textarea{

@@ -58,8 +58,13 @@
 							@if(!empty($services[$i]['img_url']->img))
 							<img src="{{ URL::asset($services[$i]['img_url']->img) }}" alt="{{ $services[$i]['img_url']->alt }}">
 							@endif
-							<h2 style="font-size: 36px;font-weight: 600;">{{ $services[$i]['title'] }}</h2>
-							{!! $services[$i]['text'] !!}
+							<div class="content-wrapper-all">
+								<h2 style="font-size: 36px;font-weight: 600;">{{ $services[$i]['title'] }}</h2>
+
+								<div class="content-wrap">
+									{!! $services[$i]['text'] !!}
+								</div>
+							</div>
 							<a href="#call_back_popup" data-service="{{ $services[$i]['id'] }}" class="js_popup">Заказать звонок</a>
 						</div>
 					</div>
