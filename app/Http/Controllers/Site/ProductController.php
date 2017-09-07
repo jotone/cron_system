@@ -182,8 +182,8 @@ class ProductController extends BaseController{
 	public function catalog($page = 1){
 		$defaults = Helpers::getDefaults();
 
-		$limit = (isset($_COOKIE['per_page']))? $_COOKIE['per_page']: 8;
-		if($limit < 8) $limit = 8;
+		$limit = (isset($_COOKIE['per_page']))? $_COOKIE['per_page']: 7;
+		if($limit < 7) $limit = 7;
 
 		$start = ($page-1) * $limit;
 

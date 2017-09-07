@@ -221,8 +221,8 @@ $(document).ready(function(){
 	var showMoreClicked = false;
 	$('.more').on("click", function(e){
 		e.preventDefault();
-		//var start = $(this).closest('.mbox').find('.products').attr('data-start');
-		var dispatchData = null;
+		var start = $(this).closest('.mbox').find('.products').attr('data-start');
+		/*var dispatchData = null;
 		productListStart = parseInt(productListStart);
 		productLoadsCount = parseInt(productLoadsCount);
 
@@ -233,12 +233,12 @@ $(document).ready(function(){
 		dispatchData = {
 			start:productListStart,
 			loadCount:productLoadsCount
-		}
+		}*/
 
 		var _this = $(this);
 		$.ajax({
 			url:	'/get_more_products',
-			data:	dispatchData,
+			data:	{start:start},
 			type:	'GET',
 			success:function(data){
 				try{

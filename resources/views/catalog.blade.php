@@ -19,8 +19,8 @@
 							<div class="select-small">
 								<label for="number-select">Показать:</label>
 								<select id="number-select" name="brandsNumber" class="js-select" >
-									<option @if($limit == 8) selected="selected" @endif>8</option>
-									<option @if($limit == 16) selected="selected" @endif>16</option>
+									<option @if($limit == 7) selected="selected" @endif>7</option>
+									<option @if($limit == 14) selected="selected" @endif>14</option>
 								</select>
 							</div>
 						</form>
