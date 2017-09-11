@@ -23,6 +23,7 @@ function getTemplateData(){
 						CKEDITOR.replace($(this).attr('name'));
 					});
 					$('#contentData .needDatePicker').datepicker();
+					customSliderSortable();
 				}
 				if($(document).find('#newsContainer').length > 0){
 					$.ajax({
