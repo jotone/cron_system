@@ -18,6 +18,7 @@
   .vacancies .vacancies-wrap ul li .vacancy-content {font-size: 20px;}
   .vacancies .vacancies-wrap ul li .button-round {margin-bottom:-20px;padding: 7px 5px;width: 223px;font-size: 20px;}
 
+  .news-content {font-size: 17px;}
   .news-inner .title h1, h2, h3 {font-size: 32px;}
   .news-content img{width: 35%; height: 35%;}
   .news .news-wrap ul li .item-content .news-icon {height: 45px;width: 45px;}
@@ -65,7 +66,7 @@
   .news .news-wrap ul li .item-content .news-info {font-size: 14px;}
   .news .news-wrap ul li .item-content .button-round {font-size: 15px;padding: 4px 5px;width: 170px;}
   .news-inner .title h1, h2, h3 {font-size: 28px;}
-  .news-content {font-size: 17px;}
+  .news-content {font-size: 15px;}
 
   .enter .enter-top .enter-logo {height: 55px;width: 200px;}
   .enter .enter-content .enter-center h1, .enter .enter-content .enter-center h2, .enter .enter-content .enter-center h3 {font-size: 27px;}

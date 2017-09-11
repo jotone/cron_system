@@ -9,7 +9,7 @@
 	<div class="main">
 		<!-- add partials here -->
 		<section class="services">
-			@if(!$interval->invert)
+			@if((!$interval->invert) && ($promo_status))
 			<div class="action">
 				<div class="mbox2">
 					<div class="title-box">

@@ -19,6 +19,19 @@ function normalWordForm(val, word){
 	}
 }
 
+function topSlider(selector) {
+	$(selector).slick({
+		arrows: false,
+		fade: true,
+		infinite: true,
+		autoplay: true,
+		autoplaySpeed: 10000,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		dots: true
+	});
+}
+
 function brandSlider(selector) {
 	var prev = $(selector).prev('.prev');
 	var next = $(selector).next('.next');
@@ -96,14 +109,30 @@ function productItemHeight(){
 			}
 		});
 		$('.product-item .name').css('height', test);
-	}	
-}	
+	} 
+}
+
+function checkOldPrice() {
+	$('.product-item').each(function() {
+		var prodPrice = $(this).find('.prod-price');
+		var prodPriceOld = $(this).find('.old');
+		console.log(prodPriceOld.html() == '');
+		if (prodPriceOld.html() !== '') {
+			prodPrice.addClass('oldprice');
+		}
+		// if (prodPriceOld.text().length > 8) {
+		//	 prodPrice.addClass('oldprice-small');
+		// }
+	});	 
+} 
 
 $(document).ready(function(){
+	checkOldPrice();
+	topSlider('.index-slider');
 	//get shopping cart items count
 	$.ajax({
 		url:	'/get_cart_items',
-		type:	'GET',
+		type: 'GET',
 		success:function(data){
 			try{
 				data = JSON.parse(data);
@@ -135,7 +164,7 @@ $(document).ready(function(){
 		var _this = $(this);
 		$.ajax({
 			url:	'/get_cart_items',
-			type:	'GET',
+			type: 'GET',
 			success:function(data){
 				try{
 					data = JSON.parse(data);
@@ -238,8 +267,8 @@ $(document).ready(function(){
 		var _this = $(this);
 		$.ajax({
 			url:	'/get_more_products',
-			data:	{start:start},
-			type:	'GET',
+			data: {start:start},
+			type: 'GET',
 			success:function(data){
 				try{
 					data = JSON.parse(data);
@@ -252,6 +281,7 @@ $(document).ready(function(){
 							showProductItemsAnimate(i);
 
 							productItemHeight();
+							checkOldPrice();
 						}
 
 						if(data.has_more < 1){

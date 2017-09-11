@@ -66,7 +66,6 @@ function getTemplateData(){
 						success:function(data){
 							try {
 								data = JSON.parse(data);
-								console.log(data)
 								for(var fieldsetName in data){
 									var _thisValue = data[fieldsetName].value;
 									switch(data[fieldsetName].type){
@@ -88,6 +87,11 @@ function getTemplateData(){
 													break;
 												}
 											}
+										break;
+
+										case 'checkbox':
+											var temp = (_thisValue.value == 1)? true: false;
+											$(document).find('fieldset[data-name='+fieldsetName+'] input[type=checkbox]').prop('checked',temp);
 										break;
 
 										case 'datepicker':
@@ -286,6 +290,15 @@ $(document).ready(function(){
 						type: $(this).attr('data-type'),
 						name: $(this).attr('data-name'),
 						value: inner_temp
+					});
+				break;
+
+				case 'checkbox':
+					temp.push({
+						type:	$(this).attr('data-type'),
+						name:	$(this).attr('data-name'),
+						field:	$(this).find('input[type=checkbox]').attr('name'),
+						value:	($(this).find('input[type=checkbox]').prop('checked') == true)? 1: 0
 					});
 				break;
 

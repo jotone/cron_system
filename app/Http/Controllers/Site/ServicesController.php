@@ -64,13 +64,14 @@ class ServicesController extends BaseController{
 		}
 
 		return view('services', [
-			'defaults'	=> $defaults,
-			'services'	=> $list,
-			'interval'	=> $interval,
-			'promo_title'=>$content['promo_title']->value,
-			'expire_date'=>$expire_date,
-			'meta_data'	=> $meta_data,
-			'seo'		=> $seo
+			'defaults'		=> $defaults,
+			'services'		=> $list,
+			'interval'		=> $interval,
+			'promo_title'	=> $content['promo_title']->value,
+			'promo_status'	=> $content['promo_status']->value,
+			'expire_date'	=> $expire_date,
+			'meta_data'		=> $meta_data,
+			'seo'			=> $seo
 		]);
 	}
 

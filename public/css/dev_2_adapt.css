@@ -92,7 +92,6 @@
 	.top-slider .index-slider .slide .text .button-round {width: 190px;height: 40px;font-size: 18px;}
 	.wrap-index-desc .button-round{margin: 30px auto 0;font-size: 18px;width: 200px;padding: 5px 5px;}
 	.product-item{width: 24%;}
-	.product-item .pic {height:265px;}
 	.wrap-popular .products{-ms-flex-pack: distribute; justify-content: space-around;}
 
 	.header .header-huge-menu .bottom-menu > ul > li:first-child,
@@ -242,7 +241,6 @@
 	.second-busket .form-table .form-col .form-header h5,
 	.second-busket .form-table .form-col .form-header h6{font-size: 21px;}
 
-	.product-item .pic{height: 260px;}
 	.product-item .pic img{max-height: 100%;}
 	.ask_popup .form-field.radio{width: 100%;}
 	.ask_popup{width: 85%;}

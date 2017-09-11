@@ -124,6 +124,7 @@ function sendFilterData(type, data){
 						var item = builProductView(product);
 						$('.catalog-right .products').append(item);
 					}
+					checkOldPrice();
 					history.pushState({},'CronSystem','/catalog');
 				}
 			}catch(e){}
@@ -155,6 +156,17 @@ function callAskPopup(_this){
 		src: '#specify_price',
 	});
 }
+
+function checkOldPrice() {
+  $('.product-item').each(function() {
+    var prodPrice = $(this).find('.prod-price');
+    var prodPriceOld = $(this).find('.old');
+    console.log(prodPriceOld.html() == '');
+    if (prodPriceOld.html() !== '') {
+      prodPrice.addClass('oldprice');
+    }
+  });   
+} 
 
 $(document).ready(function(){
 	if($('#number-select').length > 0){

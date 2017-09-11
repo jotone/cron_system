@@ -84,7 +84,9 @@ ul{margin: 0; padding: 0; list-style: none;}
 	border: 0;
 	transition: all 300ms ease;
 }
-.button-invers:hover{background: #00c7ff;}
+.button-invers:hover{
+	background: #00c7ff;
+}
 
 .button-round{
 	display: block;
@@ -302,7 +304,7 @@ html.MacOS .pagination ul li{ padding-top: 3px;}
 
 .select-small .jq-selectbox .jq-selectbox__select .jq-selectbox__trigger .jq-selectbox__trigger-arrow{display: none;}
 .select-small .jq-selectbox .jq-selectbox__dropdown{border-radius: 0;}
-.select-big{max-width: 310px; width: 100%;}
+.select-big{max-width: 310px; width: 100%;margin-right: 10px;}
 .select-big .jq-selectbox{width: 100%;}
 
 .select-big .jq-selectbox .jq-selectbox__select{
@@ -440,7 +442,10 @@ html.MacOS .pagination ul li{ padding-top: 3px;}
 }
 
 .news-content {padding: 0 15px;}
-.news-content h1, .news-content h2, .news-content h3, .news-content h4, .news-content h5, .news-content h6{padding: 0 65px; padding-top: 52px;}
+/*.news-content h1, .news-content h2, .news-content h3, .news-content h4, .news-content h5, .news-content h6{
+	padding: 0 65px;
+	padding-top: 52px;
+}*/
 /*.news-content p, .news-content span{padding: 65px;}*/
 
 .news-content img{border-radius: 15px;}
@@ -993,8 +998,8 @@ html.MacOS .pagination ul li{ padding-top: 3px;}
 	display: flex;
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
-	justify-content: space-between;
-	max-width: 150px;
+	justify-content: flex-end;
+	max-width: 465px;
 	width: 100%;
 }
 
@@ -1005,6 +1010,10 @@ html.MacOS .pagination ul li{ padding-top: 3px;}
 	font-size: 36px;
 	font-weight: 700;
 	line-height: 37px;
+}
+
+.brand .mbox {
+	max-width: 1615px;
 }
 
 .brand .brand-items{
@@ -1019,7 +1028,10 @@ html.MacOS .pagination ul li{ padding-top: 3px;}
 	margin: 0 -0.5% 30px;
 }
 
-.brand .brand-items .product-item{margin-bottom: 27px; padding: 30px 15px 6px;}
+.brand .brand-items .product-item{
+	margin-bottom: 27px;
+/*	padding: 30px 15px 6px;*/
+}
 
 .brand .brand-items .product-item .name .prod-name{font-weight: 400; margin-bottom: 4px;}
 
@@ -1427,7 +1439,7 @@ html.MacOS .pagination ul li{ padding-top: 3px;}
 .catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-stars .stars-label:hover{cursor: pointer;}
 .catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-stars .stars-label:hover, .catalog .catalog-wrap .catalog-filter-wrap .filter-item .filter-stars .stars-label:hover ~ label{height: 25px; width: 25px;}
 .catalog .catalog-wrap .catalog-right h1, .catalog .catalog-wrap .catalog-right h2, .catalog .catalog-wrap .catalog-right h3{
-	margin-bottom: 14px;
+	margin-bottom: 25px;
 	text-align: center;
 	color: dimgrey;
 	font-size: 36px;
@@ -1456,19 +1468,18 @@ html.MacOS .pagination ul li{ padding-top: 3px;}
 	margin: 0 -0.5%;
 }
 
-.catalog .catalog-wrap .catalog-right .products .product-item{margin-bottom: 27px; padding: 30px 5px 6px;}
-.catalog .catalog-wrap .catalog-right .products .product-item .pic{height: 76px;}
+.catalog .catalog-wrap .catalog-right .products .product-item{max-width: 182px;margin-bottom: 27px; padding: 15px 5px 6px;}
+.catalog .catalog-wrap .catalog-right .products .product-item .pic{height: 120px;}
 .catalog .catalog-wrap .catalog-right .products .product-item .name{
-	padding: 19px 5px 6px;
-	font-size: 13px;
-	letter-spacing: -0.3px;
+/*	padding: 19px 5px 6px;
+	letter-spacing: -0.3px;*/
+	padding-top: 34px;
 }
-.catalog .catalog-wrap .catalog-right .products .product-item .name .prod-name{font-size: 16px; font-weight: 400;}
-.catalog .catalog-wrap .catalog-right .products .product-item .price {height: 130px;}
+/*.catalog .catalog-wrap .catalog-right .products .product-item .name .prod-name{font-size: 16px; font-weight: 400;}*/
+.catalog .catalog-wrap .catalog-right .products .product-item .price {height: 123px;}
 .catalog .catalog-wrap .catalog-right .products .product-item .price a{
-	margin-top: 13px;
+	margin-top: 20px;
     padding: 10px 5px;
-    font-size: 13px;
 }
 .catalog .catalog-wrap .catalog-right .pagination{margin-bottom: 64px;}
 .catalog .catalog-wrap .catalog-right .catalog-seo{color: dimgrey;}
