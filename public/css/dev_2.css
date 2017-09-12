@@ -1351,6 +1351,26 @@
 
 .wrap-news .all:hover{background: #00c7ff; transition: .3s;}
 
+.slick-dots {
+  bottom: 20px;
+}
+
+.slick-dots li {
+	height: 15px;
+  width: 15px;
+}
+
+.slick-dots li.slick-active button {
+	background: #00c7ff;
+}
+
+.slick-dots li button {
+	background: #00b4ae;
+	border-radius: 50%;
+	height: 15px;
+  width: 15px;
+}
+
 .top-slider{position: relative; overflow: hidden; z-index: 0;}
 .top-slider .index-slider .slide{position: relative; z-index: 1; min-height: 690px; height: auto;}
 .top-slider .index-slider .slide .text{
@@ -1381,7 +1401,7 @@
 .top-slider .index-slider .slide .text .button-round{
 	margin-top: 33px;
 	margin-left: 10px;
-	padding: 5px 5px 7px;
+/*	padding: 5px 5px 7px;*/
 	width: 279px;
 	height:55px;
 	font-size: 30px;
@@ -1389,9 +1409,6 @@
 	align-items: center;
 	justify-content: center;
 	line-height:1;
-}
-.top-slider .index-slider .slide .text .button-round{
-
 }
 .top-slider .index-slider .slide .overlay{
 	position: absolute;
@@ -1444,6 +1461,7 @@
 	filter: grayscale(100%);
 	transition: .3s;
 	margin: 0 auto;
+	padding: 0px 10px;
 	position: absolute;
 	top: 50%;
 	left: 50%;

@@ -10,27 +10,16 @@
 		<!-- add partials here -->
 		<section class="top-slider">
 			<div class="index-slider">
-				<div class="slide" style="background: url({{ URL::asset($content['top_article']->top_article->value->img) }}) no-repeat center/cover;">
-					<div class="text">
-						<h4>{{ $content['top_article']->article_title->value }}</h4>
-						{!! $content['top_article']->article_text->value !!}
-						<a href="{{ $content['top_article']->article_link->value }}" class="button-round">Детальнее</a>
+				@foreach($content['top_article'] as $i => $slide)
+					<div class="slide" style="background: url({{ URL::asset($slide->top_article->value->img) }}) no-repeat center/cover;">
+						<div class="text">
+							<?php $text_field = 'article_text_'.$i; ?>
+							<h4>{{ $slide->article_title->value }}</h4>
+							{!! $slide->$text_field->value !!}
+							<a href="{{ $slide->article_link->value }}" class="button-round">Детальнее</a>
+						</div>
 					</div>
-				</div>
-				<div class="slide" style="background: url({{ URL::asset($content['top_article']->top_article->value->img) }}) no-repeat center/cover;">
-					<div class="text">
-						<h4>{{ $content['top_article']->article_title->value }}</h4>
-						{!! $content['top_article']->article_text->value !!}
-						<a href="{{ $content['top_article']->article_link->value }}" class="button-round">ШПЯ</a>
-					</div>
-				</div>
-				<div class="slide" style="background: url({{ URL::asset($content['top_article']->top_article->value->img) }}) no-repeat center/cover;">
-					<div class="text">
-						<h4>{{ $content['top_article']->article_title->value }}</h4>
-						{!! $content['top_article']->article_text->value !!}
-						<a href="{{ $content['top_article']->article_link->value }}" class="button-round">Кря</a>
-					</div>
-				</div>
+				@endforeach
 			</div>
 		</section>
 
