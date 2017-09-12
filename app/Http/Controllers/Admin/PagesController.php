@@ -123,7 +123,7 @@ class PagesController extends BaseController{
 
 	public function addItem(Request $request){
 		$data = $request->all();
-
+		//dd($data);
 		if($data['need_seo'] == 1){
 			$seo_title = $data['seo_title'];
 			$seo_text = $data['seo_text'];
@@ -166,6 +166,44 @@ class PagesController extends BaseController{
 							break;
 						}
 					}
+				break;
+
+				case 'custom-slider':
+					$slider = [];
+					foreach($item->value as $slide_pos => $slide_data){
+						$slide = [];
+						foreach($slide_data as $field_pos => $field_data){
+							switch($field_data->type){
+								case 'single-image':
+									if($data['image_type'.$field_data->name.'_'.$slide_pos] == 'file'){
+										$image = [
+											'img'	=> $data['image'.$field_data->name.'_'.$slide_pos],
+											'alt'	=> $data['image_alt'.$field_data->name.'_'.$slide_pos]
+										];
+									}else{
+										$img_url = Functions::createImg($data['image_'.$field_data->name.'_'.$slide_pos], true);
+										$image = [
+											'img'	=> $img_url,
+											'alt'	=> $data['image_alt'.$field_data->name.'_'.$slide_pos]
+										];
+									}
+									$slide[$field_data->name] = [
+										'type'	=> $field_data->type,
+										'value'	=> $image
+									];
+								break;
+								case 'string':
+								case 'text':
+									$slide[$field_data->field] = [
+										'type'	=> $field_data->type,
+										'value'	=> $field_data->value
+									];
+								break;
+							}
+						}
+						$slider[] = $slide;
+					}
+					$content[$pos][$item->name] = $slider;
 				break;
 
 				case 'datepicker':
@@ -235,7 +273,6 @@ class PagesController extends BaseController{
 				break;
 			}
 		}
-
 		$content_ids = [];
 		foreach($content as $item){
 			$page_content = [

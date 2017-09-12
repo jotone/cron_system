@@ -610,7 +610,7 @@ fieldset legend{
 .custom-slider-wrap .current:before{
 	font-size: 12px;
 	color: #003eff;
-	content: '▼PREVIEW';
+	content: "\25BC PREVIEW";
 }
 .custom-slider-wrap .custom-slider-controls .custom-slider-preview-wrap .holder{
 	padding: 2px;
@@ -622,6 +622,7 @@ fieldset legend{
 	justify-content: center;
 	align-items: center;
 }
+.custom-slider-wrap .custom-slider-controls .custom-slider-preview-wrap .holder img{width: 100%}
 .custom-slider-wrap .custom-slider-controls .custom-slider-preview-wrap .close{
 	width: 16px;
 	top: -8px;

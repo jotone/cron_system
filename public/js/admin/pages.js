@@ -74,18 +74,63 @@ function getTemplateData(){
 											for(var elemName in _thisValue){
 												switch(_thisValue[elemName].type){
 													case 'single-image':
-														$(document).find('fieldset[data-name='+fieldsetName+']').find('.upload-image-preview').append('' +
+														$(document).find('fieldset[data-name='+fieldsetName+'] .upload-image-preview').append('' +
 															'<img src="'+_thisValue[elemName].value.img+'" alt="'+_thisValue[elemName].value.alt+'" data-type="file">'+
 															'<input name="imageAlt" type="text" class="text-input col_1" placeholder="alt&hellip;" value="'+_thisValue[elemName].value.alt+'">');
 													break;
 
 													case 'string':
-														$(document).find('fieldset[data-name='+fieldsetName+']').find('input[name='+elemName+']').val(_thisValue[elemName].value);
+														$(document).find('fieldset[data-name='+fieldsetName+'] input[name='+elemName+']').val(_thisValue[elemName].value);
 													break;
 
 													case 'text':
 														CKEDITOR.instances[elemName].setData(_thisValue[elemName].value);
 													break;
+												}
+											}
+										break;
+
+										case 'custom-slider':
+											for(var slidePos in _thisValue){
+												if(slidePos > 0){
+													var cloned = $(document).find('fieldset[data-name='+fieldsetName+'] .custom-slider-content-wrap .custom-slide-container[data-position=0]').clone();
+													cloned.attr('data-position', slidePos);
+													var textareaName = cloned.find('textarea').attr('name').split('_');
+													var ckeDrop = 'cke_'+cloned.find('textarea').attr('name');
+													textareaName[textareaName.length -1] = slidePos;
+													textareaName = textareaName.join('_');
+													cloned.find('textarea').attr('name', textareaName);
+													cloned.find('#'+ckeDrop).remove();
+													cloned.removeClass('active');
+													$(document).find('fieldset[data-name='+fieldsetName+'] .custom-slider-content-wrap').append(cloned);
+
+													$(document).find('fieldset[data-name='+fieldsetName+'] .custom-slider-controls').append('' +
+													'<div class="custom-slider-preview-wrap" data-position="'+slidePos+'">'+
+														'<div class="holder"></div><div class="close">x</div>'+
+													'</div>');
+													CKEDITOR.replace(textareaName);
+												}
+												for(var fieldName in _thisValue[slidePos]){
+													var field = _thisValue[slidePos][fieldName];
+
+													switch(field.type){
+														case 'single-image':
+															if((typeof field.value != 'undefined') && (field.value.img.length)){
+																$(document).find('fieldset[data-name='+fieldsetName+'] .custom-slide-container[data-position='+slidePos+'] .upload-image-preview').empty().append('' +
+																	'<img src="'+field.value.img+'" alt="'+field.value.alt+'" data-type="file">'+
+																	'<input name="imageAlt" type="text" class="text-input col_1" placeholder="alt&hellip;" value="'+field.value.alt+'">');
+
+																$(document).find('fieldset[data-name='+fieldsetName+'] .custom-slider-preview-wrap[data-position='+slidePos+'] .holder').empty().append('' +
+																	'<img src="'+field.value.img+'" alt="">');
+															}
+														break;
+														case 'string':
+															$(document).find('fieldset[data-name='+fieldsetName+'] .custom-slide-container[data-position='+slidePos+'] input[name='+fieldName+']').val(field.value);
+														break;
+														case 'text':
+															CKEDITOR.instances[fieldName].setData(field.value);
+														break;
+													}
 												}
 											}
 										break;
@@ -288,9 +333,9 @@ $(document).ready(function(){
 						}
 					});
 					temp.push({
-						type: $(this).attr('data-type'),
-						name: $(this).attr('data-name'),
-						value: inner_temp
+						type:	$(this).attr('data-type'),
+						name:	$(this).attr('data-name'),
+						value:	inner_temp
 					});
 				break;
 
@@ -303,15 +348,68 @@ $(document).ready(function(){
 					});
 				break;
 
+				case 'custom-slider':
+					var sliderData = [];
+					$(this).find('.custom-slider-content-wrap .custom-slide-container').each(function(){
+						var inner_temp = [];
+						var position = $(this).attr('data-position');
+						$(this).children('.row-wrap').each(function(){
+
+							switch($(this).attr('data-type')){
+								case 'string':
+									inner_temp.push({
+										type:	$(this).attr('data-type'),
+										field:	$(this).find('input[type=text]').attr('name'),
+										value:	$(this).find('input[type=text]').val()
+									});
+								break;
+								case 'single-image':
+									inner_temp.push({
+										type:	$(this).attr('data-type'),
+										name:	$(this).closest('fieldset').attr('data-name')
+									});
+									if($(this).find('.upload-image-preview img').length > 0){
+										if($(this).find('.upload-image-preview img').attr('data-type') == 'upload'){
+											formData.append('image_alt'+$(this).closest('fieldset').attr('data-name')+'_'+position, $(this).find('input[name=imageAlt]').val());
+											formData.append('image_type'+$(this).closest('fieldset').attr('data-name')+'_'+position, 'upload');
+										}else{
+											formData.append('image'+$(this).closest('fieldset').attr('data-name')+'_'+position, $(this).find('.upload-image-preview img').attr('src'));
+											formData.append('image_alt'+$(this).closest('fieldset').attr('data-name')+'_'+position, $(this).find('input[name=imageAlt]').val());
+											formData.append('image_type'+$(this).closest('fieldset').attr('data-name')+'_'+position, 'file');
+										}
+									}else{
+										formData.append('image'+$(this).closest('fieldset').attr('data-name')+'_'+position, '');
+										formData.append('image_alt'+$(this).closest('fieldset').attr('data-name')+'_'+position, '');
+										formData.append('image_type'+$(this).closest('fieldset').attr('data-name')+'_'+position, 'file');
+									}
+								break;
+								case 'text':
+									inner_temp.push({
+										type:	$(this).attr('data-type'),
+										field:	$(this).find('textarea') .attr('name'),
+										value:	CKEDITOR.instances[$(this).find('textarea') .attr('name')].getData()
+									});
+								break;
+							}
+						});
+						sliderData.push(inner_temp);
+					});
+					temp.push({
+						type:	$(this).attr('data-type'),
+						name:	$(this).attr('data-name'),
+						value:	sliderData
+					});
+				break;
+
 				case 'datepicker':
 					var date = $(this).find('.needDatePicker').val();
 					if(($(this).find('input[name=promo_hour]').length > 0) && ($(this).find('input[name=promo_minute]').length > 0)){
 						date += ' '+$(this).find('input[name=promo_hour]').val() + ':'+$(this).find('input[name=promo_minute]').val();
 					}
 					temp.push({
-						type: $(this).attr('data-type'),
-						name: $(this).attr('data-name'),
-						value: date
+						type:	$(this).attr('data-type'),
+						name:	$(this).attr('data-name'),
+						value:	date
 					});
 				break;
 

@@ -74,15 +74,6 @@ function addTelMask(){
 	});
 }
 
-function resortSliderWrap(_this){
-	_this.closest('.slider-wrap').find('.slider-content-element').each(function(){
-		$(this).attr('data-position', $(this).index());
-	});
-	_this.closest('.slider-wrap').find('.slider-images-wrap').find('.image-wrap').each(function(){
-		$(this).attr('data-position', $(this).index());
-	});
-}
-
 function sliderDataFill(obj, name){
 	var sliderData = {
 		type: obj.attr('data-type'),
@@ -105,13 +96,22 @@ function sliderDataFill(obj, name){
 	return sliderData;
 }
 
+function resortSliderWrap(_this){
+	_this.closest('.slider-wrap').find('.slider-content-element').each(function(){
+		$(this).attr('data-position', $(this).index());
+	});
+	_this.closest('.slider-wrap').find('.slider-images-wrap').find('.image-wrap').each(function(){
+		$(this).attr('data-position', $(this).index());
+	});
+}
+
 function sliderSortable(){
 	$(document).find('.slider-wrap').find('.slider-list-wrap').sortable({
 		update: function(event, ui){
 			var oldPos = $(ui.item).attr('data-position');
 			var newPos = $(ui.item).index();
-			var element = $(ui.item).closest('.slider-wrap').find('.slider-images-wrap').find('.image-wrap[data-position='+oldPos+']');
-			$(ui.item).closest('.slider-wrap').find('.slider-images-wrap').find('.image-wrap[data-position='+oldPos+']').remove();
+			var element = $(ui.item).closest('.slider-wrap').find('.slider-images-wrap .image-wrap[data-position='+oldPos+']');
+			$(ui.item).closest('.slider-wrap').find('.slider-images-wrap .image-wrap[data-position='+oldPos+']').remove();
 			if(newPos > oldPos){
 				$(ui.item).closest('.slider-wrap').find('.slider-images-wrap').find('.image-wrap[data-position='+newPos+']').after(element);
 			}else{
@@ -122,9 +122,37 @@ function sliderSortable(){
 	});
 }
 
+function resortCustomSliderWrap(_this){
+	_this.closest('.custom-slider-wrap').find('.custom-slider-preview-wrap:gt(0)').each(function(){
+		$(this).attr('data-position', $(this).index() -1);
+	});
+	_this.closest('.custom-slider-wrap').find('.custom-slide-container').each(function(){
+		$(this).attr('data-position', $(this).index());
+	});
+}
+
+
 function customSliderSortable(){
 	$(document).find('.custom-slider-wrap').find('.custom-slider-controls').sortable({
-		items: '.custom-slider-preview-wrap:not(:first)'
+		items:	'.custom-slider-preview-wrap:not(:first)',
+		update:	function(event, ui){
+			var oldPos = $(ui.item).attr('data-position');
+			var newPos = $(ui.item).index() -1;
+			var element = $(ui.item).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container[data-position='+oldPos+']');
+			$(ui.item).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container[data-position='+oldPos+']').remove();
+			if(newPos > oldPos){
+				$(ui.item).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container[data-position='+newPos+']').after(element);
+			}else{
+				$(ui.item).closest('.custom-slider-wrap').find('.custom-slider-content-wrap .custom-slide-container[data-position='+newPos+']').before(element);
+			}
+			resortCustomSliderWrap($(this));
+			if(newPos > 0){
+				if($(ui.item).find('.close').length == 0){
+					$(ui.item).append('<div class="close">x</div>');
+				}
+			}
+			$(ui.item).closest('.custom-slider-wrap').find('.custom-slider-preview-wrap[data-position=0] .close').remove();
+		}
 	});
 }
 
@@ -290,7 +318,7 @@ $(document).ready(function(){
 							}
 						});
 
-						$('.overview-popup').on('click','button[name=addImageFromSaved]',function(){
+						$('.overview-popup').off('click').on('click','button[name=addImageFromSaved]',function(){
 							if(_this.closest('fieldset').find('input[name=fakeLoad]').length > 0){
 								var image = $('.overview-popup .popup-images .active img').attr('src');
 								_this.closest('fieldset').find('.upload-image-preview').empty().append('' +
@@ -300,7 +328,6 @@ $(document).ready(function(){
 							}else if(_this.closest('fieldset').find('input[name=customFakeLoad]').length > 0){
 								var image = $('.overview-popup .popup-images .active img').attr('src');
 								var position = _this.closest('.custom-slide-container').index();
-
 								_this.closest('.row-wrap[data-type=single-image]').find('.upload-image-preview').empty().append('' +
 									'<img src="'+image+'" alt="" data-type="file">' +
 									'<input name="imageAlt" type="text" class="text-input col_1" placeholder="alt&hellip;">');
@@ -412,7 +439,7 @@ $(document).ready(function(){
 				'<input name="imageAlt" type="text" class="text-input col_1" placeholder="alt&hellip;">');
 			_this.closest('fieldset').find('.custom-slider-controls .custom-slider-preview-wrap:eq('+(position+1)+') .holder').empty().append('' +
 				'<img src="'+e.target.result+'" alt="">');
-			formData.append('image'+addName, _this.prop('files')[0]);
+			formData.append('image'+addName+'_'+position, _this.prop('files')[0]);
 		};
 		reader.readAsDataURL(_this.prop('files')[0]);
 	});
@@ -423,19 +450,24 @@ $(document).ready(function(){
 		var cloned = $(this).closest('.custom-slider-wrap').find('.custom-slide-container:last').clone();
 		var ckeDrop = 'cke_'+cloned.find('textarea').attr('name');
 		var textareaName = cloned.find('textarea').attr('name').split('_');
-		textareaName[textareaName.length -1] = parseInt(textareaName[textareaName.length -1]) +1;
+		var position = parseInt(cloned.attr('data-position')) +1;
+
+		textareaName[textareaName.length -1] = position;
 		textareaName = textareaName.join('_');
 		cloned.find('.upload-image-preview').empty();
 		cloned.find('input[type=text]').val('');
 		cloned.find('textarea').val('').attr('name',textareaName);
 		cloned.find('#'+ckeDrop).remove();
+		cloned.attr('data-position',position);
 
 		$(this).closest('.custom-slider-controls').find('.custom-slider-preview-wrap').removeClass('active');
-		$(this).closest('.custom-slider-controls').append('<div class="custom-slider-preview-wrap active">'+
+		$(this).closest('.custom-slider-controls').append('<div class="custom-slider-preview-wrap active" data-position="'+position+'">'+
 			'<div class="holder"></div><div class="close">x</div>'+
 		'</div>');
 		$(this).closest('.custom-slider-wrap').find('.custom-slider-content-wrap').append(cloned);
-		CKEDITOR.replace(textareaName);
+		if($.isEmptyObject(CKEDITOR.instances[textareaName])){
+			CKEDITOR.replace(textareaName);
+		}
 		$(this).closest('.custom-slider-wrap').find('.custom-slide-container').removeClass('active');
 		$(this).closest('.custom-slider-wrap').find('.custom-slide-container:last').addClass('active');
 	});
