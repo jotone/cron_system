@@ -127,26 +127,28 @@
 						@foreach($products as $product)
 
 							<div class="product-item @if(!empty($product['is_hot'])) hot-item @endif">
-								<div class="pic @if(!empty($product['price'])) to-busket @else ask-price @endif">
-									@if(!empty($product['img_url']->img))
-										<img src="{{ URL::asset($product['img_url']->img) }}" alt="{{ $product['img_url']->alt }}">
-									@endif
-									@if(!empty($product['is_hot']))
-										<div class="{{ $product['is_hot'] }}">{{ $product['is_hot'] }}</div>
-									@endif
-								</div>
+								@if(!empty($product['is_hot']))
+									<div class="{{ $product['is_hot'] }}">{{ $product['is_hot'] }}</div>
+								@endif
+								<div class="product-item-top">
+									<div class="pic @if(!empty($product['price'])) to-busket @else ask-price @endif">
+										@if(!empty($product['img_url']->img))
+											<img src="{{ URL::asset($product['img_url']->img) }}" alt="{{ $product['img_url']->alt }}">
+										@endif
+									</div>
 
-								<div class="name">
-									<div class="prod-name">{{ $product['title'] }}</div>
-									{!! $product['text'] !!}
-								</div>
-
-								<div class="price cfix"  data-product="{{ $product['id'] }}">
-									@if(!empty($product['price']))
+									<div class="product-item-right price">
+										<div class="prod-name">{{ $product['title'] }}</div>
+										@if(!empty($product['price']))
 										<div class="prod-price">
 											<span class="old">@if(!empty($product['old_price'])) $ {{ $product['old_price'] }}@endif</span>
 											<span class="new">$ {{ $product['price'] }}</span>
 										</div>
+									</div>
+								</div>
+
+								<div class="product-item-bottom cfix"  data-product="{{ $product['id'] }}">
+										{!! $product['text'] !!}
 										<a href="#" class="button-invers to_busket">В корзину</a>
 									@else
 										<a href="#" class="button-invers ask_price">Уточнить цену</a>

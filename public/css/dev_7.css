@@ -1468,19 +1468,23 @@ html.MacOS .pagination ul li{ padding-top: 3px;}
 	margin: 0 -0.5%;
 }
 
-.catalog .catalog-wrap .catalog-right .products .product-item{max-width: 182px;margin-bottom: 27px; padding: 15px 5px 6px;}
-.catalog .catalog-wrap .catalog-right .products .product-item .pic{height: 120px;}
+.catalog .catalog-wrap .catalog-right .products .product-item{
+/*	max-width: 182px;*/
+	margin-bottom: 27px;
+/*	padding: 15px 5px 6px;*/
+}
+/*.catalog .catalog-wrap .catalog-right .products .product-item .pic{height: 120px;}*/
 .catalog .catalog-wrap .catalog-right .products .product-item .name{
 /*	padding: 19px 5px 6px;
 	letter-spacing: -0.3px;*/
 	padding-top: 34px;
 }
 /*.catalog .catalog-wrap .catalog-right .products .product-item .name .prod-name{font-size: 16px; font-weight: 400;}*/
-.catalog .catalog-wrap .catalog-right .products .product-item .price {height: 123px;}
+/*.catalog .catalog-wrap .catalog-right .products .product-item .price {height: 123px;}
 .catalog .catalog-wrap .catalog-right .products .product-item .price a{
 	margin-top: 20px;
     padding: 10px 5px;
-}
+}*/
 .catalog .catalog-wrap .catalog-right .pagination{margin-bottom: 64px;}
 .catalog .catalog-wrap .catalog-right .catalog-seo{color: dimgrey;}
 .catalog .catalog-wrap .catalog-right .catalog-seo h2{

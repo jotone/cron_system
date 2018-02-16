@@ -8,7 +8,11 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+use App\Http\Controllers\Supply\Helpers;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\Request;
 class Handler extends ExceptionHandler
 {
     /**
@@ -45,6 +49,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if($e instanceof NotFoundHttpException)
+            
+        {
+            $defaults = Helpers::getDefaults();
+            return response()->view('error404', ['defaults'	=> $defaults], 404);
+        }
         return parent::render($request, $e);
     }
 }

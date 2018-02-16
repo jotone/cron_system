@@ -703,6 +703,13 @@ fieldset legend{
 	justify-content: center;
 	align-items: center;
 }
+.slider-wrap .slider-content-element .element-title{
+	display: block;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
 .slider-wrap .slider-content-element .element-image img{max-height: 40px;}
 .slider-wrap .slider-content-element .element-drop{width:10%; cursor: pointer}
 .slider-wrap .slider-content-element .element-drop img{max-height: 25px;}

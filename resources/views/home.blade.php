@@ -11,14 +11,15 @@
 		<section class="top-slider">
 			<div class="index-slider">
 				@foreach($content['top_article'] as $i => $slide)
+				<a href="{{ $slide->article_link->value }}">
 					<div class="slide" style="background: url({{ URL::asset($slide->top_article->value->img) }}) no-repeat center/cover;">
 						<div class="text">
 							<?php $text_field = 'article_text_'.$i; ?>
-							<h4>{{ $slide->article_title->value }}</h4>
+							<?php if($slide->article_title->value!=''): ?><h4>{{ $slide->article_title->value }}</h4><?php endif; ?>
 							{!! $slide->$text_field->value !!}
-							<a href="{{ $slide->article_link->value }}" class="button-round">Детальнее</a>
 						</div>
 					</div>
+				</a>
 				@endforeach
 			</div>
 		</section>
